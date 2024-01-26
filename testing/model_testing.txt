@@ -1,0 +1,20 @@
+Each model gets what was in previous
+and makes adjustments to it
+
+
+naive.py
+    Naive solution using just definitions of BNN
+    made in numpy
+    works on +-1 as inputs
+
+precomp.py
+    Precomputed layers to work with 1 dot product and 1 bias add
+    ~ 10 % faster? Maybe less on big layers
+
+bylayer.py
+    Computing whole layers simultaneously
+    Merging of inputs on each layer output
+    Usefull when no. of inputs >> layer bits combinations
+
+binar.py
+    Using bools as inputs

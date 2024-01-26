@@ -1,0 +1,96 @@
+TODOs:
+    Put thesis on Git!!!
+
+    partial.py - modify to use nonpacked calculus
+        hypothesis: unpacked calculus is faster?
+    ?.py - scramble input bits to not be in order
+        hypothesis: blob errors are more likely to cause diferent result than
+            the ones that are uniformly distributed
+
+
+
+
+
+Rešerše k článkům
+    BDD4BNN
+    BNNQuanalysis
+
+
+Vlastní práce
+    kódování BNN
+    přepis BNN do clingo
+    přepis nějaké rozumné implementace do clingo
+    přepis frameworku do clingo
+        např. PyTorch, PyLearn
+    optimalizace kódování pro clingo - viz mail to Samuel
+        uzel ~ fce / uzel ~ vektor v matici
+
+
+Ohodnocení
+    ohodnocení rychlosti
+        Simple OBDD (ordered binary decision diagram)
+        reduced OBDD
+            optimalization of OBDD reduction (changing order of operands)
+        BNNQuanalysis framework
+X       Triviální řešení - zkoušení všech možností
+            Možnost optimalizace pomocí rozdělení na n-částí?
+        Budování rozhodovacího stromu metodou monte carlo?
+            pomocí MC vybudujeme rozhodovací strom, na jednotlivých listech pak
+            spouštíme samotné vyhodnocování
+            (Basicly take ML method and use them as a base for analysis)
+X       Sdružování inputů na základě ekvivalence na vrstvě?
+            pokud je jedna vrstva ekvivalentní pro všechny inputy,
+            pak jsou i všechny vrstvy za ní ekvivalentní
+            Je optimalizací pro neuronky, které jsou více hluboké než široké
+
+    ohodnocení prostorové složitosti
+    formální důkazy správnosti
+
+
+Další (pokud zbyde čas)
+    možnosti rozšíření na další quantizace (4-bit, 8-bit)
+    jiné architektury NN? (i.e. oddělené části vrstvy/sítě)
+    možnosti využití výpočtů na vícebitových číslech
+        případně i na GPU
+    using lazy computation to eliminate nonusefull components?
+    layer by layer as possible configurations?
+        left2right we can build tuples of nonpossible combinations
+        right2left we can build constraints on class-needs
+    right2left evaluation by building possible combos
+    algorithm construction by removing bottlenecks?
+        start with trivial solution and then iteratively make
+        the longest running part more efficient
+
+
+BDD
+    is a representation of Binary function
+
+CUDD
+    implemented in C + C++ interface <3
+Sylvan
+    implemented in C
+    good for parallel computing
+
+CC2BDD
+    builds BDD from CC
+    true if at least k from inputs are true
+    THIS IS TO BE ENCODED INTO ASP IN THE WORK
+BNN2BDD
+    build input
+    build internal blocks from input to output using constraints
+        using INTERBLK2BDD
+INTERBLK2BDD
+    build block from constraints and input
+    using already built BDDs for outputs of previous layer
+    XNOR ~ equivalence of output to BDD
+    Everything is one big logical network
+    Probably will not work for degenerated example of single node in layer?
+    L(G) = {xi × xi+1 ∈ Gin × Bni+1 | ti(xi) = xi+1}
+        That means the language can only get smaller
+OUTBLK2BDD
+    build output from last region
+
+
+Clingo knowledge base
+    LD rezoluce - pokud se omezíme na Hornovy klauzule ("implikace bez negace")
+        pak lze rezolvovat v polynomiálním čase?
