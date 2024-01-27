@@ -1,6 +1,4 @@
 TODOs:
-    Put thesis on Git!!!
-
     partial.py - modify to use nonpacked calculus
         hypothesis: unpacked calculus is faster?
     ?.py - scramble input bits to not be in order
@@ -94,3 +92,4 @@ OUTBLK2BDD
 Clingo knowledge base
     LD rezoluce - pokud se omezíme na Hornovy klauzule ("implikace bez negace")
         pak lze rezolvovat v polynomiálním čase?
+        Funguje to takto? Je tam nějaká optimalizace?
