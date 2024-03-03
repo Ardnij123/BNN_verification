@@ -58,6 +58,8 @@ Další (pokud zbyde čas)
     algorithm construction by removing bottlenecks?
         start with trivial solution and then iteratively make
         the longest running part more efficient
+    modelovat weight*input -> output závislost
+        pomocí velmi řídké mezivrstvy
 
 
 BDD

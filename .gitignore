@@ -3,3 +3,6 @@ testing/__pycache__/**
 **.swp
 BNNQuanalyst
 BNNQuanalyst/**
+examples
+testing/temp
+testing/model.lp

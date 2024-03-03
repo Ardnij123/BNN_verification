@@ -274,8 +274,10 @@ class NeuralNetw:
 
     def test(self, generator: Stepin) -> array_int:
         frequencies = np.zeros(self.output.bias.shape, dtype=np.int64)
+        evals = 0
         try:
             while True:
+                evals += 1
                 unset, inp = generator.step()
                 out = self.comp(inp, unset)
                 if out == -1:
@@ -288,4 +290,5 @@ class NeuralNetw:
         except StopIteration:
             pass
 
+        print(evals)
         return frequencies

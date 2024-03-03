@@ -1,5 +1,6 @@
 import numpy as np
 from typing import Generator
+from numpy.random import permutation
 
 # Type annotations
 
@@ -70,6 +71,67 @@ class Stepin:
         if self.set_pos == -1:
             raise StopIteration
         self.inp[self.set_pos] = 1
+        return self.get()
+
+    def get(self):
+        return self.unset_bits, self.inp
+
+
+# Generator of inputs +- 1 of size {size}
+# with permutations on first {perms} bits
+# Allows for partial generation of inputs
+# Also scrambles the input bits
+class Scramble:
+    def __init__(self, size, perms, scramble=None):
+        assert perms <= size
+
+        if scramble is None:
+            scramble = list(range(size))
+        if scramble is True:
+            scramble = permutation(range(size))
+        self.scramble = scramble
+
+        self.unset_bits = \
+            np.array([[1]]*perms + [[0]]*(size - perms), dtype=np.int16)
+        self.inp = -np.ones([size, 1], dtype=np.int16)
+        self.set_pos = -1
+        self.perms = perms
+        self.first = True
+
+    # Iterator only on inputs
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        pre = self.first
+        while self.set_pos != self.perms - 1:
+            self.step_in()
+        self.first = pre
+        return self.step()[1]
+
+    def step_in(self):
+        if self.set_pos == self.perms - 1:
+            raise StopIteration
+        self.set_pos += 1
+        self.unset_bits[self.scramble[self.set_pos]][0] = 0
+        self.first = True
+
+    def step_out(self):
+        if self.set_pos == -1:
+            raise StopIteration
+        self.unset_bits[self.scramble[self.set_pos]][0] = 1
+        self.inp[self.scramble[self.set_pos]][0] = -1
+        self.set_pos -= 1
+
+    def step(self):
+        if self.first:
+            self.first = False
+            return self.get()
+        while self.inp[self.scramble[self.set_pos]] == 1:
+            self.step_out()
+        if self.set_pos == -1:
+            raise StopIteration
+        self.inp[self.scramble[self.set_pos]] = 1
         return self.get()
 
     def get(self):
