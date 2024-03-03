@@ -6,3 +6,5 @@ BNNQuanalyst/**
 examples
 testing/temp
 testing/model.lp
+testing/clingo-based/model.lp
+testing/clingo-based/models
