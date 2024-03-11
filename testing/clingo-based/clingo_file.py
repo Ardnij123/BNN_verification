@@ -1,8 +1,11 @@
 import numpy as np
 import glob
 from typing import List, Generator, Tuple
-import clingo
 from math import ceil
+import os
+
+
+CLINGO_PATH = "/bin/clingo"
 
 # Type annotations
 
@@ -56,34 +59,26 @@ class InterBlk(Block):
         lin_bias = getarray(folder+"lin_bias.csv", trans=True)
         lin_weight = getarray(folder+"lin_weight.csv", dtype=np.int8)
 
-        self.bias = np.zeros(bn_weight.shape, dtype=np.float_)
-
-        # if bn_weight = 0, then the node is constant
-        self.bias += np.multiply(
-                bn_weight == 0,
-                (len(bn_weight)+1) * (2*(bn_bias < 0)-1)
+        # const nodes
+        const = np.multiply(
+                (bn_weight == 0),
+                (len(bn_weight) + 1) * (2*(bn_bias >= 0)-1)
                 )
 
-        dev_weight = np.divide(bn_stddev, bn_weight)
-        c = bn_mean \
-            - lin_bias \
-            - np.multiply(dev_weight, bn_bias)
+        sum_axis = np.sum(lin_weight, axis=1, keepdims=True)
 
-        # if bn_stddev/bn_weight < 0,
-        # then negate respective row in weight and const
-        inv_neg = np.diag((2 * (dev_weight >= 0) - 1).flatten())
+        divided = np.divide(bn_weight, bn_stddev)
+        sgn = -1 * np.signbit(divided) + 1 * np.signbit(-divided)
 
-        c = np.dot(inv_neg, c)
-        lin_weight = np.dot(inv_neg, lin_weight)
+        # add to divided where is equal to zero
+        # to be able to divide by it
+        divided += np.multiply(divided == 0, np.ones(divided.shape))
 
-        self.bias += np.multiply(
-                bn_weight != 0,
-                c
-                )
-        self.weight = lin_weight
+        self.bias = (1/2) * sgn * \
+            (sum_axis + bn_mean - lin_bias - np.divide(bn_bias, divided)) \
+            + const
 
-        self.bias += np.sum(self.weight, axis=1, keepdims=True)
-        self.bias /= 2
+        self.weight = np.dot(np.diag(sgn.flatten()), lin_weight)
 
 
 class OutputBlk(Block):
@@ -93,16 +88,14 @@ class OutputBlk(Block):
     def __init__(self, folder: str):
         self.bias = getarray(folder+"lin_bias.csv", trans=True)
         self.weight = getarray(folder+"lin_weight.csv", dtype=np.int8)
-        self.bias += np.sum(self.weight, axis=1, keepdims=True)
+        self.bias -= np.sum(self.weight, axis=1, keepdims=True)
         self.bias /= 2
 
-    def args(self) -> List[int]:
+    def args(self):
         bs = (self.bias % 1).flatten()
-        args = np.argsort(bs, kind='stable')
-        revargs = [0] * len(args)
-        for num, arg in enumerate(args):
-            revargs[arg] = num
-        return revargs
+        ord_nodes = np.argsort(bs, kind='stable')
+        # ord_nodes is sorted from the small to big precedence
+        yield from ord_nodes
 
 
 class NeuralNetw:
@@ -114,8 +107,9 @@ class NeuralNetw:
         self.output = OutputBlk(f"{folder}out_blk/")
 
     def layers(self):
+        yield (0, len(self.network[0].weight[0]))
         for layer, net in enumerate(self.network + [self.output]):
-            yield (layer, net.layer())
+            yield (layer + 1, net.layer())
 
     def weights(self):
         for layer, net in enumerate(self.network + [self.output]):
@@ -128,12 +122,12 @@ class NeuralNetw:
                 yield (layer,) + bias
 
     def args(self):
-        for pos, arg in enumerate(self.output.args()):
-            yield (arg, pos)
+        for order, node in enumerate(self.output.args()):
+            yield (node, order)
 
 
 if __name__ == "__main__":
-    folder = "models/mnist_bnn_2_blk_100_100_50_10/"
+    folder = "models/mnist_bnn_2_blk_16_25_20_10/"
     netw = NeuralNetw(folder)
 
     with open("model.lp", 'w') as model:
@@ -151,4 +145,10 @@ if __name__ == "__main__":
         for outpre in netw.args():
             model.write(f"outpre{outpre}.\n")
 
-        model.write(":- output(8).")
+        # Target: solution with 5 as output
+        model.write(":- not output(5).")
+
+    # show number of solutions
+    os.execl(CLINGO_PATH, "-n", "0", "-q", "model.lp")
+    # show one solution with parameters
+    os.execl(CLINGO_PATH, "-n", "1", "model.lp")

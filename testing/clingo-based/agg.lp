@@ -1,12 +1,10 @@
-#include <incmode>.
-
 % Layer sizes
+% layer=0 - input layer
 % layer(layer, size)
-output_layer(L) :- L = #max{ X : layer(X, _) }, layer(L, _).
 
-% Input nodes
-% node(layer, node)
-node(L, 0..S-1) :- layer(L, S).
+% Which layer is for output
+% output_layer(layer)
+output_layer(L) :- L = #max{ X : layer(X, _) }, layer(L, _).
 
 % Weights
 % weight(from_layer, from_node, to_node, weight)
@@ -16,35 +14,31 @@ node(L, 0..S-1) :- layer(L, S).
 
 % On
 % on(layer, node)
-{on(0, N) : node(0, N)}.
+% input layer
+% TODO: encoding of input region
+{on(0, 0..K-1)} :- layer(0, K).
+
+% hidden layers
 on(L, N) :-
     #sum{ W,I : on(L-1, I), weight(L-1, I, N, W) } >= B,
-    bias(L, N, B), not output_layer(L).
+    bias(L-1, N, B), not output_layer(L).
 
 % Output precedence
+% highest order -> best candidate for output
 % outpre(output, order)
 
 % Outnode
+% Sum of weights and bias
 % outnode(node, sum)
 outnode(N, S) :-
-    S = #sum{ W,I : on(L-1, I), weight(L-1, I, N, W); B,-1 : bias(L, N, B) },
-    output_layer(L), bias(L, N, _).
+    S = #sum{ W,I : on(L-1, I), weight(L-1, I, N, W); B,-1 },
+    output_layer(L), bias(L-1, N, B).
 
 % Output
 % output(node)
-output(Sum, Order, Node) :-
-    (Sum, Order, Node) = #max{ (S, O, N) : outnode(N, S), outpre(N, O) }.
 output(Node) :-
-    output(Sum, Order, Node).
+    (Sum, Order, -Node) = #max{ (S, O, -N) : outnode(N, S), outpre(N, O) }.
+#show output/1.
 
 % Target
-% :- not on(2, 3).
-
-% #show on/2.
-#show output/1.
-#show output_layer/1.
-% #show output/3.
-% #show outpre/2.
-% #show outnode/2.
-% #show layer/2.
-% #show bias/3.
+% :- not on(2, 3). % bit on index 3 in layer 2 is on

@@ -29,6 +29,7 @@ def layer_lin(
         inp: array_bin,
         weight: array_bin,
         bias: array_real) -> array_real:
+    print(f"Layer Lin: {inp.T}")
     return np.dot(weight, inp) + bias
 
 
@@ -49,6 +50,7 @@ def layer_bin(inp: array_real) -> array_bin:
 
 
 def arg_max(inp):
+    print(f"Argmax: {inp.T}")
     return np.argmax(inp)
 
 
@@ -119,7 +121,13 @@ class NeuralNetw:
 
 if __name__ == "__main__":
     model = "mnist_bnn_2_blk_16_25_20_10"
-    inp = np.array([1] * 16)
+    # inp = np.array([[-1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, 1, -1, 1, 1]]).T
+    # inp = np.array([[-1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1]]).T
+    # inp = np.array([[1, -1, -1, -1, 1, -1, -1, -1, -1, -1, 1, -1, -1, -1, 1, -1]]).T
+    # inp = np.array([[1, -1, -1, -1, 1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, 1]]).T
+    # inp = np.array([[1, -1, -1, -1, 1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, 1]]).T
+    # inp = np.array([[-1, -1, -1, -1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, 1, -1]]).T
+    inp = np.array([[1, -1, -1, -1, 1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, 1]]).T
     netw = NeuralNetw(f"models/{model}/")
 
     print(netw.comp(inp))

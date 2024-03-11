@@ -5,9 +5,9 @@ import numpy as np
 import cProfile
 
 
-folder = "models/mnist_bnn_4_blk_784_50_50_50_50_10/"
-inpsize = 784
-inpbits = 32
+folder = "models/mnist_bnn_2_blk_16_25_20_10/"
+inpsize = 16
+inpbits = 16
 repeat = 5
 basename = "naive"
 base = __import__(basename)
@@ -40,7 +40,7 @@ print(f"repeats: {repeat}\n")
 # for name in ["naive", "precomp", "bylayer"]:
 # for name in ["binar", "partial"]:
 # for name in ["naive", "precomp", "bylayer", "binar", "partial"]:
-for name in ["partial"]:
+for name in ["naive"]:
     module = __import__(name)
 
     print(f"######### Testing module {name} #########")
