@@ -10,3 +10,8 @@ testing/clingo-based/model.lp
 testing/clingo-based/models
 testing/python-based/__pycache__
 **.log
+**.aux
+**.lof
+**.lot
+**.out
+**.toc

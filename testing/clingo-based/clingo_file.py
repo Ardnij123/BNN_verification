@@ -67,6 +67,7 @@ class InterBlk(Block):
 
         sum_axis = np.sum(lin_weight, axis=1, keepdims=True)
 
+        # TODO: will this break if bn_stddev=0?
         divided = np.divide(bn_weight, bn_stddev)
         sgn = -1 * np.signbit(divided) + 1 * np.signbit(-divided)
 

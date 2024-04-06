@@ -1,0 +1,327 @@
+\documentclass{fithesis}
+
+\thesissetup{
+    gender=m,
+	author=Jindřich Matuška,
+	id=525183,
+	type=bc,
+	university=mu,
+	faculty=fi,
+	locale=english,
+	department=Department of Computer Systems and Communications,
+	date=2024/05/22,
+	place=Brno,
+	title=Verification of binarised neural networks using ASP,
+	keywords={bnn, verification, binarized neural networks
+              answer set programming, asp},  % TODO
+	abstract={foo bar},  % TODO
+	advisor={RNDr. Samuel Pastva, PhD.},
+	thanks={foo bar}, % TODO
+}
+
+\usepackage{makecell}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\BB}{\mathbb{B}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\BNN}{\mathcal{N}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\sign}{\mathrm{sign}}
+
+
+\begin{document}
+\chapter{Introduction}
+
+% - Co řešíme, proč to řešíme
+% 	+ NP-úplné problémy
+% 		* zde bychom mohli verifikovat ex-post
+% 	+ problémy, u kterých neznáme řešení
+% 		* případně verifikovat řešení může být samo exponenciálně náročné
+% 	+ kritické problémy
+% 		* při špatném výsledku nás to může stát hodně životů/peněz
+% - aktuální stav verifikace BNN a neuronek obecně (SAT/SMT)
+% - práce související s tématem (state of the art)
+% - Existuje nějaký framework?
+% - jaké jsou aktuální limity pro velikosti verifikovaných sítí
+% - možná rozdělit na 2 kapitoly?
+
+Deep neural networks (DNN) are state of the art technology. They are used in many
+real-world applications e.g. medicine, self-driving cars, automatic systems,
+many of which are critical. % TODO: is this the right meaning?
+State of the art deep neural network have up to hundreads of bilions
+parameters [https://arxiv.org/pdf/2109.01652.pdf].
+That is too many for people to comprehend. We need tools for automation
+of verification of these.
+
+While DNNs generally base their computations in floating point numbers,
+the computation of output is computationaly hard. For this, quantization,
+a new branch of DNN development, where instead of 32 or 64-bits long floating
+point numbers, low-bit-width (eg. 4) fixed point numbers are used instead.
+This mitigates the high cost of computation and need for high-end devices.
+Extreme example of quantization are Binary neural networks (BNN).
+These use binary parameters for their computations, resulting in much
+cheaper computational price per parameter on specialised devices.
+
+Verification of neural networks is split into two categories. First,
+qualitative verification, searches through input space looking for any
+adversarial input, e.g. input which results in bad output.
+Second, quantitative verification, searches through input space
+counting number of adversarial inputs.
+State of the art verificators are usually based on satisfability
+theories (SAT) or satisfability modulo theories (SMT) paradigm.
+% TODO: Is this right?
+% TODO: Are there any other sota solutions?
+% TODO: Some citation
+Even on BNNs these verificators scale only up to % TODO - qualitative verification
+and hundreads of parameters for quantitative verification [BNNQuanalyst].
+In this thesis I have implemented quantitative BNN validator using ASP paradigm
+in framework Clingo from Potassco. I have also evaluated speed of this
+validator agnist state of the art implementation [BNNQuanalysist] on mnist
+and fashionmnist dataset.
+
+\chapter{Used tools}
+
+Answer set programming (ASP) is a form of declarative
+programming oriented towards difficult, primarily NP-hard,
+search problems. [Lifschitz, Vladimir. Answer set programming. Vol. 3.
+Heidelberg: Springer, 2019.] ASP aims at finding stable models.
+
+% - obecně o ASP
+% 	+ solver pro NP-úplné problémy
+% - Clingo
+% 	+ rozdělení celého frameworku
+% 	+ základy použití, kódování problému
+
+\chapter{Můj přínos}
+
+\section{Binary neural network}
+
+I have been working with deterministic binarized neural networks (BNN)
+as defined in [Itay Hubara, Matthieu Courbariaux, Daniel Soudry, Ran El-Yaniv, and Yoshua Bengio. 2016. Binarized neural networks. In Proceedings of the Annual Conference on Neural Information Processing Systems. 4107–4115.] and [BNNQuanalys].
+For convinience I have rewritten the output as a natural number instead of
+one-hot vector.
+This article defines deterministic BNN as a convolution of layers.
+The input is
+encoded as vector $\BB_{\pm 1}^{n_1}$. The BNN is then encoded as tuple of blocks
+$(t_1, t_2, \dots, t_d, t_{d+1})$.
+\begin{equation*}
+    \BNN: \, \BB_{\pm 1}^{n_1} \to \NN_0
+\end{equation*}
+\begin{equation}
+    \BNN = t_{d+1} \circ t_d \circ \dots \circ t_1,
+\end{equation}
+where for each $i\in \{1, 2, \dots d\}$ $t_i$ is inner block consisting
+of LIN layer $t_i^{lin}$, BN layer $t_i^{bn}$ and BIN layer $t_i^{bin}$.
+
+\begin{equation*}
+    t_i: \, \BB_{\pm 1}^{n_i} \to \BB_{\pm 1}^{n_{i+1}}
+\end{equation*}
+\begin{equation}
+    t_i = t_i^{bin} \circ t_i^{bn} \circ t_i^{lin}
+\end{equation}
+Output block $t_{d+1}$ then consists of LIN layer $t_{d+1}^{lin}$ and ARGMAX layer
+$t_{d+1}^{am}$.
+\begin{equation*}
+    t_{d+1}: \, \BB_{\pm 1}^{n_{d+1}} \to \NN_0
+\end{equation*}
+\begin{equation}
+    t_{d+1} = t_{d+1}^{am} \circ t_{d+1}^{lin}
+\end{equation}
+
+Each layer is a function with parameters defined in table [table num].
+
+\begin{table}[h]
+\makebox[\linewidth]{
+\begin{tabular}{llll}
+    \hline
+    Layer & Function & Parameters & Definition
+    \\ \hline
+    LIN & $t_i^{lin}: \, \BB_{\pm 1}^{n_i} \to \RR^{n_{i+1}}$ &
+    \makecell[l]{
+        Weight matrix: $\mat W\in \BB_{\pm 1}^{n_i \times n_{i+1}}$\\
+        Bias (row) vector: $\vec b \in \RR^{n_{i+1}}$} &
+    \makecell[l]{
+        $t_i^{bn}(\vec x) = \vec y$, where $\forall j\in[n_{i+1}]$,\\
+        $\vec y_j = \langle \vec x, \mat W_{:, j} \rangle + \vec b_j $
+    }
+    \\ \hline
+    BN & $t_i^{bn}: \, \RR^{n_{i+1}} \to \RR^{n_{i+1}}$ &
+    \makecell[l]{
+        Weight vector: $\vec \alpha\in \RR^{n_{i+1}}$\\
+        Bias vector: $\vec \gamma \in \RR^{n_{i+1}}$\\
+        Mean vector: $\vec \mu \in \RR^{n_{i+1}}$\\
+        Std. dev. vector: $\vec \sigma \in \RR^{n_{i+1}}$\\
+        } &
+    \makecell[l]{
+        $t_i^{bn}(\vec x) = \vec y$, where $\forall j\in[n_{i+1}]$,\\
+        $\vec y_j = \vec \alpha_j
+            \cdot \frac{\vec x_j - \vec \mu_j}{\vec \sigma_j}
+            + \vec \gamma_j $
+    }
+    \\ \hline
+    BIN & $t_i^{bin}: \, \RR^{n_{i+1}} \to \BB_{\pm 1}^{n_{i+1}}$ &
+        \makecell[c]{-} &
+    \makecell[l]{
+        $t_i^{bin}(\vec x) = \vec y$, where $\forall j\in[n_{i+1}]$,\\
+        $\vec y_j = \left\{
+            \begin{matrix}
+                +1, & \mathrm{if} \, \vec x_j \geq 0; \\
+                -1, & \mathrm{otherwise}
+            \end{matrix}
+            \right.$
+    }
+    \\ \hline
+    ARGMAX & $t_{d+1}^{am}: \, \RR^{n_{d+1}} \to \NN_0$ &
+        \makecell[c]{-} &
+    \makecell[l]{
+        $t_{d+1}^{am}(\vec x) = \arg \max (\vec x )$
+        % TODO if multiple argmax is minimal index
+    }
+    \\ \hline
+\end{tabular}
+    }
+\end{table}
+
+I have transformed the parameters to lower their count and make them integer only.
+
+\begin{equation*}
+    t_i(\vec x) = (t_i^{bin} \circ t_i^{bn} \circ t_i^{lin})(\vec x) = y
+\end{equation*}
+\begin{equation*}
+    y_j = \sign_{\pm 1}\left( \alpha_j \cdot \frac{\langle \vec x, \mat W_{:, j}\rangle + b_j - \vec \mu_j}{\vec \sigma_j} - \vec \gamma_j \right)
+\end{equation*}
+
+The argument of $\sign_{\pm 1}$ can be further analysed.
+
+\begin{equation*}
+    \vec \alpha_j \cdot \frac{\langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j}{\vec \sigma_j} - \vec \gamma_j \geq 0
+\end{equation*}
+
+There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
+
+\begin{equation*}
+    \begin{matrix}
+        \frac{\vec\alpha_j}{\vec\sigma_j} \geq 0: \\
+        \langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j - \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \geq 0\\
+        \mat W'_{:, j} = \mat W_{:, j}, \,
+        \vec b'_j = \vec b_j - \vec\mu_j - \frac{\vec\sigma_j}{\vec\alpha_j}\cdot \vec\gamma_j\\
+        \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
+    \end{matrix}
+\end{equation*}
+
+\begin{equation*}
+    \begin{matrix}
+        \frac{\vec\alpha_j}{\vec\sigma_j} \leq 0: \\
+        \langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j - \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \leq 0 \\
+        \langle \vec x, -\mat W_{:, j}\rangle - \vec b_j + \vec \mu_j + \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \geq 0\\
+        \mat W'_{:, j} = -\mat W_{:, j}, \,
+        \vec b'_j = -\vec b_j + \vec\mu_j + \frac{\vec\sigma_j}{\vec\alpha_j}\cdot \vec\gamma_j\\
+        \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
+    \end{matrix}
+\end{equation*}
+
+\begin{equation*}
+    \begin{matrix}
+        \vec\alpha_j = 0: \\
+        - \vec\gamma_j \geq 0\\
+        \mat W'_{:, j} = \vec 0, \,
+        \vec b'_j = - \vec\gamma_j\\
+        \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
+    \end{matrix}
+\end{equation*}
+
+This shows that each inner layer can be computed using weight matrix and
+one bias parameter. However if there were some parameter $\alpha_j = 0$,
+$\mat W'$ would not have values only from $\pm 1$ but from $\{-1, 0, 1\}$.
+This is not an issue as Clingo works by default above integers.
+If 0-values were issue, they could be removed either by offsetting bias
+parameter or by modifying the BNN structure to remove the constant node.
+(This has not been implemented in my work.)
+
+\begin{equation*}
+    \vec \alpha_j = 0:\, \vec b'_j = \left\{
+        \begin{matrix}
+            \langle\vec 1, \vec 1\rangle + 1 & \mathrm{if}\,-\vec\gamma_j \geq 0;\\
+            -\langle\vec 1, \vec 1\rangle - 1 & \mathrm{otherwise}
+        \end{matrix}
+    \right.
+\end{equation*}
+
+In my implementation I am also encoding inputs as binary values $\{0, 1\}$.
+
+\begin{equation*}
+    \begin{matrix}
+        \vec x = 2 \vec x^{(b)} - \vec1\\
+        \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
+        \langle 2\vec x^{(b)} - \vec1, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
+        2\langle \vec x^{(b)}, \mat W'_{:, j}\rangle - \langle\vec1, \mat W'_{:,j}\rangle + \vec b'_j \geq 0\\
+        \langle \vec x^{(b)}, \mat W'_{:, j}\rangle + \frac{- \langle\vec1, \mat W'_{:,j}\rangle + \vec b'_j}{2} \geq 0\\
+    \end{matrix}
+\end{equation*}
+
+Still each block could be computed using one weight matrix and one bias vector.
+Additionally, as $\langle\vec x^{(b)}, \mat'_{:, j}\rangle$ is an integer value,
+equation is equivalent to
+
+\begin{equation*}
+    \langle \vec x^{(b)}, \mat W'_{:, j}\rangle + \left\lfloor \frac{- \langle\vec1, \mat W'_{:,j}\rangle + \vec b'_j}{2} \right\rfloor \geq 0\\
+\end{equation*}
+
+As for the output block, it has already just one weight matrix and one bias
+vector. The implementation of ARGMAX layer is mainly Clingo-based.
+The only needed transformation is to split bias to whole and decimal part.
+
+\begin{equation*}
+    \vec b = \vec b' + \vec p, \, \vec b'_j = \lfloor \vec b_j \rfloor
+\end{equation*}
+
+$\vec p$ is then used as main order of outputs.
+% TODO: Try to order the outputs by this order? -> would remove one aggregate
+
+Implementation of these transformations in Python is added as [appendix] % TODO
+
+\section{Encoding of BNN in Clingo}
+
+Implementation of BNN computation is avalible as [appendix] % TODO
+
+\section{Encoding of input regions}
+
+% TODO: To be implemented
+% Definice input region
+An input region of BNN is some subset of inputs on which the analysis is
+performed. I have implemented both of input region types from [BNNQuanalys],
+that is input region based on Hamming distance ($R_H$) and input region with
+fixed indices ($R_I$).
+
+The quantitative analysis of said BNN is a problem to say how many inputs
+
+
+% - definice problému
+% - proč je moje řešení korektní
+% - kódování sítě, výpočtu na ní
+% - kódování vstupu, výstupu
+% - využití agregátních fcí - mohlo by vést ke zlepšení?
+% 	+ agg funkce jako speciální případ OBDD
+
+\chapter{Evaluation}
+
+% - ohodnocení modelu
+% 	+ je rozdíl mezi hledání, které vrátí málo výsledků vůči hodně výsledkům
+% 	+ time to first / time to all
+% 	+ clingo je (asi) optimalizované na hledání jednoho řešení, tady je chceme všechny
+% 	+ -> Je rozumné hledat od nejvíce svázaného zadání a postupně rozšiřovat?
+% - Jaký je rozumný limit pro velikost verifikované sítě
+% 	+ je problém spíše s širokými/hlubokými sítěmi
+% - jak si vede vůči původnímu zdroji, dalším implementacím
+% - TODO: asi to vrazit na Metacentrum či tak něco? - můj ntb by pravděpodobně zkresloval výsledky
+
+\chapter{Discussion}
+
+% - má ASP pro další verifikaci význam?
+% - je možnost, že by přinesl alespoň relevantní benchmark pro další verifikační algoritmy (např. nad obecnými NN?)
+% 	+ není velká možnost, že by porazil algoritmy přizpůsobené přímo pro daný problém, ale je tu možnost že by byl fajn dokud nebudeme mít něco silnějšího než ASP pro problém
+
+\end{document}
+???END
