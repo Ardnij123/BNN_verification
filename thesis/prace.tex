@@ -1,6 +1,6 @@
 \documentclass{fithesis}
 
-\thesissetup{
+\thesissetup{%
     gender=m,
 	author=Jindřich Matuška,
 	id=525183,
@@ -23,21 +23,9 @@
 \usepackage{makecell}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{mathtools}
 
-% BNN representation
-\newcommand{\BB}{\mathbb{B}}
-\newcommand{\RR}{\mathbb{R}}
-\newcommand{\NN}{\mathbb{N}}
-\newcommand{\BNN}{\mathcal{N}}
-\newcommand{\mat}[1]{\mathbf{#1}}
-\newcommand{\sign}{\mathrm{sign}}
-
-% ASP representation
-\newcommand{\asprule}[2]{#1 \leftarrow #2}
-\newcommand{\aspnot}{\mathrm{not}\,}
-\newcommand{\asphead}{\mathrm{head}}
-\newcommand{\aspbody}{\mathrm{body}}
-
+\input{header.tex}
 
 \begin{document}
 \chapter{Introduction}
@@ -56,10 +44,10 @@
 % - možná rozdělit na 2 kapitoly?
 
 Deep neural networks (DNN) are state of the art technology. They are used in many
-real-world applications e.g. medicine, self-driving cars, automatic systems,
+real-world applications e.g.\ medicine, self-driving cars, automatic systems,
 many of which are critical. % TODO: is this the right meaning?
 State of the art deep neural network have up to hundreads of bilions
-parameters [https://arxiv.org/pdf/2109.01652.pdf].
+parameters~\cite{2021arXiv210901652W}.
 That is too many for people to comprehend. We need tools for automation
 of verification of these.
 
@@ -74,7 +62,7 @@ cheaper computational price per parameter on specialised devices.
 
 Verification of neural networks is split into two categories. First,
 qualitative verification, searches through input space looking for any
-adversarial input, e.g. input which results in bad output.
+adversarial input, e.g.\ input which results in bad output.
 Second, quantitative verification, searches through input space
 counting number of adversarial inputs.
 State of the art verificators are usually based on satisfability
@@ -83,10 +71,10 @@ theories (SAT) or satisfability modulo theories (SMT) paradigm.
 % TODO: Are there any other sota solutions?
 % TODO: Some citation
 Even on BNNs these verificators scale only up to % TODO - qualitative verification
-and hundreads of parameters for quantitative verification [BNNQuanalyst].
+and hundreads of parameters for quantitative verification~\cite{10.1145/3563212}.
 In this thesis I have implemented quantitative BNN validator using ASP paradigm
 in framework Clingo from Potassco. I have also evaluated speed of this
-validator agnist state of the art implementation [BNNQuanalysist] on mnist
+validator agnist state of the art implementation~\cite{10.1145/3563212} on mnist
 and fashionmnist dataset.
 
 \chapter{Used tools}
@@ -95,11 +83,9 @@ and fashionmnist dataset.
 
 Answer set programming (ASP) is a form of declarative
 programming oriented towards difficult, primarily NP-hard,
-search problems. [Lifschitz, Vladimir. Answer set programming. Vol. 3.
-Heidelberg: Springer, 2019.]
-ASP is particularly suited for solving difficult combinatorial search problems.
-[A Glimpse of Answer Set Programming
-Christian Anger and Kathrin Konczak and Thomas Linke and Torsten Schaub]
+search problems~\cite{lifschitz2008answer}.
+ASP is particularly suited for solving difficult combinatorial search problems%
+~\cite{anger2005glimpse}.
 ASP is somewhat closely related to propositional
 satisfability checking (SAT)
 in sense that the problem is represented as logic program. Difference is in
@@ -159,12 +145,15 @@ There are 4 subsets of set of all atoms. First the reduct relative to
 the subset is made, on it the calculation of constituting set is made.
 If $X = \mathrm{Cn}(\Pi^X)$, then $X$ is one of answer sets.
 \begin{center}
-    \begin{tabular}{l|l|l}
-        $X$ & $\Pi^X$ & $\mathrm{Cn}(\Pi^X)$ \\\hline
-        \{\} & $\begin{matrix}\asprule{p}{p}\\\asprule{q}{}\end{matrix}$ & $\{q\}$\\\hline
-        \{p\} & $\begin{matrix}\asprule{p}{p}\end{matrix}$ & $\{\}$\\\hline
-        \{q\} & $\begin{matrix}\asprule{p}{p}\\\asprule{q}{}\end{matrix}$ & $\{q\}$\\\hline
-        \{p, q\} & $\begin{matrix}\asprule{p}{p}\end{matrix}$ & $\{\}$
+    \begin{tabular}{L L L}\toprule{}%
+        X        & \Pi^X          & \mathrm{Cn} (\Pi^X) \\\midrule{}%
+        \{\}     & \asprule{p}{p} & \{q\} \\
+                 & \asprule{q}{}  &       \\\addlinespace[0.5em]
+        \{p\}    & \asprule{p}{p} & \{\}  \\\addlinespace[0.5em]
+        \{q\}    & \asprule{p}{p} & \{q\} \\
+                 & \asprule{q}{}  &       \\\addlinespace[0.5em]
+        \{p, q\} & \asprule{p}{p} & \{\}  \\
+        \bottomrule{}
     \end{tabular}
 \end{center}
 There is only a single answer set of $\Pi$, that is $\{q\}$. There is
@@ -175,16 +164,18 @@ included in the answer set.
 Another toy example is $\Pi = \{\asprule{p}{\aspnot q}, \asprule{q}{\aspnot p}\}$.
 Again, there are 4 subsets of set of all atoms.
 \begin{center}
-    \begin{tabular}{l|l|l}
-        $X$ & $\Pi^X$ & $\mathrm{Cn}(\Pi^X)$ \\\hline
-        \{\} & $\begin{matrix}\asprule{p}{}\\\asprule{q}{}\end{matrix}$ & $\{p, q\}$\\\hline
-        \{p\} & $\begin{matrix}\asprule{p}{}\end{matrix}$ & $\{p\}$\\\hline
-        \{q\} & $\begin{matrix}\asprule{q}{}\end{matrix}$ & $\{q\}$\\\hline
-        \{p, q\} & & $\{\}$
+    \begin{tabular}{L L L}\toprule{}%
+        X        & \Pi^X         & \mathrm{Cn} (\Pi^X) \\\midrule{}%
+        \{\}     & \asprule{p}{} & \{p, q\} \\
+                 & \asprule{q}{} &          \\\addlinespace[0.5em]
+        \{p\}    & \asprule{p}{} & \{p\}    \\\addlinespace[0.5em]
+        \{q\}    & \asprule{q}{} & \{q\}    \\\addlinespace[0.5em]
+        \{p, q\} &               & \{\}     \\
+        \bottomrule{}
     \end{tabular}
 \end{center}
 This time there are two answer sets of $\Pi$, $\{p\}$ and $\{q\}$.
-As we can see, the double not forms a XOR - exactly one of atoms $p, q$ has to
+As we can see, the double not forms a XOR --- exactly one of atoms $p, q$ has to
 be in the answer set.
 
 \subsection{Language extensions}
@@ -200,7 +191,7 @@ be in the answer set.
 \section{Binary neural network}
 
 I have been working with deterministic binarized neural networks (BNN)
-as defined in [Itay Hubara, Matthieu Courbariaux, Daniel Soudry, Ran El-Yaniv, and Yoshua Bengio. 2016. Binarized neural networks. In Proceedings of the Annual Conference on Neural Information Processing Systems. 4107–4115.] and [BNNQuanalys].
+as defined in~\cite{Hubara2016BinarizedNN} and~\cite{10.1145/3563212}.
 For convinience I have rewritten the output as a natural number instead of
 one-hot vector.
 This article defines deterministic BNN as a convolution of layers.
@@ -234,53 +225,54 @@ $t_{d+1}^{am}$.
 Each layer is a function with parameters defined in table [table num].
 
 \begin{table}[h]
-\makebox[\linewidth]{
-\begin{tabular}{llll}
-    \hline
-    Layer & Function & Parameters & Definition
-    \\ \hline
-    LIN & $t_i^{lin}: \, \BB_{\pm 1}^{n_i} \to \RR^{n_{i+1}}$ &
-    \makecell[l]{
-        Weight matrix: $\mat W\in \BB_{\pm 1}^{n_i \times n_{i+1}}$\\
-        Bias (row) vector: $\vec b \in \RR^{n_{i+1}}$} &
-    \makecell[l]{
-        $t_i^{bn}(\vec x) = \vec y$, where $\forall j\in[n_{i+1}]$,\\
-        $\vec y_j = \langle \vec x, \mat W_{:, j} \rangle + \vec b_j $
-    }
-    \\ \hline
-    BN & $t_i^{bn}: \, \RR^{n_{i+1}} \to \RR^{n_{i+1}}$ &
-    \makecell[l]{
-        Weight vector: $\vec \alpha\in \RR^{n_{i+1}}$\\
-        Bias vector: $\vec \gamma \in \RR^{n_{i+1}}$\\
-        Mean vector: $\vec \mu \in \RR^{n_{i+1}}$\\
-        Std. dev. vector: $\vec \sigma \in \RR^{n_{i+1}}$\\
-        } &
-    \makecell[l]{
-        $t_i^{bn}(\vec x) = \vec y$, where $\forall j\in[n_{i+1}]$,\\
-        $\vec y_j = \vec \alpha_j
-            \cdot \frac{\vec x_j - \vec \mu_j}{\vec \sigma_j}
-            + \vec \gamma_j $
-    }
-    \\ \hline
-    BIN & $t_i^{bin}: \, \RR^{n_{i+1}} \to \BB_{\pm 1}^{n_{i+1}}$ &
+    \makebox[\textwidth]{%
+\begin{tabular}{lLlL}
+    \toprule{}%
+    Layer & \text{Function} & Parameters & \text{Definition}
+    \\ \midrule{}%
+    LIN & t_i^{lin}: \, \BB{}_{\pm{} 1}^{n_i} \to{} \RR{}^{n_{i+1}} &
+        Weight matrix: $\mat W\in \BB_{\pm 1}^{n_i \times n_{i+1}}$ &
+        t_i^{bn} (\vec{x}) = \vec{y}$, where $\forall{} j\in[n_{i+1}]
+    \\
+        &    & 
+        Bias (row) vector: $\vec b \in \RR^{n_{i+1}}$ &
+        \vec{y_j} = \langle{} \vec{x}, \mat{W}_{:, j} \rangle{} + \vec{b_j}
+    \\ \addlinespace[0.5em]
+    BN & t_i^{bn}: \, \RR^{n_{i+1}} \to{} \RR^{n_{i+1}} &
+        Weight vector: $\vec \alpha\in \RR^{n_{i+1}}$ &
+        t_i^{bn} (\vec{x}) = \vec{y}$, where $\forall{} j\in[n_{i+1}]
+    \\
+    & &
+        Bias vector: $\vec \gamma \in \RR^{n_{i+1}}$ &
+        \vec{y_j} = \vec{\alpha_j}
+            \cdot \frac{\vec{x_j} \ensuremath{-} \vec{\mu_j}}{\vec{\sigma_j}}
+            + \vec{\gamma_j}
+    \\
+    & &
+        Mean vector: $\vec \mu \in \RR^{n_{i+1}}$ &
+    \\
+    & &
+        Std.\ dev.\ vector: $\vec \sigma \in \RR^{n_{i+1}}$ &
+    \\ \addlinespace[0.5em]
+    BIN & t_i^{bin}: \, \RR^{n_{i+1}} \to{} \BB{}_{\pm{} 1}^{n_{i+1}} &
         \makecell[c]{-} &
-    \makecell[l]{
-        $t_i^{bin}(\vec x) = \vec y$, where $\forall j\in[n_{i+1}]$,\\
-        $\vec y_j = \left\{
-            \begin{matrix}
-                +1, & \mathrm{if} \, \vec x_j \geq 0; \\
+        t_i^{bin} (\vec{x}) = \vec{y}$, where $\forall{} j\in[n_{i+1}],
+    \\
+    & & &
+        \vec{y_j} = \left\{
+            \begin{matrix*}[l]
+                +1, & \mathrm{if} \, \vec{x_j} \geq{} 0; \\
                 -1, & \mathrm{otherwise}
-            \end{matrix}
-            \right.$
-    }
-    \\ \hline
-    ARGMAX & $t_{d+1}^{am}: \, \RR^{n_{d+1}} \to \NN_0$ &
+            \end{matrix*}
+            \right.
+    \\ \addlinespace[0.5em]
+    ARGMAX & t_{d+1}^{am}: \, \RR^{n_{d+1}} \to{} \NN_0 &
         \makecell[c]{-} &
-    \makecell[l]{
-        $t_{d+1}^{am}(\vec x) = \arg \max (\vec x )$
+    \makecell[l]{%
+        t_{d+1}^{am} (\vec{x}) = \arg{} \max{} (\vec{x})
         % TODO if multiple argmax is minimal index
     }
-    \\ \hline
+    \\ \bottomrule
 \end{tabular}
     }
 \end{table}
@@ -392,7 +384,7 @@ Implementation of BNN computation is avalible as [appendix] % TODO
 % TODO: To be implemented
 % Definice input region
 An input region of BNN is some subset of inputs on which the analysis is
-performed. I have implemented both of input region types from [BNNQuanalys],
+performed. I have implemented both of input region types from~\cite{10.1145/3563212},
 that is input region based on Hamming distance ($R_H$) and input region with
 fixed indices ($R_I$).
 
@@ -425,4 +417,3 @@ The quantitative analysis of said BNN is a problem to say how many inputs
 % 	+ není velká možnost, že by porazil algoritmy přizpůsobené přímo pro daný problém, ale je tu možnost že by byl fajn dokud nebudeme mít něco silnějšího než ASP pro problém
 
 \end{document}
-???END
