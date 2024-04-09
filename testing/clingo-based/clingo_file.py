@@ -127,6 +127,49 @@ class NeuralNetw:
             yield (node, order)
 
 
+class Constraint:
+    inpbits: List[int]
+
+    def inpbits_gen(self):
+        for idx, inpbit in enumerate(self.inpbits):
+            if inpbit >= 0.5:
+                yield f"input({idx}, 1)."
+            else:
+                yield f"input({idx}, -1)."
+
+    def get(self) -> str:
+        pass
+
+
+class Hamming(Constraint):
+    def __init__(self, inpbits: List[int], maxdist: int):
+        self.inpbits = inpbits
+        self.hamdist = maxdist
+
+    def hamdist_gen(self):
+        return f"hamdist({self.hamdist})."
+
+    def get(self):
+        return "\n".join(self.inpbits_gen()) + '\n' + self.hamdist_gen()
+
+
+class Inpbits(Constraint):
+    def __init__(self, inpbits: List[int], fixed_idx: List[int]):
+        self.inpbits = inpbits
+        self.fixed_idx = fixed_idx
+
+    def fixed_gen(self):
+        for fix in self.fixed_idx:
+            if self.inpbits[fix] >= 0.5:
+                yield f"inputOn({fix})."
+            else:
+                yield f"inputOff({fix})."
+
+    def get(self):
+        return '\n'.join(self.inpbits_gen()) + '\n' \
+               + '\n'.join(self.fixed_gen())
+
+
 if __name__ == "__main__":
     folder = "models/mnist_bnn_2_blk_16_25_20_10/"
     netw = NeuralNetw(folder)
@@ -146,8 +189,11 @@ if __name__ == "__main__":
         for outpre in netw.args():
             model.write(f"outpre{outpre}.\n")
 
+        # model.write(Hamming([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], 12).get())
+        model.write(Inpbits([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], range(8)).get())
+
         # Target: solution with 5 as output
-        model.write(":- not output(5).")
+        # model.write(":- not output(5).")
 
     # show number of solutions
     os.execl(CLINGO_PATH, "-n", "0", "-q", "model.lp")
