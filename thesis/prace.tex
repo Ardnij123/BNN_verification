@@ -43,39 +43,54 @@
 % - jaké jsou aktuální limity pro velikosti verifikovaných sítí
 % - možná rozdělit na 2 kapitoly?
 
-Deep neural networks (DNN) are state of the art technology. They are used in many
-real-world applications e.g.\ medicine, self-driving cars, automatic systems,
+Deep neural networks (DNN) are state-of-the-art technology. They are used in many
+real-world applications e.g.\ medicine, self-driving cars, autonomous systems,
 many of which are critical. % TODO: is this the right meaning?
-State of the art deep neural network have up to hundreads of bilions
-parameters~\cite{2021arXiv210901652W}.
-That is too many for people to comprehend. We need tools for automation
+Deep neural networks used in natural language processing have up to hundreds of
+billions of parameters~\cite{2021arXiv210901652W}.
+That is too many for people to comprehend. We need tools for the automation
 of verification of these.
-
-While DNNs generally base their computations in floating point numbers,
-the computation of output is computationaly hard. For this, quantization,
-a new branch of DNN development, where instead of 32 or 64-bits long floating
-point numbers, low-bit-width (eg. 4) fixed point numbers are used instead.
-This mitigates the high cost of computation and need for high-end devices.
-Extreme example of quantization are Binary neural networks (BNN).
-These use binary parameters for their computations, resulting in much
-cheaper computational price per parameter on specialised devices.
 
 Verification of neural networks is split into two categories. First,
 qualitative verification, searches through input space looking for any
-adversarial input, e.g.\ input which results in bad output.
+adversarial input, e.g.\ an input which results in wrong output.
 Second, quantitative verification, searches through input space
-counting number of adversarial inputs.
-State of the art verificators are usually based on satisfability
-theories (SAT) or satisfability modulo theories (SMT) paradigm.
-% TODO: Is this right?
-% TODO: Are there any other sota solutions?
-% TODO: Some citation
-Even on BNNs these verificators scale only up to % TODO - qualitative verification
-and hundreads of parameters for quantitative verification~\cite{10.1145/3563212}.
-In this thesis I have implemented quantitative BNN validator using ASP paradigm
-in framework Clingo from Potassco. I have also evaluated speed of this
-validator agnist state of the art implementation~\cite{10.1145/3563212} on mnist
-and fashionmnist dataset.
+determining the size part of the input space giving adversarial outputs.
+
+For the qualitative disproving of the verity of general DNNs,
+many algorithms for finding adversarial
+inputs have been developed, using [programming paradigms][citations].
+The DNN can be disproven simply by finding any adversarial input.
+Proving the nonexistence of adversarial input is usually made by generating constraints
+on adversarial inputs and then showing there can be no such
+input~\cite{Isac2022NeuralNV}. This is computationally much more difficult
+and prone to errors emerging from inaccuracies of floating point numbers operations.
+It is often made with the use of a simplex algorithm combined with 
+the satisfiability modulo theories (SMT) paradigm~\cite{Isac2022NeuralNV, marabou2019, reluplex2017}.
+As far as I know, there is no reasonably quick quantitative
+validator of general DNNs yet.
+
+As DNNs generally base their computations on floating point numbers,
+the computation of output is hard. For this, quantization,
+a new branch of DNN development, where instead of 32 or 64-bit long floating
+point numbers, low-bit-width (eg. 4-bit) fixed point numbers are used.
+This mitigates the high cost of computation and the need for high-end devices.
+Extreme examples of quantization are Binary neural networks (BNN).
+These use binary parameters for their computations, resulting in much
+cheaper computational price, both when learning and in production,
+while maintaining near state-of-the-art results~\cite{Agrawal2023}.
+
+While both qualitative and quantitative BNN verificators exist,
+they scale only up to millions of parameters for qualitative verification~\cite{10.1007/978-3-030-03592-1_16}
+and tens of thousands of parameters for quantitative verification~\cite{10.1145/3563212}.
+These verificators can even compute on natural numbers only, without errors.
+
+In this thesis, I have implemented a quantitative BNN validator using the ASP paradigm
+in the framework Clingo from Potassco. I have also evaluated the speed of this
+validator against the state-of-the-art implementation BNNQuanalyst~\cite{10.1145/3563212}
+on MNIST~\cite{mnist2017} and Fashion MNIST~\cite{xiao2017fashion} datasets.
+
+% TODO: sth about results
 
 \chapter{Used tools}
 

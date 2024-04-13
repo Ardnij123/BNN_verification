@@ -19,6 +19,7 @@ output_layer(L) :- L = #max{ X : layer(X, _) }, layer(L, _).
 {on(0, 0..K-1)} :- layer(0, K).
 
 % hidden layers
+% TODO: Try to use #count aggregate
 on(L, N) :-
     #sum{ W,I : on(L-1, I), weight(L-1, I, N, W) } >= B,
     bias(L-1, N, B), not output_layer(L).
@@ -30,6 +31,7 @@ on(L, N) :-
 % Outnode
 % Sum of weights and bias
 % outnode(node, sum)
+% TODO: Try to use #count aggregate
 outnode(N, S) :-
     S = #sum{ W,I : on(L-1, I), weight(L-1, I, N, W); B,-1 },
     output_layer(L), bias(L-1, N, B).

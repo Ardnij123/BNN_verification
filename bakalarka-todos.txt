@@ -5,7 +5,6 @@ TODOs:
         hypothesis: blob errors are more likely to cause diferent result than
             the ones that are uniformly distributed
 
-    Začít psát
     podívat se na nějaké solidní práce a obšlehnout
     definovat problém, ukázat řešení
 
