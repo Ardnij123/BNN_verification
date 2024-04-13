@@ -128,7 +128,7 @@ are included in answer set and no atom from $\aspbody^-(r_i)$ is in answer set,
 then $\asphead(r_i)$ has to be in the set.}
 
 Set of atoms $X$ is closed under a basic program $\Pi$ if for any
-$r_i\in \Pi.\,\asphead(r_i)\in X \iff \aspbody(r_i)\subseteq X$.
+$r_i\in \Pi.\,\aspbody(r_i)\subseteq X \implies \asphead(r_i)\in X$.
 For general case the concept of \textit{reduct of a program $\Pi$ relative
 to a set $X$ of atoms} is needed.
 \begin{equation}
@@ -171,7 +171,7 @@ If $X = \mathrm{Cn}(\Pi^X)$, then $X$ is one of answer sets.
         \bottomrule{}
     \end{tabular}
 \end{center}
-There is only a single answer set of $\Pi$, that is $\{q\}$. There is
+There is only a single answer set of $\Pi$, that is $\{q\}$. Also, there is
 an interesting type of rule in the table, $\asprule{p}{}$. This type of rule
 is commonly reffered as \textit{fact} and ensures that atom $p$ is always
 included in the answer set.
@@ -194,6 +194,46 @@ As we can see, the double not forms a XOR --- exactly one of atoms $p, q$ has to
 be in the answer set.
 
 \subsection{Language extensions}
+
+Writing logic programs only using rules of form (2.2) would be very hard.
+For this, many language extensions have been developed to shorten programs,
+simplifying both readability and computation of stable models.
+% TODO: Is this true? Do the frameworks use these?
+
+In the next part I will show definition of the extensions used
+in the implementation part of my thesis.
+
+\subsubsection{Constraint}
+
+\begin{equation*}
+    \asprule{}{p_1, \dots, p_m, \aspnot p_{m+1}, \dots, \aspnot p_n}
+\end{equation*}
+Constraint is a type of language extension with semantics that its body can
+not be in the answer set. It can be rewritten as following rule~\cite{anger2005glimpse}:
+\begin{equation*}
+    \asprule{f}{\aspnot f, p_1, \dots, p_m, \aspnot p_{m+1}, \dots, \aspnot p_n}
+\end{equation*}
+where $f$ is a new atom (it is not used anywhere else).
+
+% TODO: format this
+
+Let's consider $\Pi$, $\asprule{f}{\aspnot f, p_1, \dots, p_m,
+\aspnot p_{m+1}, \dots, \aspnot p_n} = r \in \Pi$. Let $X$ be
+any set of literals s.t. $\{p_1, \dots, p_m\}\subseteq X,
+\{p_{m+1}, \dots, p_n\}\cap X = \emptyset$. If $f\in X$, then the rule
+$\asprule{f}{\aspbody^+(r)}$ is not in $\Pi^x$, thus $f\notin \aspCn{\Pi^X}$
+and $X \neq \aspCn{\Pi^X}$. If $f\notin X$, then the rule
+$\asprule{f}{\aspbody^+(r)}$ is in $\Pi^X$, thus $f\in \aspCn{\Pi^X}$
+and $X\neq \aspCn{\Pi^X}$. This shows that no set consistent with constraint
+rule can be answer set.
+
+If $X$ is not consistent with rule $r$ and $f\notin X$,
+then $X$ contains some negative literal
+of $r$ ($\exists x\in X.\, x\in \aspbody^-(r)$) and the rule $r$ is not in the
+reduct $\Pi^X$, or $X$ does not contain some positive literal of $r$, thus the
+rule $r$ is not applied. Either way, $f\notin X, f\notin \aspCn{\Pi^X}$.
+
+\subsubsection{Count aggregate}
 
 % - obecně o ASP
 % 	+ solver pro NP-úplné problémy
@@ -237,9 +277,10 @@ $t_{d+1}^{am}$.
     t_{d+1} = t_{d+1}^{am} \circ t_{d+1}^{lin}
 \end{equation}
 
-Each layer is a function with parameters defined in table [table num].
+Each layer is a function with parameters defined in table 3.1.
 
 \begin{table}[h]
+    \caption{Definition of BNN layers~\cite{10.1145/3563212}}
     \makebox[\textwidth]{%
 \begin{tabular}{lLlL}
     \toprule{}%
@@ -349,7 +390,7 @@ parameter or by modifying the BNN structure to remove the constant node.
 (This has not been implemented in my work.)
 
 \begin{equation*}
-    \vec \alpha_j = 0:\, \vec b'_j = \left\{
+    \vec \alpha_j = 0:\, W'_{:,j} = W_{:,j},\, \vec b'_j = \left\{
         \begin{matrix}
             \langle\vec 1, \vec 1\rangle + 1 & \mathrm{if}\,-\vec\gamma_j \geq 0;\\
             -\langle\vec 1, \vec 1\rangle - 1 & \mathrm{otherwise}
@@ -370,7 +411,7 @@ In my implementation I am also encoding inputs as binary values $\{0, 1\}$.
 \end{equation*}
 
 Still each block could be computed using one weight matrix and one bias vector.
-Additionally, as $\langle\vec x^{(b)}, \mat'_{:, j}\rangle$ is an integer value,
+Additionally, as $\langle\vec x^{(b)}, \mat W'_{:, j}\rangle$ is an integer value,
 equation is equivalent to
 
 \begin{equation*}
