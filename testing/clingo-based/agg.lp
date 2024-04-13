@@ -15,14 +15,25 @@ output_layer(L) :- L = #max{ X : layer(X, _) }, layer(L, _).
 % On
 % on(layer, node)
 % input layer
-% TODO: encoding of input region
 {on(0, 0..K-1)} :- layer(0, K).
+%*
+% Equivalent to both in speed and value
+% on(0, I) :- not off(0, I), layer(0, K), I = 0..K-1.
+% off(0, I) :- not on(0, I), layer(0, K), I = 0..K-1.
+*%
 
 % hidden layers
-% TODO: Try to use #count aggregate
 on(L, N) :-
     #sum{ W,I : on(L-1, I), weight(L-1, I, N, W) } >= B,
     bias(L-1, N, B), not output_layer(L).
+
+%* Equivalent to (slower)
+on(L, N) :-
+    Pos = #count{ I : on(L-1, I), weight(L-1, I, N, 1) },
+    Neg = #count{ I : on(L-1, I), weight(L-1, I, N, -1) },
+    Pos - Neg >= B,
+    bias(L-1, N, B), not output_layer(L).
+*%
 
 % Output precedence
 % highest order -> best candidate for output
@@ -31,10 +42,20 @@ on(L, N) :-
 % Outnode
 % Sum of weights and bias
 % outnode(node, sum)
-% TODO: Try to use #count aggregate
+outnode(N, S + B) :-
+    S = #sum{ W,I : on(L-1, I), weight(L-1, I, N, W) },
+    output_layer(L), bias(L-1, N, B).
+
+%* Equivalent to (both slower)
 outnode(N, S) :-
     S = #sum{ W,I : on(L-1, I), weight(L-1, I, N, W); B,-1 },
     output_layer(L), bias(L-1, N, B).
+
+outnode(N, B + Pos - Neg) :-
+    Pos = #count{ I : on(L-1, I), weight(L-1, I, N, 1)},
+    Neg = #count{ I : on(L-1, I), weight(L-1, I, N, -1)},
+    output_layer(L), bias(L-1, N, B).
+*%
 
 % Output
 % output(node)
