@@ -5,7 +5,7 @@ from math import ceil
 import os
 
 
-CLINGO_PATH = "/bin/clingo"
+CLINGO_PATH = "clingo"
 
 # Type annotations
 
@@ -196,6 +196,6 @@ if __name__ == "__main__":
         # model.write(":- not output(5).")
 
     # show number of solutions
-    os.execl(CLINGO_PATH, "-n", "0", "-q", "model.lp")
+    os.execlp(CLINGO_PATH, "-n", "0", "-q", "model.lp")
     # show one solution with parameters
-    os.execl(CLINGO_PATH, "-n", "1", "model.lp")
+    os.execlp(CLINGO_PATH, "-n", "1", "model.lp")
