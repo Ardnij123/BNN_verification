@@ -26,3 +26,4 @@ testing/python-based/__pycache__
 **.bcf
 **.blg
 **.run.xml
+testing/clingo-based/temp

@@ -46,7 +46,7 @@ outnode(N, S + B) :-
     S = #sum{ W,I : on(L-1, I), weight(L-1, I, N, W) },
     output_layer(L), bias(L-1, N, B).
 
-%* Equivalent to (both slower)
+%* Equivalent to (same speed; slower)
 outnode(N, S) :-
     S = #sum{ W,I : on(L-1, I), weight(L-1, I, N, W); B,-1 },
     output_layer(L), bias(L-1, N, B).

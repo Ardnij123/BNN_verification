@@ -213,13 +213,13 @@ not be in the answer set. It can be rewritten as following rule~\cite{anger2005g
 \begin{equation*}
     \asprule{f}{\aspnot f, p_1, \dots, p_m, \aspnot p_{m+1}, \dots, \aspnot p_n}
 \end{equation*}
-where $f$ is a new atom (it is not used anywhere else).
+where $f$ is a new atom (atom not used anywhere else).
 
 % TODO: format this
 
 Let's consider $\Pi$, $\asprule{f}{\aspnot f, p_1, \dots, p_m,
 \aspnot p_{m+1}, \dots, \aspnot p_n} = r \in \Pi$. Let $X$ be
-any set of literals s.t. $\{p_1, \dots, p_m\}\subseteq X,
+any set of atoms s.t. $\{p_1, \dots, p_m\}\subseteq X,
 \{p_{m+1}, \dots, p_n\}\cap X = \emptyset$. If $f\in X$, then the rule
 $\asprule{f}{\aspbody^+(r)}$ is not in $\Pi^x$, thus $f\notin \aspCn{\Pi^X}$
 and $X \neq \aspCn{\Pi^X}$. If $f\notin X$, then the rule
@@ -233,7 +233,35 @@ of $r$ ($\exists x\in X.\, x\in \aspbody^-(r)$) and the rule $r$ is not in the
 reduct $\Pi^X$, or $X$ does not contain some positive literal of $r$, thus the
 rule $r$ is not applied. Either way, $f\notin X, f\notin \aspCn{\Pi^X}$.
 
-\subsubsection{Count aggregate}
+\subsubsection{Cardinality constraints}
+
+\begin{equation*}
+    l\, \{p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n\} \,u
+\end{equation*}
+
+Cardinality constraint is so called conditional literal. It's semantics is that
+at least $l$ and at most $u$ of literals
+$p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n$
+has to be in the answer set for this literal to hold.
+Cardinality constraint can be also further unboudned on either one or both
+sides. Cardinality constraints
+could be encoded into ASP using oriented binary decision diagram.
+% TODO: Should there be further analysis of this?
+However, probably due to the complexity of this transformation size, gringo
+encodes this conditional literal as (possibly) multiple rules with weight
+bodies~\cite{aspEasy2016} (more about this transformation in ()%
+% TODO: insert section
+).
+
+% TODO: Would further extensions not be better just in Clingo section
+
+\subsection{Other extensions}
+
+There are many more possible extensions such as aggregates (e.g.\ min, max,
+count, sum, \dots) for ASP\@. Just like cardinality constraints, they are
+implemented implemented straight in the Clasp. 
+Ones I have used in implementation part of my
+thesis are further analysed in the next section.
 
 % - obecně o ASP
 % 	+ solver pro NP-úplné problémy
