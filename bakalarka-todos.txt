@@ -10,6 +10,36 @@ TODOs:
 
     po 13:30 konzultace
 
+    Zmínit rozdíl atom vs literál
+    Cn(Pi) - nenavazuje moc
+
+    Language extensions
+        nějaké příklady na co to používám
+    Constraints
+        možná scuknout s implementací?
+
+    BNNs
+        encoding one-hot vector
+            rozepsat co je ta transformace
+
+        více o notaci - co jsou jednotlivé množiny, \vec, 
+            buďto jako appendix nebo pokud menší tak shrnutí na začátku kapitoly
+        table 3.1 -> Table 3.1
+            možná se vyřeší samo
+        parametry - jsou vysvětlené v tabulce, ale přidat i do textu
+
+        transformace parametrů
+            I have transformed the parameters...
+            proč, jak, nějak rozepsat
+
+        Tabulka - orotovat o 90˚?
+
+        above integers -> on/with/?
+
+        nějak rozdělit část definice vs. moje tranformace a analýza
+            subsection / nějaké podbarvení?
+
+        Kód upravit tak aby šel stáhnout z Gitu a fungoval
 
 
 

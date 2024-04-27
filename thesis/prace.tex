@@ -24,6 +24,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
+\usepackage{listings}
 
 \input{header.tex}
 
@@ -153,9 +154,9 @@ In other words, the answer set is a model of $\Pi$ such that its every atom
 is grounded in $\Pi$.
 
 Let's illustrate this property on an example.
-\begin{equation*}
+\begin{equation}
     \Pi = \{\asprule{p}{p}, \asprule{q}{\aspnot p}\}
-\end{equation*}
+\end{equation}
 There are 4 subsets of set of all atoms. First the reduct relative to
 the subset is made, on it the calculation of constituting set is made.
 If $X = \mathrm{Cn}(\Pi^X)$, then $X$ is one of answer sets.
@@ -200,8 +201,9 @@ For this, many language extensions have been developed to shorten programs,
 simplifying both readability and computation of stable models.
 % TODO: Is this true? Do the frameworks use these?
 
-In the next part I will show definition of the extensions used
-in the implementation part of my thesis.
+In this section I will only show the constraint, as it can be very easily
+transformed into base ASP rule. I will describe more language extensions
+provided with Clingo framework I will describe in section (2.2).
 
 \subsubsection{Constraint}
 
@@ -233,12 +235,425 @@ of $r$ ($\exists x\in X.\, x\in \aspbody^-(r)$) and the rule $r$ is not in the
 reduct $\Pi^X$, or $X$ does not contain some positive literal of $r$, thus the
 rule $r$ is not applied. Either way, $f\notin X, f\notin \aspCn{\Pi^X}$.
 
+\section{Clingo framework}
+
+Clingo is an integrated ASP system, consisting of a grounder Gringo and solver
+Clasp~\cite{aspEasy2016}. In the following section I will show basics of the
+clingo language, gringo as translation from clingo to aspif language and
+solving with clasp.
+
+\subsection{Clingo language}
+Clingo language is used for transcribing ASP programs and their extended versions.
+There are 3 possible forms of rules as shown in the table bellow.
+{\setlength{\tabcolsep}{0.2em}%
+\begin{center}
+    \begin{tabular}{l @{\hskip 1em} L l L @{\hskip 1em} L}\toprule{}%
+        Type & \multicolumn{3}{l}{Form} & \mathrm{ASP\ rule}\\\midrule{}%
+        Fact & \asphead(r). & & & \asprule{\asphead(r)}{}\\
+        Rule & \asphead(r) &:- & \aspbody(r). & \asprule{\asphead(r)}{\aspbody(r)}\\
+        Constraint & &:- & \aspbody(r). & \asprule{\phantom{\asphead(r)}}{\aspbody(r)}\\
+        \bottomrule{}
+    \end{tabular}
+\end{center}}\noindent
+Semantically these rules mean to use head of rule if whole body is of rule
+is consistent with the answer set. Fact does has an empty body, thus its
+head is used always. No answer set is consistent with body of constraint.
+
+\subsubsection{Example}
+Program (2.6) can be rewritten into clingo language as following
+program.
+\lstclingo{example.lp}
+Each rule consists of head and body, separated by \texttt{:-} operator.
+Every atom starts with small letter of english alphabet.
+Every statements ends with a dot.
+
+Clingo language also allows for the use of variables and arithmetic expressions
+in the parameters of atoms. Variable always starts with a big letter of english
+alphabet. Take the following program as an example.
+% TODO: Maybe show it looks after substitution on the right?
+\lstclingo{example_variables.lp}
+This program contains four facts on line 1 and single substituable rule on line 2.
+As can be seen on line 1, multiple statements can share single line as long as
+they are all formed correctly. In the same manner, a statement can span over
+multiple lines.
+
+If the exact parameter is not needed, one can use a wildcard in the place of
+the parameter in the body of rule. The wildcard behaves as anonymous variable.
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+a(1..3, 0..1).
+b(X) :- a(X, _).
+\end{lstlisting}
+
+\subsubsection{Conditional literals}
+% TODO section
+
+\subsubsection{Intervals, pooling, wild cards}
+
+Another usefull constructs in clingo language are intervals and pooling.
+Consider the following example of intervals (programs are equivalent):
+
+\begin{minipage}[t]{0.45\linewidth}%
+\centering%
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+a(1..3, 0..1).
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=right, countblanklines=false]
+a(1, 0). a(2, 0). a(3, 0).
+a(1, 1). a(2, 1). a(3, 1).
+\end{lstlisting}
+\end{minipage}
+Each combination of intervals is evaluated as a single rule. The first
+parameter \texttt{1..3} gives 3 choices, the second \texttt{0..1} 2 choices,
+thus $6=3*2$ rules can be derived.
+
+For a more complex example consider the following program.
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+comp(X*Y) :- X = 2..20, Y = 2..20, X*Y <= 20.
+prime(X) :- not comp(X), X = 2..20.
+\end{lstlisting}
+This program calculates prime numbers. A number is composite if it can be
+written as a product of two numbers greater than 1. Else it is prime.
+
+Pooling is very similiar to intervals. It also allows for compact writing
+of rules. As intervals allows for writing sets of consecutive numbers,
+pooling allows for writing any set. Using pooling, previous example could
+be rewritten as following program.
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+a((1;2;3), (0;1)).
+\end{lstlisting}
+In this case, each pool must be enclosed in braces, else this program would
+be equivalent to:
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+a(1). a(2). a(3, 0). a(1).
+\end{lstlisting}
+
+Pooling can be also done on nonnumeric parameters.
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+a(foo; bar).
+\end{lstlisting}
+
+\subsection{Gringo}
+
+Gringo is a software that grounds program in clingo language into the format
+aspif that is readable in Clasp. Gringo first resolves every rule with variables
+into (possibly multiple) variable-free rules and then changes format of
+the program into Clasp-readable aspif. Gringo thus can introduce new atoms
+that were not obvious from the clingo program. Specification of aspif language
+is written in %[https://www.cs.uni-potsdam.de/wv/publications/DBLP_conf/iclp/GebserKKOSW16x.pdf].
+
+Aspif (ASP intermediate format) language consists of lines. First line of file
+is header of form 
+{%
+\newcommand{\ms}{\texttt{ }}
+\begin{center}
+    \texttt{asp}\ms$v_m$\ms$v_n$\ms$v_r$\ms$t_1$\ms\dots\ms$t_k$
+\end{center}
+}\noindent
+where $v_m$, $v_n$ and $v_r$ are versions of major, minor and revision numbers
+respectively and each $t_i$ is a tag. Then follow lines with statements
+translated from program. For this thesis only rule and show statements
+are relevant.
+Last line of aspif format file is a single 0.
+
+\subsubsection{Rule statement}
+
+Rule statement in Aspif has form of
+{%
+\newcommand{\ms}{\texttt{ }}
+\begin{center}
+    1\ms{}$H$\ms{}$B$
+\end{center}
+}\noindent
+in which head $H$ has form of
+{%
+\newcommand{\ms}{\texttt{ }}
+\begin{center}
+    \texttt{h}\ms\texttt{m}\ms$a_1$\ms\dots\ms$a_m$
+\end{center}
+}\noindent
+where $\texttt{h}\in\{0, 1\}$, $\texttt{m}\geq 0$,
+$\forall i\in\{1, \dots, m\}a_i\in\NN^+$. Parameter \texttt{h} determines
+wherther head of this rule is disjunction (0) or choice (1), \texttt{m}
+determines number of literals and $a_i$ are positive literals.
+Body $B$ is called normal if it has form of
+{%
+\newcommand{\ms}{\texttt{ }}
+\begin{center}
+    0\ms\texttt{n}\ms$l_1$\ms\dots\ms$l_n$
+\end{center}
+}\noindent
+in which case it is called normal body (literals are in conjunction).
+Parameter $\texttt{n}\geq 0$ determines
+the length of rule body and each $l_i$ is literal. If the literal is negative,
+inversed value of its index is used.
+
+The other type of body $B$ is called weight body. Its form is
+{%
+\newcommand{\ms}{\texttt{ }}
+\begin{center}
+    1\ms{}\texttt{l}\ms{}n\ms{}$l_1$\ms{}$w_1$\ms{}\dots\ms$l_n$\ms$w_n$
+\end{center}
+}\noindent
+Parameter $\texttt{l}\geq 0$ determines lower bound, \texttt{n}
+the length of rule body, each $l_i$ is literal and $w_i\geq 1$ its weight.
+If the literal is negative, inversed value of its index is used.
+
+\subsubsection{Show statement}
+
+Show statement is for specification of output, they result from \texttt{\#show}
+directive. Each show statement is of form
+{%
+\newcommand{\ms}{\texttt{ }}
+\begin{center}
+    4\ms{}m\ms{}s\ms{}n\ms{}$l_1$\ms{}\dots\ms$l_n$
+\end{center}
+}\noindent
+where \texttt{m} is length of string \texttt{s}, \texttt{s} is string
+with name, \texttt{n} is number length of condition and $l_i$ are literals.
+If no \texttt{\#show} directive is in clingo file, all atoms are to be shown.
+
+\subsubsection{Example}
+
+Let's illustrate the gringo parsing on some programs%
+\footnote{To prevent gringo from making optimalizations,I have run all examples
+in this section with option \texttt{{-}{-}preserve-facts=all}}%
+. First the program 
+$\Pi = \{\asprule{p}{\aspnot q}, \asprule{q}{\aspnot p}\}$%
+\footnote{In fact the aspif file generated by Gringo would have lines 2 and 3
+swapped. In this thesis I have made this swap to better illustrate
+the translation.}.
+
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+
+p :- not q.
+q :- not p.
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[numbers=right, countblanklines=false]
+asp 1 0 0
+1 0 1 2 0 1 -1
+1 0 1 1 0 1 -2
+4 1 q 1 1
+4 1 p 1 2
+0
+\end{lstlisting}
+\end{minipage}
+
+First line of aspif file is headder. Lines 1 and 2 of clingo file are
+equivalent to lines 2 and 3 of aspif file. There you can see transcription
+of negative literals \texttt{not q} and \texttt{not p} as -1 and -2
+respectively. Let's now decompose the line 2 of aspif program.
+\begin{equation*}
+    \begin{array}{r rrr rrr}
+        1 & 0 & 1 & 2 & 0 & 1 & -1\\
+        S & h & m & a_1 & f & n & l_1\\
+    \end{array}
+\end{equation*}
+Begining with $S=1$, this statement is a rule. Head of this rule is composed
+of $h=0$, head of this rule is disjunction. As $m=1$, if body is consistent
+with answer set, then the literal in the head has to be in the answer set.
+Finally, the literal on $a_1=2$ is alias for \texttt{p}.
+The body is then composed from $f=0$, the literals are in conjunction.
+Then $n=1$ means only one literal is in the body, that is $l_1=-1$, meaning
+negative literal with alias 1 (\texttt{not q}).
+
+Next, on lines 4 and 5, there are two statements for showing atoms.
+\begin{equation*}
+    \begin{array}{r rr rr}
+        4 & 1 & \texttt{q} & 1 & 1\\
+        S & m & s & n & l_1\\
+    \end{array}
+\end{equation*}
+First, is a show statement ($S=4$) for a single-lettered ($m=1$)
+atom \texttt{q}. It printed out if single ($n=1$) literal
+numbered $l_1=1$ is in the answer set. Similiarly, the single-lettered atom
+\texttt{p} is printed out if single literal numbered 2 is in the answer set.
+
+To illustrate the variable resolving, let me show you another clingo program
+beeing parsed by gringo.
+
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+
+a(1).
+a(2).
+a(3).
+b(2).
+b(X+3) :- a(X), b(X).
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[numbers=right, countblanklines=false]
+asp 1 0 0
+1 0 1 1 0 0
+1 0 1 2 0 0
+1 0 1 3 0 0
+1 0 1 4 0 0
+1 0 1 5 0 2 4 2
+4 4 b(2) 1 4
+4 4 b(5) 1 5
+4 4 a(1) 1 1
+4 4 a(2) 1 2
+4 4 a(3) 1 3
+0
+\end{lstlisting}
+\end{minipage}
+
+On lines 1--4 there are 4 facts \texttt{a(1)}, \texttt{a(2)}, \texttt{a(3)} and
+\texttt{b(2)}. Each of this fact instantiates
+a new atom with a single parameter. Then on line 5 is
+rule with variable $X$. To resolve this rule, gringo first looks through
+all known atoms of \texttt{a} and \texttt{b} and finds tuples that satisfy
+the positive literals of the body of the rule. There is only a single such
+instantiation, that is \texttt{a(2)} and \texttt{b(2)}. Thus new atom
+\texttt{b(5)} is added to known atoms. This resolution of parametric rules
+continues until there is no rule that could add any new atoms.
+
+Now, when we know all possibly needed atoms, clingo adds rules to the program.
+The 4 facts from lines 1--4 of clingo ended up as
+rules on lines 2--5 of aspif. As can be seen,
+each fact got rewritten as rule with no parameter, thus applying every time.
+Rule from line 5 of clingo got transcribed as a single rule on line 6 in aspif
+- there is only a single possible assignment of atoms that fit the rule.
+Literal 5, corresponding to atom \texttt{b(5)}, is in the answer set
+if both literals 4 and 2 corresponding to \texttt{b(2)} and \texttt{a(2)} resp.
+are in the answer set. This rule can not be applied on any other tuple of
+literal, thus the grounding of rules is over. Further in aspif file there are
+only show statements.
+
+It should be noted that the parameters of atoms are only used in the grounding
+process. After that, the atoms for the solver are only annonymous numbers.
+
+One problem gringo has is that it is prone to generating endless number
+of atoms. Take the following program as an example.
+
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+
+a(1).
+a(X+1) :- a(X).
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[numbers=right, countblanklines=false]
+asp 1 0 0
+1 0 1 1 0 0
+1 0 1 2 0 1 1
+1 0 1 3 0 1 2
+1 0 1 4 0 1 3
+1 0 1 5 0 1 4|\Suppressnumber|
+...|\Reactivatenumber|
+\end{lstlisting}
+\end{minipage}
+As can be seen, in this case searching for atoms ends up with new atoms
+endlessly emerging. When writing clingo programs, one has to be aware of this
+behaviour.
+
+Another possibly unexcpected behaviour is that gringo works only on 32 or
+64-bit integers. This is better shown on the following example.
+
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+
+a(1).
+a(2*X) :- a(X).
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[numbers=right, countblanklines=false]
+asp 1 0 0
+1 0 1 1 0 0
+1 0 1 2 0 1 1|\Suppressnumber|
+...|\setcounter{lstnumber}{33}\Reactivatenumber|
+1 0 1 33 0 1 32
+4 4 a(1) 1 1
+4 4 a(2) 1 2|\Suppressnumber|
+...|\setcounter{lstnumber}{63}\Reactivatenumber|
+4 12 a(536870912) 1 30
+4 13 a(1073741824) 1 31
+4 14 a(-2147483648) 1 32
+4 4 a(0) 1 33
+0
+\end{lstlisting}
+\end{minipage}
+As seen on lines 65--67, the parameter of \texttt{a} overflown to negative
+values and then to zero.
+
+\subsection{Extensions in Clingo language}
+
+Further I will show some of extensions of Clingo language usefull for
+the implementation part of this thesis.
+
+\subsubsection{Disjunctive logic programs}
+Disjunctive logic programs allow of use of disjunction in the fact or rule head.
+{\setlength{\tabcolsep}{0.2em}%
+\begin{center}
+    \begin{tabular}{l @{\hskip 1em} L l L}\toprule{}%
+        Type & \multicolumn{3}{l}{Form}\\\midrule{}%
+        Fact & A_0; \dots; A_m. & & \\
+        Rule & A_0; \dots; A_m &:- & L_0, \dots, L_n.\\
+        \bottomrule{}
+    \end{tabular}
+\end{center}}\noindent
+where $A_0; \dots; A_m$ are atoms forming rule head. Semantically the rule means
+if body holds, than at least one of $A_0, \dots, A_m$ holds. Additionaly, set
+of atoms devised by this rule has to be minimal.
+% TODO: wtf is minimality criterion? can it be written better?
+The disjunctive logic programs are not commonly used as they are making
+the computational complexity higher.
+% Is this really the case?
+
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+
+{q}.
+a; b; c :- q.
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[numbers=right, countblanklines=false]
+asp 1 0 0
+1 1 1 1 0 0
+1 0 3 2 3 4 0 1 1
+4 1 q 1 1
+4 1 a 1 2
+4 1 b 1 3
+4 1 c 1 4
+0
+\end{lstlisting}
+\end{minipage}
+Transcription from clingo to aspif is straightforward. Each disjunctive head
+is transcribed as a single disjunctive rule.
+
 \subsubsection{Cardinality constraints}
 
 \begin{equation*}
-    l\, \{p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n\} \,u
+    \texttt{l }\{p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n\}\texttt{ u}
 \end{equation*}
-
+\begin{equation*}
+    \texttt{l <= }\{p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n\}\texttt{ <= u}
+\end{equation*}
 Cardinality constraint is so called conditional literal. It's semantics is that
 at least $l$ and at most $u$ of literals
 $p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n$
@@ -249,27 +664,195 @@ could be encoded into ASP using oriented binary decision diagram.
 % TODO: Should there be further analysis of this?
 However, probably due to the complexity of this transformation size, gringo
 encodes this conditional literal as (possibly) multiple rules with weight
-bodies~\cite{aspEasy2016} (more about this transformation in ()%
-% TODO: insert section
-).
+bodies~\cite{aspEasy2016}.
 
-% TODO: Would further extensions not be better just in Clingo section
+The cardinality constraint can also be used without either one or both of
+$l$ or $u$. That way it is unbounded from bottom or top respectively. This
+is especially usefull for defining input space.
 
-\subsection{Other extensions}
+When transcripting from clingo language to aspif, each cardinality constraint
+rule translates to up to two weighted body rules and up two normal rules.
+When used in head, additional choice rule is used.
 
-There are many more possible extensions such as aggregates (e.g.\ min, max,
-count, sum, \dots) for ASP\@. Just like cardinality constraints, they are
-implemented implemented straight in the Clasp. 
-Ones I have used in implementation part of my
-thesis are further analysed in the next section.
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
 
-% - obecně o ASP
-% 	+ solver pro NP-úplné problémy
-% - Clingo
-% 	+ rozdělení celého frameworku
-% 	+ základy použití, kódování problému
+{a; b; c}.
+q :- 1 {a; b; c} 2.
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[numbers=right, countblanklines=false]
+asp 1 0 0
+1 1 3 1 2 3 0 0
+1 0 1 4 1 1 3 1 1 2 1 3 1
+1 0 1 5 1 3 3 1 1 2 1 3 1
+1 0 1 6 0 2 4 -5
+1 0 1 7 0 1 6
+4 1 a 1 1
+4 1 b 1 2
+4 1 c 1 3
+4 1 q 1 7
+0
+\end{lstlisting}
+\end{minipage}
+On line 1 in clingo and 2 in aspif, solver can choose any number of atoms
+\texttt{a}, \texttt{b}, \texttt{c}. Then rule on line 2 in clingo translates
+into lines 3--6 in aspif. Rules on lines 3, 4 create new literals 4, 5. These
+are set if lower bound is filled (sum is at least 1) or upper bound overshot
+(sum is more than 2, that is at least 3). Then on line 5
+a new literal 6 is set if 4 is set and 5 is not set. This corresponds
+to filling the lower bound and not overshooting upper bound simultaneously.
+Rule on line 6 is then used to set literal corresponding to \texttt{q}.
+In this case the rule is redundant, but generally this rule would implement
+the conjunction of body literals in the clingo rule.
+
+Use of the cardinality constraint in the head is very similiar.
+
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+
+{q}.
+1 {a; b; c} 2 :- q.
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[numbers=right, countblanklines=false]
+asp 1 0 0
+1 1 1 1 0 0
+1 0 1 2 0 1 1
+1 1 3 3 4 5 0 1 2
+1 0 1 6 1 1 3 3 1 4 1 5 1
+1 0 1 7 1 3 3 3 1 4 1 5 1
+1 0 1 8 0 2 6 -7
+1 0 0 0 2 2 -8
+4 1 q 1 1
+4 1 a 1 5
+4 1 b 1 4
+4 1 c 1 3
+0
+\end{lstlisting}
+\end{minipage}
+The main difference is in aspif file, line 8. Instead of positive building
+literals as in previous example on line 6, constraint is used. Thus either the
+rule is not used resulting in nonexistence of literal 2 or the literal 8
+is set, corresponding to the cardinality constraint holding.
+Another difference is on the line 4. In the example with cardinality constraint
+in the body, the choice rule was added by another statement, while here it is
+part of transcribtion of this rule.
+
+\begin{equation*}
+    \texttt{l} \diamond_1 \{p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n\} \diamond_2 \texttt{u}
+\end{equation*}
+Similiarly to usage of operator \texttt{<=} in the statement, operators
+\texttt{<}, \texttt{>=}, \texttt{>}, \texttt{=}, \texttt{!=} can be used in its
+place. In case of \texttt{=}, the formula is rewritten using two \texttt{<=}.
+The operator \texttt{!=} is evaluated two \texttt{<=} in disjunction.
+
+In the body of statement, the operator \texttt{=} can be also used to assign
+value to variable. In that case, for each possible value, a new literal is
+created which is in the answer set if the equality holds. Thus the following
+two clingo programs are parsed into the same aspif file.
+
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+{a; b}.
+q(X) :- X = {a; b}.
+\end{lstlisting}
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+{a; b}.
+q(2) :- 2 = {a; b}.
+q(1) :- 1 = {a; b}.
+q(0) :- 0 = {a; b}.
+\end{lstlisting}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{lstlisting}[numbers=right, countblanklines=false]
+asp 1 0 0
+1 1 2 1 2 0 0
+1 0 1 3 1 1 2 1 1 2 1
+1 0 1 4 0 1 -3
+1 0 1 5 1 1 2 1 1 2 1
+1 0 1 6 1 2 2 1 1 2 1
+1 0 1 7 0 2 5 -6
+1 0 1 8 0 1 7
+1 0 1 9 1 2 2 1 1 2 1
+1 0 1 10 0 1 9
+4 1 a 1 1
+4 1 b 1 2
+4 4 q(0) 1 4
+4 4 q(1) 1 8
+4 4 q(2) 1 10
+0
+\end{lstlisting}
+\end{minipage}
+
+It can be seen that the generated program is highly redundant. For instance
+pairs of literals \texttt{3} and \texttt{5}, \texttt{6} and \texttt{9},
+\texttt{7} and \texttt{8}, \texttt{9} and \texttt{10} are the same.
+This might be on purpose as it lowers the computational time of Clasp.
+I have measured the time to go through all solutions of both file generated by
+the gringo and equivalent file without redundancy. The files use modified
+program equivalent to the one above with 20 literals.
+The results are written in table below.
+
+{\setlength{\tabcolsep}{0.4em}%
+\begin{center}
+    \begin{tabular}{l @{\hskip 1em} r r}\toprule{}%
+        File               & Best of 3 & Average of 3 \\\midrule{}
+        With redundancy    & 0.933 s   & 0.970 s \\
+        Without redundancy & 3.278 s   & 3.287 s \\
+        \bottomrule{}
+    \end{tabular}
+\end{center}}\noindent
+
+% TODO: Is this section needed?
+% \subsubsection{Normal logic programs}
+% 
+% Each rule of normal logic program is represented as one of three possible forms:
+% {\setlength{\tabcolsep}{0.2em}%
+% \begin{center}
+%     \begin{tabular}{l @{\hskip 1em} L l L @{\hskip 1em} L}\toprule{}%
+%         Type & \multicolumn{3}{l}{Form} & \mathrm{ASP\ rule}\\\midrule{}%
+%         Fact & A_0. & & & \asprule{A_0}{}\\
+%         Rule & A_0 &:- & L_0, \dots, L_n. & \asprule{A_0}{L_0, \dots, L_n}\\
+%         Constraint & &:- & L_0, \dots, L_n. & \asprule{\phantom{A_0}}{L_0, \dots, L_n}\\
+%         \bottomrule{}
+%     \end{tabular}
+% \end{center}}\noindent
+% where atom $A_0$ is rule head and literals $L_0, \dots, L_n$ are rule body.
+% Semantics of these rules are the same as of corresponding ASP rules.
+% If all literals $L_0, \dots, L_n$ are consistent with the answer set,
+% then atom $A_0$ is in the answer set.
+
+\subsubsection{Aggregates}
+
+\begin{equation*}
+    \texttt{l} \diamond_1 \texttt{\#agg}\{p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n\} \diamond_2 \texttt{u}
+\end{equation*}
+Similiar to cardinality constraints are the aggregates. These work as functions
+applied on sets of tuples. Usable aggregate functions are \texttt{\#count},
+\texttt{\#sum}, \texttt{\#sum+}, \texttt{\#min} and \texttt{\#max}.
+As in cardinality constraints, both $\diamond_1, \diamond_2$ default to 
+\texttt{<=} if ommited.
+
+% TODO: examples
+
+\subsection{Clasp}
+
+% TODO: section
 
 \chapter{Můj přínos}
+% TODO: Rename section
 
 \section{Binary neural network}
 
@@ -493,6 +1076,8 @@ The quantitative analysis of said BNN is a problem to say how many inputs
 % 	+ je problém spíše s širokými/hlubokými sítěmi
 % - jak si vede vůči původnímu zdroji, dalším implementacím
 % - TODO: asi to vrazit na Metacentrum či tak něco? - můj ntb by pravděpodobně zkresloval výsledky
+
+% TODO: Nějaké readme jak to nastavit aby to fungovalo
 
 \chapter{Discussion}
 
