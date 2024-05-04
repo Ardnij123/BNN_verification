@@ -40,7 +40,7 @@
 \newcommand{\lstclingo}[1]{\lstinputlisting[language=prolog]{programs/#1}}
 
 \lstset{numbers=left,numberblanklines=false,escapeinside=||}
-\let\origthelstnumber\thelstnumber
+\let\origthelstnumber\thelstnumber{}
 
 \makeatletter
 \lst@Key{countblanklines}{true}[t]%
@@ -66,4 +66,7 @@
    \advance\c@lstnumber\@ne\relax}%
 }
 \makeatother
+
+% Writting rules
+\newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}
 
