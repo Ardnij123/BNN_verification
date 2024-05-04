@@ -1,3 +1,6 @@
+% THIS ASP PROGRAM USES COUNT TO MAX AGGREGATES
+% FOR GETTING THE OUTPUT OF NETWORK
+
 % Layer sizes
 % layer=0 - input layer
 % layer(layer, size)
@@ -24,8 +27,8 @@ output_layer(L) :- L = #max{ X : layer(X, _) }, layer(L, _).
 
 % hidden layers
 on(L, N) :-
-    #sum{ W,I : on(L-1, I), weight(L-1, I, N, W) } >= B,
-    bias(L-1, N, B), not output_layer(L).
+    #sum{ W,I : on(L-1, I), weight(L, I, N, W) } >= B,
+    bias(L, N, B), not output_layer(L).
 
 %* Equivalent to (slower)
 on(L, N) :-
@@ -43,8 +46,8 @@ on(L, N) :-
 % Sum of weights and bias
 % outnode(node, sum)
 outnode(N, S + B) :-
-    S = #sum{ W,I : on(L-1, I), weight(L-1, I, N, W) },
-    output_layer(L), bias(L-1, N, B).
+    S = #sum{ W,I : on(L-1, I), weight(L, I, N, W) },
+    output_layer(L), bias(L, N, B).
 
 %* Equivalent to (same speed; slower)
 outnode(N, S) :-
@@ -93,12 +96,12 @@ output(Node) :-
 % Show only inputs with output nonequal to that of input vector
 inputOn(0, N) :- input(N, 1).
 inputOn(L, N) :-
-    #sum{ W,I : inputOn(L-1, I), weight(L-1, I, N, W) } >= B,
-    bias(L-1, N, B), not output_layer(L).
+    #sum{ W,I : inputOn(L-1, I), weight(L, I, N, W) } >= B,
+    bias(L, N, B), not output_layer(L).
 
 inputOutnode(N, S) :-
-    S = #sum{ W,I : inputOn(L-1, I), weight(L-1, I, N, W); B,-1 },
-    output_layer(L), bias(L-1, N, B).
+    S = #sum{ W,I : inputOn(L-1, I), weight(L, I, N, W); B,-1 },
+    output_layer(L), bias(L, N, B).
 
 inputOutput(Node) :-
     (Sum, Order, -Node) = #max{ (S, O, -N) : inputOutnode(N, S), outpre(N, O) }.

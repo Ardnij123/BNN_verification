@@ -83,8 +83,6 @@ class InterBlk(Block):
 
 
 class OutputBlk(Block):
-    bias: array_real
-    weight: array_bin
 
     def __init__(self, folder: str):
         self.bias = getarray(folder+"lin_bias.csv", trans=True)
@@ -115,12 +113,12 @@ class NeuralNetw:
     def weights(self):
         for layer, net in enumerate(self.network + [self.output]):
             for weight in net.weights():
-                yield (layer,) + weight
+                yield (layer+1,) + weight
 
     def biases(self):
         for layer, net in enumerate(self.network + [self.output]):
             for bias in net.biases():
-                yield (layer,) + bias
+                yield (layer+1,) + bias
 
     def args(self):
         for order, node in enumerate(self.output.args()):
@@ -133,9 +131,10 @@ class Constraint:
     def inpbits_gen(self):
         for idx, inpbit in enumerate(self.inpbits):
             if inpbit >= 0.5:
-                yield f"input({idx}, 1)."
+                yield f"input({idx})."
             else:
-                yield f"input({idx}, -1)."
+                continue
+                # yield f"input({idx}, -1)."
 
     def get(self) -> str:
         pass
@@ -160,10 +159,11 @@ class Inpbits(Constraint):
 
     def fixed_gen(self):
         for fix in self.fixed_idx:
-            if self.inpbits[fix] >= 0.5:
-                yield f"inputOn({fix})."
-            else:
-                yield f"inputOff({fix})."
+            yield f"inpfix({fix})."
+            # if self.inpbits[fix] >= 0.5:
+            #     yield f"inputOn({fix})."
+            # else:
+            #     yield f"inputOff({fix})."
 
     def get(self):
         return '\n'.join(self.inpbits_gen()) + '\n' \
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     netw = NeuralNetw(folder)
 
     with open("model.lp", 'w') as model:
-        model.write('#include "agg.lp".\n')
+        model.write('#include "agg_2.lp".\n')
 
         for layer in netw.layers():
             model.write(f"layer{layer}.\n")

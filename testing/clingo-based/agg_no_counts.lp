@@ -1,10 +1,13 @@
+% THIS PROGRAM USES COUNT TO MAX AGGREGATE
+% ONLY WHEN COMPUTING OUTPUT OF THE BASE INPUT VECTOR
+
 % Layer sizes
 % layer=0 - input layer
 % layer(layer, size)
 
 % Which layer is for output
 % output_layer(layer)
-output_layer(L) :- L = #max{ X : layer(X, _) }, layer(L, _).
+output_layer(L) :- L = #max{ X : layer(X, _) }.
 
 % Weights
 % weight(from_layer, from_node, to_node, weight)
@@ -63,25 +66,23 @@ outnode(N, B + Pos - Neg) :-
 
 % the sum of another is higher
 :- output(N), O = 1..M-1, output_layer(L), layer(L, M), O != N,
-    #sum{ W, I, N : on(L-1, I), weight(L-1, I, N, W);
-         -W, I, O : on(L-1, I), weight(L-1, I, O, W);
-          BN, -1; -BO, -2} < 0,
+    #sum{ W, I, this  : on(L-1, I), weight(L-1, I, N, W);
+         -W, I, other : on(L-1, I), weight(L-1, I, O, W) } < BO - BN,
     bias(L-1, N, BN), bias(L-1, O, BO).
 % the sum of another is same and order is higher
 :- output(N), O = 1..M-1, output_layer(L), layer(L, M), O != N,
-    #sum{ W, I, N : on(L-1, I), weight(L-1, I, N, W);
-         -W, I, O : on(L-1, I), weight(L-1, I, O, W);
-          BN, -1; -BO, -2} = 0,
+    #sum{ W, I, this  : on(L-1, I), weight(L-1, I, N, W);
+         -W, I, other : on(L-1, I), weight(L-1, I, O, W) } = BO - BN,
     bias(L-1, N, BN), bias(L-1, O, BO),
     outpre(N, PN), outpre(O, PO), PO > PN.
-% sum and order of another is the same and node.no is lower
-:- output(N), O = 1..M-1, output_layer(L), layer(L, M), O != N,
-    #sum{ W, I, N : on(L-1, I), weight(L-1, I, N, W);
-         -W, I, O : on(L-1, I), weight(L-1, I, O, W);
-          BN, -1; -BO, -2} = 0,
-    bias(L-1, N, BN), bias(L-1, O, BO),
-    outpre(N, PN), outpre(O, PO), PO = PN,
-    N > O.
+% % sum and order of another is the same and node.no is lower
+% :- output(N), O = 1..M-1, output_layer(L), layer(L, M), O != N,
+%     #sum{ W, I, N : on(L, I), weight(L, I, N, W);
+%          -W, I, O : on(L, I), weight(L, I, O, W);
+%           BN, -1; -BO, -2} = 0,
+%     bias(L, N, BN), bias(L, O, BO),
+%     outpre(N, PN), outpre(O, PO), PO = PN,
+%     N > O.
 
 % output(Node) :-
 %     (Sum, Order, -Node) = #max{ (S, O, -N) : outnode(N, S), outpre(N, O) }.
@@ -120,8 +121,8 @@ inputOn(L, N) :-
     #sum{ W,I : inputOn(L-1, I), weight(L-1, I, N, W) } >= B,
     bias(L-1, N, B), not output_layer(L).
 
-inputOutnode(N, S) :-
-    S = #sum{ W,I : inputOn(L-1, I), weight(L-1, I, N, W); B,-1 },
+inputOutnode(N, S + B) :-
+    S = #sum{ W,I : inputOn(L-1, I), weight(L-1, I, N, W) },
     output_layer(L), bias(L-1, N, B).
 
 inputOutput(Node) :-
