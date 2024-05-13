@@ -998,13 +998,13 @@ I have transformed the parameters to lower their count and make them integer onl
     t_i(\vec x) = (t_i^{bin} \circ t_i^{bn} \circ t_i^{lin})(\vec x) = y
 \end{equation*}
 \begin{equation*}
-    y_j = \sign_{\pm 1}\left( \alpha_j \cdot \frac{\langle \vec x, \mat W_{:, j}\rangle + b_j - \vec \mu_j}{\vec \sigma_j} - \vec \gamma_j \right)
+    y_j = \sign_{\pm 1}\left( \alpha_j \cdot \frac{\langle \vec x, \mat W_{:, j}\rangle + b_j - \vec \mu_j}{\vec \sigma_j} + \vec \gamma_j \right)
 \end{equation*}
 
 The argument of $\sign_{\pm 1}$ can be further analysed.
 
 \begin{equation*}
-    \vec \alpha_j \cdot \frac{\langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j}{\vec \sigma_j} - \vec \gamma_j \geq 0
+    \vec \alpha_j \cdot \frac{\langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j}{\vec \sigma_j} + \vec \gamma_j \geq 0
 \end{equation*}
 
 There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
@@ -1012,9 +1012,9 @@ There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
 \begin{equation*}
     \begin{matrix}
         \frac{\vec\alpha_j}{\vec\sigma_j} \geq 0: \\
-        \langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j - \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \geq 0\\
+        \langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j + \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \geq 0\\
         \mat W'_{:, j} = \mat W_{:, j}, \,
-        \vec b'_j = \vec b_j - \vec\mu_j - \frac{\vec\sigma_j}{\vec\alpha_j}\cdot \vec\gamma_j\\
+        \vec b'_j = \vec b_j - \vec\mu_j + \frac{\vec\sigma_j}{\vec\alpha_j}\cdot \vec\gamma_j\\
         \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
     \end{matrix}
 \end{equation*}
@@ -1022,10 +1022,10 @@ There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
 \begin{equation*}
     \begin{matrix}
         \frac{\vec\alpha_j}{\vec\sigma_j} \leq 0: \\
-        \langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j - \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \leq 0 \\
-        \langle \vec x, -\mat W_{:, j}\rangle - \vec b_j + \vec \mu_j + \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \geq 0\\
+        \langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j + \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \leq 0 \\
+        \langle \vec x, -\mat W_{:, j}\rangle - \vec b_j + \vec \mu_j - \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \geq 0\\
         \mat W'_{:, j} = -\mat W_{:, j}, \,
-        \vec b'_j = -\vec b_j + \vec\mu_j + \frac{\vec\sigma_j}{\vec\alpha_j}\cdot \vec\gamma_j\\
+        \vec b'_j = -\vec b_j + \vec\mu_j - \frac{\vec\sigma_j}{\vec\alpha_j}\cdot \vec\gamma_j\\
         \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
     \end{matrix}
 \end{equation*}
@@ -1033,9 +1033,9 @@ There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
 \begin{equation*}
     \begin{matrix}
         \vec\alpha_j = 0: \\
-        - \vec\gamma_j \geq 0\\
+        \vec\gamma_j \geq 0\\
         \mat W'_{:, j} = \vec 0, \,
-        \vec b'_j = - \vec\gamma_j\\
+        \vec b'_j = \vec\gamma_j\\
         \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
     \end{matrix}
 \end{equation*}

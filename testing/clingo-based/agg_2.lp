@@ -66,12 +66,12 @@ outnode(N, B + Pos - Neg) :-
 1 {output(0..N-1)} 1 :- layer(L, N), output_layer(L).
 
 % the sum of another is higher
-:- output(N), O = 1..M-1, output_layer(L), layer(L, M), O != N,
+:- output(N), O = 0..M-1, output_layer(L), layer(L, M), O != N,
     #sum{ W, I, this  : on(L-1, I), weight(L, I, N, W);
          -W, I, other : on(L-1, I), weight(L, I, O, W) } < BO - BN,
     bias(L, N, BN), bias(L, O, BO).
 % the sum of another is same and order is higher
-:- output(N), O = 1..M-1, output_layer(L), layer(L, M), O != N,
+:- output(N), O = 0..M-1, output_layer(L), layer(L, M), O != N,
     #sum{ W, I, this  : on(L-1, I), weight(L, I, N, W);
          -W, I, other : on(L-1, I), weight(L, I, O, W) } = BO - BN,
     bias(L, N, BN), bias(L, O, BO),
@@ -130,15 +130,19 @@ inputOn(L, N) :-
 1 {inputOutput(0..N-1)} 1 :- layer(L, N), output_layer(L).
 
 % the sum of another is higher
-:- inputOutput(N), O = 1..M-1, output_layer(L), layer(L, M), O != N,
+:- inputOutput(N), O = 0..M-1, output_layer(L), layer(L, M), O != N,
     #sum{ W, I, this  : inputOn(L-1, I), weight(L, I, N, W);
          -W, I, other : inputOn(L-1, I), weight(L, I, O, W) } < BO - BN,
     bias(L, N, BN), bias(L, O, BO).
 % the sum of another is same and order is higher
-:- inputOutput(N), O = 1..M-1, output_layer(L), layer(L, M), O != N,
+:- inputOutput(N), O = 0..M-1, output_layer(L), layer(L, M), O != N,
     #sum{ W, I, this  : inputOn(L-1, I), weight(L, I, N, W);
          -W, I, other : inputOn(L-1, I), weight(L, I, O, W) } = BO - BN,
     bias(L, N, BN), bias(L, O, BO),
     outpre(N, PN), outpre(O, PO), PO > PN.
+#show inputOutput/1.
+#show on/2.
+#show inputOn/2.
 
 :- output(Node), inputOutput(Node).
+% :- output(8).

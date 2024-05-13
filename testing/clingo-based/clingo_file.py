@@ -69,14 +69,14 @@ class InterBlk(Block):
 
         # TODO: will this break if bn_stddev=0?
         divided = np.divide(bn_weight, bn_stddev)
-        sgn = -1 * np.signbit(divided) + 1 * np.signbit(-divided)
+        sgn = -1 * (divided < 0) + 1 * (divided > 0)
 
         # add to divided where is equal to zero
         # to be able to divide by it
         divided += np.multiply(divided == 0, np.ones(divided.shape))
 
         self.bias = (1/2) * sgn * \
-            (sum_axis + bn_mean - lin_bias - np.divide(bn_bias, divided)) \
+            (sum_axis + bn_mean - lin_bias + np.divide(bn_bias, divided)) \
             + const
 
         self.weight = np.dot(np.diag(sgn.flatten()), lin_weight)
@@ -171,7 +171,7 @@ class Inpbits(Constraint):
 
 
 if __name__ == "__main__":
-    folder = "models/mnist_bnn_2_blk_16_25_20_10/"
+    folder = "models/mnist_bnn_2_blk_100_50_20_10/"
     netw = NeuralNetw(folder)
 
     with open("model.lp", 'w') as model:
@@ -189,8 +189,48 @@ if __name__ == "__main__":
         for outpre in netw.args():
             model.write(f"outpre{outpre}.\n")
 
+        model.write(Hamming([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 1, 1, 1, 0, 0, 0,
+            0, 0, 0, 1, 1, 0, 1, 1, 0, 0,
+            0, 0, 1, 1, 0, 1, 1, 1, 0, 0,
+            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
+            0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
+            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+            ], 3).get())
+        """
+        model.write(Hamming([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1, 1, 0, 0, 0,
+            0, 0, 0, 1, 1, 1, 1, 0, 0, 0,
+            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
+            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
+            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
+            0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
+            0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
+            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ], 0).get())
+        """
+        """
+        model.write(Hamming([
+            0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 1, 0, 1, 1, 1, 0, 0,
+            0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+            0, 0, 1, 1, 1, 0, 0, 0, 1, 0,
+            0, 0, 1, 1, 0, 0, 0, 0, 1, 0,
+            0, 0, 1, 1, 0, 0, 1, 1, 1, 0,
+            0, 0, 0, 0, 0, 1, 1, 1, 1, 0,
+            0, 0, 0, 0, 1, 1, 1, 1, 0, 0,
+            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ], 4).get())
+        """
         # model.write(Hamming([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], 12).get())
-        model.write(Inpbits([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], range(8)).get())
+        # model.write(Inpbits([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], range(8)).get())
 
         # Target: solution with 5 as output
         # model.write(":- not output(5).")

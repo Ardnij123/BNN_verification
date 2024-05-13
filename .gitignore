@@ -27,3 +27,10 @@ testing/python-based/__pycache__
 **.blg
 **.run.xml
 testing/clingo-based/temp
+approxmc
+arjun
+cadiback
+cadical
+cryptominisat
+mpfr-4.2.1
+sbva
