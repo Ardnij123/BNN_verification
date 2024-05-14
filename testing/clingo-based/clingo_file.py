@@ -3,6 +3,7 @@ import glob
 from typing import List, Generator, Tuple
 from math import ceil
 import os
+from collections.abc import Iterable
 
 
 CLINGO_PATH = "clingo"
@@ -16,8 +17,9 @@ array_int = np.ndarray
 
 # Creation of arrays from file
 
-def getarray(f: str, dtype=None, shape=None, trans=False) -> np.ndarray:
-    arr = np.genfromtxt(f, delimiter=',', dtype=dtype)
+def getarray(f: str, dtype=None, shape=None, trans=False,
+             delimiter=',') -> np.ndarray:
+    arr = np.genfromtxt(f, delimiter=delimiter, dtype=dtype)
     if len(arr.shape) == 1:
         arr = np.reshape(arr, [1, len(arr)])
     if shape is not None:
@@ -126,7 +128,7 @@ class NeuralNetw:
 
 
 class Constraint:
-    inpbits: List[int]
+    inpbits: Iterable[int]
 
     def inpbits_gen(self):
         for idx, inpbit in enumerate(self.inpbits):
@@ -141,7 +143,7 @@ class Constraint:
 
 
 class Hamming(Constraint):
-    def __init__(self, inpbits: List[int], maxdist: int):
+    def __init__(self, inpbits: Iterable[int], maxdist: int):
         self.inpbits = inpbits
         self.hamdist = maxdist
 
@@ -153,7 +155,7 @@ class Hamming(Constraint):
 
 
 class Inpbits(Constraint):
-    def __init__(self, inpbits: List[int], fixed_idx: List[int]):
+    def __init__(self, inpbits: Iterable[int], fixed_idx: Iterable[int]):
         self.inpbits = inpbits
         self.fixed_idx = fixed_idx
 
