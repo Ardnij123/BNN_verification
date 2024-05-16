@@ -22,7 +22,7 @@ solutions = 0
 parser = argparse.ArgumentParser()
 parser.add_argument(
         "-m", "--model", action="store", default=BNN_dir,
-        help='directory of the BNN model'
+        help='Directory of the BNN model'
         )
 parser.add_argument(
         "-s", "--solver", action="store", default=solver,
@@ -30,36 +30,40 @@ parser.add_argument(
         )
 parser.add_argument(
         "-i", "--input", action="store", default=input_vector_file,
-        help='input vector used for constraining'
+        help='Input vector used for constraining'
         )
 parser.add_argument(
         "-c", "--constraint", action="store", default=constraint,
-        help='type of constraint', choices=['hamming', 'inpbits']
+        help='Type of constraint', choices=['hamming', 'inpbits']
         )
 parser.add_argument(
         "-d", "--hamm-dist", action="store", default=hamming_dist,
-        help='hamming distance from input vector'
+        help='Hamming distance from input vector'
         )
 parser.add_argument(
         "-f", "--inpbits-fixed", action="store", default=inpbits_fixed,
-        help='file with fixed input bits'
+        help='File with fixed input bits'
         )
 
 parser.add_argument(
         "-x", "--intermediate", action="store", default=intermediate,
-        help='where to store intermediate ASP file'
+        help='Where to store intermediate ASP file'
         )
 parser.add_argument(
         "-p", "--print-solutions", action="store_true",
-        help='print solutions'
+        help='Print solutions'
         )
 parser.add_argument(
         "-S", "--solutions", action="store", default=solutions,
-        help="how many solutions to find, 0 for all solutions", type=int
+        help="How many solutions to find, 0 for all solutions", type=int
         )
 parser.add_argument(
         "-C", "--clingo", action="store", default="clingo",
-        help="path to Clingo binary"
+        help="Path to Clingo binary"
+        )
+parser.add_argument(
+        "-T", "--time-limit", action="store", default=0, type=int,
+        help="Time limit for solving"
         )
 
 args = parser.parse_args()
@@ -94,5 +98,6 @@ arguments.extend(["-n", str(args.solutions)])
 if not args.print_solutions:
     arguments.extend(["-q"])
 arguments.extend([args.intermediate])
+arguments.extend(["--time-limit", str(args.time_limit)])
 
 os.execlp(*arguments)
