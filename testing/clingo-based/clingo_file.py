@@ -1,7 +1,7 @@
 import numpy as np
 import glob
 from typing import List, Generator, Tuple
-from math import ceil
+from math import ceil, floor
 import os
 from collections.abc import Iterable
 
@@ -48,15 +48,16 @@ class Block:
 
     def biases(self) -> Generator[Tuple[int, int], None, None]:
         for node, bias in enumerate(self.bias):
-            yield (node, ceil(bias[0]))
+            yield (node, floor(bias[0]))
 
 
 class InterBlk(Block):
 
     def __init__(self, folder: str):
+        self.folder = folder
         bn_bias = getarray(folder+"bn_bias.csv", trans=True)
         bn_mean = getarray(folder+"bn_mean.csv", trans=True)
-        bn_stddev = getarray(folder+"bn_var.csv", trans=True)
+        bn_stddev = np.sqrt(getarray(folder+"bn_var.csv", trans=True))
         bn_weight = getarray(folder+"bn_weight.csv", trans=True)
         lin_bias = getarray(folder+"lin_bias.csv", trans=True)
         lin_weight = getarray(folder+"lin_weight.csv", dtype=np.int8)
@@ -64,7 +65,7 @@ class InterBlk(Block):
         # const nodes
         const = np.multiply(
                 (bn_weight == 0),
-                (len(bn_weight) + 1) * (2*(bn_bias >= 0)-1)
+                bn_bias
                 )
 
         sum_axis = np.sum(lin_weight, axis=1, keepdims=True)
@@ -78,15 +79,34 @@ class InterBlk(Block):
         divided += np.multiply(divided == 0, np.ones(divided.shape))
 
         self.bias = (1/2) * sgn * \
-            (sum_axis + bn_mean - lin_bias + np.divide(bn_bias, divided)) \
+            (- sum_axis - bn_mean + lin_bias + np.divide(bn_bias, divided)) \
             + const
 
         self.weight = np.dot(np.diag(sgn.flatten()), lin_weight)
+
+    def comp(self, vector: array_bin):
+        bn_bias = getarray(self.folder+"bn_bias.csv", trans=True)
+        bn_mean = getarray(self.folder+"bn_mean.csv", trans=True)
+        bn_stddev = np.sqrt(getarray(self.folder+"bn_var.csv", trans=True))
+        bn_weight = getarray(self.folder+"bn_weight.csv", trans=True)
+        lin_bias = getarray(self.folder+"lin_bias.csv", trans=True)
+        lin_weight = getarray(self.folder+"lin_weight.csv", dtype=np.int8)
+
+        real = ((bn_weight / bn_stddev)
+                * (np.dot(lin_weight, 2*vector-1) + lin_bias - bn_mean)
+                + bn_bias) >= 0
+        bnn = (np.dot(self.weight, vector) + self.bias) >= 0
+        if (real != bnn).any():
+            print(self.folder)
+            print(real.flatten())
+            print(bnn.flatten())
+        return (np.dot(self.weight, vector) + self.bias) >= 0
 
 
 class OutputBlk(Block):
 
     def __init__(self, folder: str):
+        self.folder = folder
         self.bias = getarray(folder+"lin_bias.csv", trans=True)
         self.weight = getarray(folder+"lin_weight.csv", dtype=np.int8)
         self.bias -= np.sum(self.weight, axis=1, keepdims=True)
@@ -97,6 +117,15 @@ class OutputBlk(Block):
         ord_nodes = np.argsort(bs, kind='stable')
         # ord_nodes is sorted from the small to big precedence
         yield from ord_nodes
+
+    def comp(self, vector: array_bin):
+        bias = getarray(self.folder+"lin_bias.csv", trans=True)
+        weight = getarray(self.folder+"lin_weight.csv", dtype=np.int8)
+        real = np.argmax(np.dot(weight, 2*vector-1) + bias)
+        bnn = np.argmax(np.dot(self.weight, vector) + self.bias)
+        if real != bnn:
+            print(self.folder, real, bnn)
+        return bnn
 
 
 class NeuralNetw:
@@ -125,6 +154,11 @@ class NeuralNetw:
     def args(self):
         for order, node in enumerate(self.output.args()):
             yield (node, order)
+
+    def comp(self, vector: array_bin):
+        for block in self.network:
+            vector = block.comp(vector)
+        return self.output.comp(vector)
 
 
 class Constraint:
@@ -162,10 +196,6 @@ class Inpbits(Constraint):
     def fixed_gen(self):
         for fix in self.fixed_idx:
             yield f"inpfix({fix})."
-            # if self.inpbits[fix] >= 0.5:
-            #     yield f"inputOn({fix})."
-            # else:
-            #     yield f"inputOff({fix})."
 
     def get(self):
         return '\n'.join(self.inpbits_gen()) + '\n' \
@@ -175,6 +205,10 @@ class Inpbits(Constraint):
 if __name__ == "__main__":
     folder = "models/mnist_bnn_2_blk_100_50_20_10/"
     netw = NeuralNetw(folder)
+
+    vector = getarray("inputs/instance_0_100.txt",
+                      delimiter=' ', shape=[-1, 1])
+    print(f"Desired output: {netw.comp(vector)}")
 
     with open("model.lp", 'w') as model:
         model.write('#include "agg_2.lp".\n')
@@ -191,6 +225,22 @@ if __name__ == "__main__":
         for outpre in netw.args():
             model.write(f"outpre{outpre}.\n")
 
+        model.write(Hamming(vector, 3).get())
+        """
+        model.write(Hamming([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
+            0, 0, 0, 1, 1, 1, 1, 0, 0, 0,
+            0, 0, 0, 1, 0, 0, 1, 1, 0, 0,
+            0, 0, 0, 1, 0, 0, 1, 1, 0, 0,
+            0, 0, 0, 1, 0, 0, 1, 1, 0, 0,
+            0, 0, 0, 1, 1, 0, 1, 1, 0, 0,
+            0, 0, 0, 1, 1, 1, 1, 1, 0, 0,
+            0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ], 2).get())
+        """
+        """
         model.write(Hamming([
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -202,7 +252,8 @@ if __name__ == "__main__":
             0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
             0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
             0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-            ], 3).get())
+            ], 2).get())
+        """
         """
         model.write(Hamming([
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -215,7 +266,7 @@ if __name__ == "__main__":
             0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
             0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            ], 0).get())
+            ], 2).get())
         """
         """
         model.write(Hamming([
@@ -229,7 +280,7 @@ if __name__ == "__main__":
             0, 0, 0, 0, 1, 1, 1, 1, 0, 0,
             0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            ], 4).get())
+            ], 2).get())
         """
         # model.write(Hamming([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], 12).get())
         # model.write(Inpbits([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], range(8)).get())
@@ -238,6 +289,7 @@ if __name__ == "__main__":
         # model.write(":- not output(5).")
 
     # show number of solutions
-    os.execlp(CLINGO_PATH, "-n", "0", "-q", "model.lp")
+    os.execlp(CLINGO_PATH, "-n", "0", "-t", "4", "model.lp")
+    #os.execlp(CLINGO_PATH, "-n", "0", "-q", "-t", "4", "model.lp")
     # show one solution with parameters
     os.execlp(CLINGO_PATH, "-n", "1", "model.lp")

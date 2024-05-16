@@ -28,7 +28,7 @@ output_layer(L) :- L = #max{ X : layer(X, _) }.
 
 % hidden layers
 on(L, N) :-
-    #sum{ W,I : on(L-1, I), weight(L, I, N, W) } >= B,
+    #sum{ W,I : on(L-1, I), weight(L, I, N, W) } >= -B,
     bias(L, N, B), not output_layer(L).
 
 %* Equivalent to (slower)
@@ -119,10 +119,9 @@ outnode(N, B + Pos - Neg) :-
     hamdist(H).
 
 % Show only inputs with output nonequal to that of input vector
-% TODO: Use the new implementation
 inputOn(0, N) :- input(N).
 inputOn(L, N) :-
-    #sum{ W,I : inputOn(L-1, I), weight(L, I, N, W) } >= B,
+    #sum{ W,I : inputOn(L-1, I), weight(L, I, N, W) } >= -B,
     bias(L, N, B), not output_layer(L).
 
 % Output
@@ -141,8 +140,7 @@ inputOn(L, N) :-
     bias(L, N, BN), bias(L, O, BO),
     outpre(N, PN), outpre(O, PO), PO > PN.
 #show inputOutput/1.
-#show on/2.
-#show inputOn/2.
+% #show on/2.
+% #show inputOn/2.
 
 :- output(Node), inputOutput(Node).
-% :- output(8).

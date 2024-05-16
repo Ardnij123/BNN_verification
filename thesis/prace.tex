@@ -1011,7 +1011,7 @@ There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
 
 \begin{equation*}
     \begin{matrix}
-        \frac{\vec\alpha_j}{\vec\sigma_j} \geq 0: \\
+        \frac{\vec\alpha_j}{\vec\sigma_j} > 0: \\
         \langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j + \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \geq 0\\
         \mat W'_{:, j} = \mat W_{:, j}, \,
         \vec b'_j = \vec b_j - \vec\mu_j + \frac{\vec\sigma_j}{\vec\alpha_j}\cdot \vec\gamma_j\\
@@ -1021,7 +1021,7 @@ There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
 
 \begin{equation*}
     \begin{matrix}
-        \frac{\vec\alpha_j}{\vec\sigma_j} \leq 0: \\
+        \frac{\vec\alpha_j}{\vec\sigma_j} < 0: \\
         \langle \vec x, \mat W_{:, j}\rangle + \vec b_j - \vec \mu_j + \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \leq 0 \\
         \langle \vec x, -\mat W_{:, j}\rangle - \vec b_j + \vec \mu_j - \frac{\vec \sigma_j}{\vec\alpha_j}\cdot \vec \gamma_j \geq 0\\
         \mat W'_{:, j} = -\mat W_{:, j}, \,
@@ -1051,7 +1051,7 @@ parameter or by modifying the BNN structure to remove the constant node.
 \begin{equation*}
     \vec \alpha_j = 0:\, W'_{:,j} = W_{:,j},\, \vec b'_j = \left\{
         \begin{matrix}
-            \langle\vec 1, \vec 1\rangle + 1 & \mathrm{if}\,-\vec\gamma_j \geq 0;\\
+            \langle\vec 1, \vec 1\rangle + 1 & \mathrm{if}\, \vec\gamma_j \geq 0;\\
             -\langle\vec 1, \vec 1\rangle - 1 & \mathrm{otherwise}
         \end{matrix}
     \right.
