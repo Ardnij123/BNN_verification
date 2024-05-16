@@ -1,3 +1,5 @@
+#!/bin/python
+
 from clingo_file import NeuralNetw, Hamming, Inpbits, getarray
 import os
 import argparse
