@@ -65,6 +65,10 @@ parser.add_argument(
         "-T", "--time-limit", action="store", default=0, type=int,
         help="Time limit for solving"
         )
+parser.add_argument(
+        "-t", "--parallel-mode", action="store", default=1, type=int,
+        help="Number of threads to use in search"
+        )
 
 args = parser.parse_args()
 
@@ -99,5 +103,6 @@ if not args.print_solutions:
     arguments.extend(["-q"])
 arguments.extend([args.intermediate])
 arguments.extend(["--time-limit", str(args.time_limit)])
+arguments.extend(["--parallel-mode", str(args.parallel_mode)])
 
 os.execlp(*arguments)
