@@ -4,6 +4,11 @@ from clingo_file import NeuralNetw, Hamming, Inpbits, getarray
 import os
 import argparse
 
+# testing
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print(f"File path: {dir_path}")
+print(f"Curr working dir: {os.getcwd()}")
+
 # Default values
 
 # input params
