@@ -85,21 +85,6 @@ class InterBlk(Block):
         self.weight = np.dot(np.diag(sgn.flatten()), lin_weight)
 
     def comp(self, vector: array_bin):
-        bn_bias = getarray(self.folder+"bn_bias.csv", trans=True)
-        bn_mean = getarray(self.folder+"bn_mean.csv", trans=True)
-        bn_stddev = np.sqrt(getarray(self.folder+"bn_var.csv", trans=True))
-        bn_weight = getarray(self.folder+"bn_weight.csv", trans=True)
-        lin_bias = getarray(self.folder+"lin_bias.csv", trans=True)
-        lin_weight = getarray(self.folder+"lin_weight.csv", dtype=np.int8)
-
-        real = ((bn_weight / bn_stddev)
-                * (np.dot(lin_weight, 2*vector-1) + lin_bias - bn_mean)
-                + bn_bias) >= 0
-        bnn = (np.dot(self.weight, vector) + self.bias) >= 0
-        if (real != bnn).any():
-            print(self.folder)
-            print(real.flatten())
-            print(bnn.flatten())
         return (np.dot(self.weight, vector) + self.bias) >= 0
 
 
@@ -119,12 +104,7 @@ class OutputBlk(Block):
         yield from ord_nodes
 
     def comp(self, vector: array_bin):
-        bias = getarray(self.folder+"lin_bias.csv", trans=True)
-        weight = getarray(self.folder+"lin_weight.csv", dtype=np.int8)
-        real = np.argmax(np.dot(weight, 2*vector-1) + bias)
         bnn = np.argmax(np.dot(self.weight, vector) + self.bias)
-        if real != bnn:
-            print(self.folder, real, bnn)
         return bnn
 
 
@@ -226,62 +206,6 @@ if __name__ == "__main__":
             model.write(f"outpre{outpre}.\n")
 
         model.write(Hamming(vector, 3).get())
-        """
-        model.write(Hamming([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
-            0, 0, 0, 1, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 1, 0, 0, 1, 1, 0, 0,
-            0, 0, 0, 1, 0, 0, 1, 1, 0, 0,
-            0, 0, 0, 1, 0, 0, 1, 1, 0, 0,
-            0, 0, 0, 1, 1, 0, 1, 1, 0, 0,
-            0, 0, 0, 1, 1, 1, 1, 1, 0, 0,
-            0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            ], 2).get())
-        """
-        """
-        model.write(Hamming([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 1, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 1, 1, 0, 1, 1, 0, 0,
-            0, 0, 1, 1, 0, 1, 1, 1, 0, 0,
-            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
-            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
-            0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-            ], 2).get())
-        """
-        """
-        model.write(Hamming([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 1, 1, 0, 0, 0,
-            0, 0, 0, 1, 1, 1, 1, 0, 0, 0,
-            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
-            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
-            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            ], 2).get())
-        """
-        """
-        model.write(Hamming([
-            0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-            0, 0, 0, 1, 0, 1, 1, 1, 0, 0,
-            0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-            0, 0, 1, 1, 1, 0, 0, 0, 1, 0,
-            0, 0, 1, 1, 0, 0, 0, 0, 1, 0,
-            0, 0, 1, 1, 0, 0, 1, 1, 1, 0,
-            0, 0, 0, 0, 0, 1, 1, 1, 1, 0,
-            0, 0, 0, 0, 1, 1, 1, 1, 0, 0,
-            0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            ], 2).get())
-        """
         # model.write(Hamming([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], 12).get())
         # model.write(Inpbits([1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,1], range(8)).get())
 
