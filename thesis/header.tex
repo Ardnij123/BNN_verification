@@ -15,6 +15,8 @@
 
 % Tables
 \newcolumntype{L}{>{$}l<{$}}  % math column
+\newcolumntype{C}{>{$}c<{$}}  % math column
+\newcolumntype{R}{>{$}r<{$}}  % math column
 \setlength{\tabcolsep}{1em}   % bigger column sep for readability
 
 % Listings
@@ -70,3 +72,26 @@
 % Writting rules
 \newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}
 
+
+% Evaluation
+\newcounter{hypothesis}
+\newcommand\hypothesis[1]{%
+    \stepcounter{hypothesis}%
+    \noindent\textbf{Hypothesis \thehypothesis}:\\#1%
+    }
+
+\newcommand{\landtable}[1]{%
+    \afterpage{%
+        \clearpage%
+        \newgeometry{margin=0in}%
+        \thispagestyle{empty}%
+        \begin{landscape}%
+            \begin{table}%
+                \centering%
+                #1% tabular, captions, label
+            \end{table}%
+        \end{landscape}%
+        \clearpage%
+        \restoregeometry%
+    }%
+}%

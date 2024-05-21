@@ -16,7 +16,10 @@
               answer set programming, asp},  % TODO
 	abstract={foo bar},  % TODO
 	advisor={RNDr. Samuel Pastva, PhD.},
-	thanks={foo bar}, % TODO
+	thanks={
+        Computational resources were provided by the e-INFRA CZ project (ID:90254),
+        supported by the Ministry of Education, Youth and Sports of the Czech Republic.
+    }, % TODO
     bib=bibliography.bib,
 }
 
@@ -25,6 +28,11 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{listings}
+
+% Landscape fullpage tables
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{geometry}
 
 \input{header.tex}
 
@@ -1269,7 +1277,7 @@ input \texttt{on(0, N)} and base input \texttt{input(N)} can not differ.
 
 For the output to differ from the one of base input, the program has to be
 further constrained. To implement the feature for the output to be adversarial,
-I have used the same encoding as for the computing of the output of the
+I have first used the same encoding as for the computing of the output of the
 network.
 % TODO: The direct constraint for the output to not be the one given
 %       by the base input is faster and smaller?
@@ -1298,7 +1306,219 @@ inputOn(L, N) :-
 :- output(Node), inputOutput(Node).
 \end{lstlisting}
 
+%As the computation of the desired input can be done in polynomial time,
+%in the end I have computed the output using Python while generating
+%the input file for Clingo. Thus the constraint on the output is included
+%in the data for ASP computation.
+%Or maybe not, it is slower in the end ‾\_O_/‾
+
+% TODO: possibility of encoding BNN with rational weights?
+
 \chapter{Evaluation}
+
+\section{Methodology of evaluation}
+
+For the evaluation of my model, I have used inputs from dataset
+% TODO: is this true?
+of BNNQuanalyst. In the next chapter I will be reffering to instances of inputs
+0 to 9 as I0 to I9. The instances I have used for the testing are shown
+on Figure [].
+% TODO: name them I0 - I9
+% TODO: link
+% TODO: pictures
+The architectures of different models is written in Table~\ref{table:model_architecture}
+
+\begin{table}
+\begin{tabular}{l c | l c}  % chktex 44
+    \toprule{}%
+    Model & Architecture  & Model & Architecture       \\ \midrule
+    M1    & 100:100:10    & M7    & 100:50:20:10       \\
+    M2    & 100:50:10     & M8    & 16:25:20:10        \\
+    M3    & 400:100:10    & M9    & 36:15:10:10        \\
+    M4    & 64:10:10      & M10   & 16:64:32:20:10     \\
+    M5    & 784:100:10    & M11   & 25:25:25:20:10     \\
+    M6    & 100:100:50:10 & M12   & 784:50:50:50:50:10 \\ \bottomrule
+\end{tabular}
+\caption{Architectures of models}%
+    \caption*{Values are numbers of neurons in each layer}%
+    \label{table:model_architecture}
+\end{table}
+
+
+The framework was evaluated using the computational sources of MetaVO,
+virtual organization providing computing resources for academic community.
+The framework was evaluated on hardware
+[TODO]  % TODO: actuall hardware of the run
+The framework was evaluated on 8 threads with 16 GB of RAM unless otherwise  % chktex 13
+specified.
+
+%\section{Evaluation of different solvers}
+%I have evaluated BNN models 
+% TODO: if time will suffice
+
+\section{Evaluation over different inputs}
+
+I have evaluated BNN models M1, M2, M6, M7 agnist all inputs I0-I9 with
+hamming distance 3. The results are shown in the Table~\ref{table:eval_inputs}.
+As can be seen, the time to find all adversary inputs is independent
+on the number of all adversary inputs.
+Time to find 1st model (adversary input) is dependent on the number
+of models (adversary inputs). The more models exist for the problem, the higher
+chance is to find one by assigning values for literals at random. The table
+also shows that the size of aspif intermediate file does not change much
+between different inputs. The quantitative verification using ASP
+seems to scale better with depth of the evaluated BNN than with width.
+
+\landtable{
+    \centering % Center table
+    \begin{tabular}{r | R R R R R | R R R R R}  % chktex 44
+        \toprule{}%
+        % TODO: Refresh new values
+        Input & \#M & T_M & T_1 & N_r & N_w & \#M & T_M & T_1 & N_r & N_l \\ \midrule
+        & &&\multicolumn{1}{r}{M1}&& & &&\multicolumn{1}{r}{M2}&& \\ \midrule
+        I0 & 40821 & 34.143 & 0.14 & 11151 & 44386 & 16403 & 17.822 & 0.20 & 5601 & 22236 \\
+        I1 & 10945 & 39.961 & 0.12 & 11138 & 44373 & 34288 & 16.690 & 0.03 & 5588 & 22223 \\
+        I2 & 22518 & 39.480 & 0.14 & 11154 & 44389 & 26628 & 15.254 & 0.07 & 5604 & 22239 \\
+        I3 & 20666 & 37.030 & 0.13 & 11152 & 44387 & 10955 & 14.008 & 0.12 & 5602 & 22237 \\
+        I4 &114392 & 31.222 & 0.09 & 11149 & 44384 & 70244 & 14.608 & 0.06 & 5599 & 22234 \\
+        I5 & 36405 & 32.362 & 0.14 & 11147 & 44382 &140021 & 12.831 & 0.03 & 5597 & 22232 \\
+        I6 &     0 & 31.798 &    - & 11153 & 44388 &   487 & 18.832 & 0.20 & 5603 & 22238 \\ %chktex 8
+        I7 & 53242 & 32.387 & 0.07 & 11144 & 44379 & 15055 & 17.794 & 0.07 & 5594 & 22229 \\
+        I8 &139399 & 41.975 & 0.09 & 11151 & 44386 & 47558 & 14.506 & 0.07 & 5601 & 22236 \\
+        I9 & 42591 & 32.511 & 0.11 & 11150 & 44385 & 74443 & 13.078 & 0.04 & 5600 & 22235 \\ \midrule
+        & &&\multicolumn{1}{r}{M6}&& & &&\multicolumn{1}{r}{M7}&& \\ \midrule
+        I0 & 51423 & 79.991 & 0.94 & 15702 & 62538 &  3330 & 27.282 & 0.05 & 6322 & 25098 \\
+        I1 &   196 &141.390 & 2.89 & 15689 & 62525 & 35548 & 19.151 & 0.12 & 6309 & 25085 \\
+        I2 & 45315 & 84.534 & 0.95 & 15705 & 62541 & 20752 & 17.112 & 0.09 & 6325 & 25101 \\
+        I3 &  6725 &104.792 & 1.09 & 15703 & 62539 &  8238 & 25.747 & 0.12 & 6323 & 25099 \\
+        I4 & 24909 &124.571 & 1.25 & 15700 & 62536 & 74224 & 18.924 & 0.04 & 6320 & 25096 \\
+        I5 & 22733 & 72.106 & 1.29 & 15698 & 62634 & 11053 & 20.125 & 0.11 & 6318 & 25094 \\
+        I6 &  6283 &128.535 & 1.35 & 15704 & 62540 & 15919 & 23.074 & 0.14 & 6324 & 25100 \\
+        I7 &  7091 &104.315 & 1.63 & 15695 & 62531 &  8361 & 21.750 & 0.15 & 6315 & 25091 \\
+        I8 & 49700 & 86.873 & 1.39 & 15702 & 62538 &146724 & 21.501 & 0.04 & 6322 & 25098 \\
+        I9 & 80704 &170.094 & 1.13 & 15701 & 62537 & 24300 & 20.277 & 0.13 & 6321 & 25097 \\ \bottomrule
+    \end{tabular}
+    \caption{Evaluation of M1, M2, M6, M7 over inputs I0 --- I9}%
+    \caption*{\centering%
+        $\#M$ number of adv.\ inputs,
+        $T_M$ time to all adv.\ inputs [sec], $T_1$ time to 1st adv.\ input [sec]
+        \\
+        $N_r$ number of lines (approx.\ rules) of aspif,
+        $N_l$ number of words (approx.\ literals) of aspif}%
+    \label{table:eval_inputs}
+}
+% TODO: maybe remake into graph?
+
+\section{Evaluation over different hamming distance}
+
+I have evaluated models M2, M3, M7, M11 on input I0 for hamming distance
+from 0 to 4. The results are shown in the Table~\ref{table:eval_distance}.
+As can be seen, the hamming distance does not affect the size of the aspif
+intermediate file at all. This is because the hamming distance does only change
+weight in a single constraint corresponding to the encoding of input region
+by hamming distance.
+The time to find all models (adversarial inputs) scales badly with hamming
+distance for big input layers. This is expected as the input space
+of inputs under hamming distance grows for small distances close
+to exponentially with size of the input layer in the base. The effect
+of size of the base is apparent in the evaluation of model M11,
+here the time grows relatively slowly.
+
+\landtable{
+    \centering % Center table
+    \begin{tabular}{r | R R R R R | R R R R R}  % chktex 44
+        \toprule{}%
+        % TODO: Refresh new values
+        Distance & \#M & T_M & T_1 & N_r & N_w & \#M & T_M & T_1 & N_r & N_l \\ \midrule
+        & &&\multicolumn{1}{r}{M2}&& & &&\multicolumn{1}{r}{M3}&& \\ \midrule
+        0 & 0           &        0.079 &    - & 5601 & 22236 & 0      & 0.476        & - & 41205 & 164440 \\ % chktex 8
+        1 & 0           &        0.141 &    - & 5601 & 22236 & 0      & 1.717        & - & 41205 & 164440 \\ % chktex 8
+        2 & 91          &        0.707 & 0.05 & 5601 & 22236 & 0      & 146.393      & - & 41205 & 164440 \\ % chktex 8
+        3 & 16404       &       28.721 & 0.17 & 5601 & 22236 &[TO]\,0 &[TO]\,300.050 & - & 41205 & 164440 \\ % chktex 8 % TODO: is this right?
+        4 &[TO]\,507959 &[TO]\,300.006 & 0.04 & 5601 & 22236 &[TO]\,0 &[TO]\,300.299 & - & 41205 & 164440 \\ \midrule % chktex 8
+        & &&\multicolumn{1}{r}{M7}&& & &&\multicolumn{1}{r}{M11}&& \\ \midrule
+        0 & 0           &   0.105      &    - & 6322 & 25098 &     0 & 0.054 &    - & 2052 & 8079 \\ % chktex 8
+        1 & 0           &   0.258      &    - & 6322 & 25098 &    12 & 0.157 & 0.05 & 2052 & 8079 \\ % chktex 8
+        2 & 73          &   1.122      & 0.14 & 6322 & 25098 &   207 & 0.125 & 0.05 & 2052 & 8079 \\
+        3 & 3330        &  23.355      & 0.11 & 6322 & 25098 &  1813 & 0.237 & 0.05 & 2052 & 8079 \\
+        4 &[TO]\,191969 &[TO]\,300.021 & 0.11 & 6322 & 25098 & 11830 & 0.950 & 0.05 & 2052 & 8079 \\ \bottomrule
+    \end{tabular}
+    \caption{Evaluation of M2, M3, M7, M11 over hamming distance 0~---~4}%
+    \caption*{\centering
+        $\#M$ number of adv.\ inputs,
+        $T_M$ time to all adv.\ inputs [sec], $T_1$ time to 1st adv.\ input [sec],
+        \\
+        $N_l$ number of lines (approx.\ rules) of aspif,
+        $N_w$ number of words (approx.\ literals) of aspif
+        \\
+        $[TO]$ solving has timed out}%
+    \label{table:eval_distance}
+}
+% TODO: maybe remake into graph?
+
+\section{Evaluation over fixed input bits}
+
+Fixed bits vectors were created from the base input instances corresponding
+to the number 0 using
+the following bash script. The script creates for each input instance
+4 fixed bits vectors by removing the first 0, 8, 16, resp. 24 positions from
+the list of fixed bits.
+\begin{lstlisting}[language=bash, numbers=left, countblanklines=false, escapeinside=``]
+for l in 25 100 400; do
+  for pos in $(eval echo {0..$(( $l-1 ))}); do
+    echo -n "$pos "
+  done | head --bytes=-1 "inpbits_0_${l}_0.txt"
+  for free in 8 16 24; do
+    cat "inpbits_0_${l}_$(( $free-8 )).txt" \
+    | cut -d' ' -f'9-' > "inpbits_0_${l}_${free}.txt"
+  done
+done
+\end{lstlisting}
+
+For created fixed bits vectors models M2, M3, M7, M11 were evaluated on instance I0.
+Results are included in the Table~\ref{table:eval_inpbits}.
+This task seems to be better suited for my framework as the solver, Clasp, can prune
+large subspaces of the input space at once. In the model M3, where only a small
+subspace of the input space is adversarial for this input, the framework is
+significantly faster than on the other models. On the others --- M2, M7 and M11 ---
+Clasp probably spends most of the computation time on the enumeration
+of models (adversarial inputs). As far as I am aware, Clasp is unable to count
+models any other way. If it could count them in batches like it can prune
+sets, where it knows no models are present, the evaluation of models M2, M7 and M11 might
+be speeded up significantly.
+
+% TODO: better comparison of the hamm dist vs fixed bits
+
+\landtable{
+    \centering % Center table
+    \begin{tabular}{r | R R R R R | R R R R R}  % chktex 44
+        \toprule{}%
+        % TODO: Refresh new values
+        Free & \#M & T_M & T_1 & N_r & N_w & \#M & T_M & T_1 & N_r & N_l \\ \midrule
+        & &&\multicolumn{1}{r}{M2}&& & &&\multicolumn{1}{r}{M3}&& \\ \midrule
+        0  &        0 &   0.079 &    - & 5700 & 22335 &    0 & 0.443 &    - & 41604 & 164839 \\ % chktex 8
+        8  &      215 &   0.103 & 0.01 & 5692 & 22327 &    0 & 0.446 &    - & 41596 & 164831 \\ % chktex 8
+        16 &    50517 &   0.484 & 0.01 & 5684 & 22319 &    0 & 0.486 &    - & 41588 & 164823 \\ % chktex 8
+        24 & 12467600 & 125.292 & 0.01 & 5676 & 22311 & 2704 & 1.705 & 0.05 & 41580 & 164815 \\ \bottomrule
+        & &&\multicolumn{1}{r}{M7}&& & &&\multicolumn{1}{r}{M11}&& \\ \midrule
+        0  &        0 &   0.096 &    - & 6421 & 25197 &             0 &         0.053 &    - & 2076 & 8103 \\ % chktex 8
+        8  &       58 &   0.154 & 0.03 & 6413 & 25189 &           226 &         0.104 & 0.05 & 2068 & 8095 \\
+        16 &    38187 &   1.104 & 0.06 & 6405 & 25181 &         60144 &         2.061 & 0.07 & 2060 & 8087 \\
+        24 & 11819735 & 279.607 & 0.11 & 6397 & 25183 & [TO]\,7939149 & [TO]\,300.000 & 0.07 & 2052 & 8079 \\ \bottomrule
+    \end{tabular}
+    \caption{Evaluation of M2, M3, M7, M11 over 0~---~24 free bit positions}%
+    \caption*{\centering
+        $\#M$ number of adv.\ inputs,
+        $T_M$ time to all adv.\ inputs [sec], $T_1$ time to 1st adv.\ input [sec],
+        \\
+        $N_l$ number of lines (approx.\ rules) of aspif,
+        $N_w$ number of words (approx.\ literals) of aspif
+        \\
+        $[TO]$ solving has timed out}%
+    \label{table:eval_inpbits}
+}
+% TODO: hamming vs inpbits graph - time based on size of input space
+
 
 % - ohodnocení modelu
 % 	+ je rozdíl mezi hledání, které vrátí málo výsledků vůči hodně výsledkům
@@ -1311,8 +1531,35 @@ inputOn(L, N) :-
 % - TODO: asi to vrazit na Metacentrum či tak něco? - můj ntb by pravděpodobně zkresloval výsledky
 
 % TODO: Nějaké readme jak to nastavit aby to fungovalo
+%       toto na gitový repozitář
 
-\chapter{Discussion}
+
+
+\chapter{Conclussion}
+
+In this thesis I have created and implemented framework for the quantitative
+analysis of binary neural networks using the answer set paradigm. My framework
+uses Python to parse the neural network into Clingo-readable format and then
+ASP-paradigm-based framework Clingo, combination of parser Gringo and solver
+Clasp, to find adversarial inputs. In this framework I have implemented
+functionality for representing input regions based on Hamming distance
+and input regions based on fixed indices.
+
+I have evaluated the framework on binary neural networks trained on the MNIST
+database of handwritten digits. The framework scales very well when evaluating
+robust neural networks with input region constrained by the fixed indices.
+When many adversarial inputs are present, the limiting factor proved to be
+the Clasp as it relies on enumeration of the models (adversarial inputs).
+To eliminate this shortcomming, another solver will have to be used.
+When evaluating input regions based on hamming distance, the framework has shown
+better performance on networks with smaller input layer.
+
+Answer set programming has the potential to make verification of neural networks
+both easier and faster. ASP paradigm has high expressive power while
+its solvers have strong heuristics to find a fast way for the computation.
+
+
+% TODO: citations
 
 % - má ASP pro další verifikaci význam?
 % - je možnost, že by přinesl alespoň relevantní benchmark pro další verifikační algoritmy (např. nad obecnými NN?)
