@@ -94,7 +94,7 @@ with open(args.intermediate, 'w') as model:
         model.write(Hamming(input_vector, args.hamm_dist).get())
     else:
         assert args.constraint == 'inpbits'
-        fixed_positions = getarray(args.inpbits_fixed)
+        fixed_positions = getarray(args.inpbits_fixed, shape=[-1])
         model.write(Inpbits(input_vector, fixed_positions).get())
 
 arguments = [args.clingo]
