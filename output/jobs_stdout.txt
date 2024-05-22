@@ -1,0 +1,145 @@
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 2.463s (Solving: 2.35s 1st Model: 0.25s Unsat: 0.65s)
+CPU Time     : 2.461s
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 2.460s (Solving: 2.35s 1st Model: 0.25s Unsat: 0.65s)
+CPU Time     : 2.458s
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 2.462s (Solving: 2.35s 1st Model: 0.25s Unsat: 0.65s)
+CPU Time     : 2.461s
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 2.463s (Solving: 2.35s 1st Model: 0.25s Unsat: 0.65s)
+CPU Time     : 2.461s
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 2.461s (Solving: 2.35s 1st Model: 0.25s Unsat: 0.65s)
+CPU Time     : 2.459s
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.407s (Solving: 0.34s 1st Model: 0.03s Unsat: 0.02s)
+CPU Time     : 2.641s
+Threads      : 8        (Winner: 6)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.416s (Solving: 0.35s 1st Model: 0.03s Unsat: 0.07s)
+CPU Time     : 2.809s
+Threads      : 8        (Winner: 7)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.458s (Solving: 0.39s 1st Model: 0.03s Unsat: 0.00s)
+CPU Time     : 2.843s
+Threads      : 8        (Winner: 2)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.334s (Solving: 0.27s 1st Model: 0.03s Unsat: 0.00s)
+CPU Time     : 2.140s
+Threads      : 8        (Winner: 5)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.426s (Solving: 0.36s 1st Model: 0.03s Unsat: 0.06s)
+CPU Time     : 2.426s
+Threads      : 8        (Winner: 5)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.373s (Solving: 0.31s 1st Model: 0.05s Unsat: 0.01s)
+CPU Time     : 2.451s
+Threads      : 8        (Winner: 7)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.424s (Solving: 0.36s 1st Model: 0.07s Unsat: 0.01s)
+CPU Time     : 2.792s
+Threads      : 8        (Winner: 6)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.388s (Solving: 0.32s 1st Model: 0.09s Unsat: 0.02s)
+CPU Time     : 2.574s
+Threads      : 8        (Winner: 2)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.399s (Solving: 0.34s 1st Model: 0.04s Unsat: 0.02s)
+CPU Time     : 2.502s
+Threads      : 8        (Winner: 5)
+clingo version 5.5.0
+Reading from model.lp
+Solving...
+SATISFIABLE
+
+Models       : 1176
+Calls        : 1
+Time         : 0.394s (Solving: 0.33s 1st Model: 0.05s Unsat: 0.04s)
+CPU Time     : 2.387s
+Threads      : 8        (Winner: 4)

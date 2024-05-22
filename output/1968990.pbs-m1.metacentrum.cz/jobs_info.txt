@@ -1,0 +1,3 @@
+1968990.pbs-m1.metacentrum.cz is running on node kirke11.meta.zcu.cz in a scratch directory /scratch.ssd/jindmen/job_1968990.pbs-m1.metacentrum.cz
+Copying data to scratchdir
+Exporting on path

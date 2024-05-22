@@ -1,0 +1,140 @@
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+agg_2.lp:110:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+agg_2.lp:111:4-13: info: atom does not occur in any rule head:
+  inpfix(N)
+
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+*** ERROR: (clingo): In context '<clingo>': '8,mode split' invalid value for: 'parallel-mode'
+*** Info : (clingo): Try '--help' for usage information
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+*** ERROR: (clingo): In context '<clingo>': '8,mode split' invalid value for: 'parallel-mode'
+*** Info : (clingo): Try '--help' for usage information
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+*** ERROR: (clingo): In context '<clingo>': '8,mode split' invalid value for: 'parallel-mode'
+*** Info : (clingo): Try '--help' for usage information
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+*** ERROR: (clingo): In context '<clingo>': '8,mode split' invalid value for: 'parallel-mode'
+*** Info : (clingo): Try '--help' for usage information
+Loading clingo/master-gcc-8.3.0-gojur4c
+  Loading requirement: python/3.7.7-gcc-8.3.0-t4loj4a
+*** ERROR: (clingo): In context '<clingo>': '8,mode split' invalid value for: 'parallel-mode'
+*** Info : (clingo): Try '--help' for usage information
