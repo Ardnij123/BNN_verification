@@ -1,20 +1,37 @@
-\documentclass{fithesis}
+\documentclass[
+    digital,
+    color,
+    oneside,
+    sansbold,
+    lot,
+    nolof
+]{fithesis}
 
 \thesissetup{%
     gender=m,
-	author=Jindřich Matuška,
+    author={Jindřich Matuška},
 	id=525183,
 	type=bc,
 	university=mu,
 	faculty=fi,
 	locale=english,
-	department=Department of Computer Systems and Communications,
+    department={Department of Computer Systems and Communications},
 	date=2024/05/22,
 	place=Brno,
-	title=Verification of binarised neural networks using ASP,
-	keywords={bnn, verification, binarized neural networks
-              answer set programming, asp},  % TODO
-	abstract={foo bar},  % TODO
+    title={Verification of binarised neural networks using ASP},
+	keywords={verification, binarized neural networks,
+              answer set programming, Clingo, robustness},  % TODO
+	abstract={%
+        Deep neural networks are state-of-the-art technology.
+        Using them in critical real-life applications carries a risk of failure.
+        For this, verification of their properties is needed.
+        This thesis explores the possibility for the use of answer set programming
+        paradigm in this task. It implements a quantitative verificator for binarized neural
+        networks, a~special case of deep neural networks, using this paradigm.
+        It also demonstrates the use of this verificator on a network
+        trained on the MNIST dataset. The verificator proves to be especially
+        good when evaluating highly robust networks.
+    },
 	advisor={RNDr. Samuel Pastva, PhD.},
 	thanks={
         Computational resources were provided by the e-INFRA CZ project (ID:90254),
@@ -35,8 +52,29 @@
 \usepackage{geometry}
 
 \input{header.tex}
+% TODO: Remove list of figures
 
 \begin{document}
+\chapter*{Thesis assignment}
+
+ASP (Answer Set Programming) is a form of constraint programming designed
+for solving various NP-complete search problems. It is often used
+as an alternative to SAT/SMT solvers or symbolic algorithms based on BDDs
+(Binary Decision Diagrams). Meanwhile, SAT/SMT and BDDs are one of the key
+tools in current verification and validation workflows for binarised
+neural networks (BNNs)~\cite{zhang2021bdd4bnn}. Conceptually, the goal of this thesis is therefore
+to explore the possibilities of applying ASP to reason about the behaviour
+of binarised neural networks. This should supplement the existing
+SAT/SMT/BDD-based approaches.
+
+More concretely, the student should familiarise themselves with the problem
+of BNN robustness and the ASP method in general. They should then formulate
+an ASP encoding of the BNN robustness problem such that the robustness of
+a network can be validated using a suitable ASP solver (e.g.\ clingo~\cite{gebser2019multi}).
+The student should then create a prototype implementation of this encoding
+that will be tested on a collection of reasonable examples
+(such as the ones from~\cite{zhang2021bdd4bnn}).
+
 \chapter{Introduction}
 
 % - Co řešíme, proč to řešíme
@@ -64,7 +102,7 @@ Verification of neural networks is split into two categories. First,
 qualitative verification, searches through input space looking for any
 adversarial input, e.g.\ an input which results in wrong output.
 Second, quantitative verification, searches through input space
-determining the size part of the input space giving adversarial outputs.
+determining the size of the part of the input space giving adversarial outputs.
 
 For the qualitative disproving of the verity of general DNNs,
 many algorithms for finding adversarial
@@ -76,14 +114,15 @@ input~\cite{Isac2022NeuralNV}. This is computationally much more difficult
 and prone to errors emerging from inaccuracies of floating point numbers operations.
 It is often made with the use of a simplex algorithm combined with 
 the satisfiability modulo theories (SMT) paradigm~\cite{Isac2022NeuralNV, marabou2019, reluplex2017}.
-As far as I know, there is no reasonably quick quantitative
+As far as I am aware, there is no reasonably quick quantitative
 validator of general DNNs yet.
 
 As DNNs generally base their computations on floating point numbers,
 the computation of output is hard. For this, quantization,
 a new branch of DNN development, where instead of 32 or 64-bit long floating
 point numbers, low-bit-width (eg. 4-bit) fixed point numbers are used.
-This mitigates the high cost of computation and the need for high-end devices.
+This mitigates the high cost of computation and the need for high-end devices
+while also lowering the power consumption.
 Extreme examples of quantization are Binary neural networks (BNN).
 These use binary parameters for their computations, resulting in much
 cheaper computational price, both when learning and in production,
@@ -94,12 +133,23 @@ they scale only up to millions of parameters for qualitative verification~\cite{
 and tens of thousands of parameters for quantitative verification~\cite{10.1145/3563212}.
 These verificators can even compute on natural numbers only, without errors.
 
-In this thesis, I have implemented a quantitative BNN validator using the ASP paradigm
-in the framework Clingo from Potassco. I~have also evaluated the speed of this
-validator against the state-of-the-art implementation BNNQuanalyst~\cite{10.1145/3563212}
-on MNIST~\cite{mnist2017} and Fashion MNIST~\cite{xiao2017fashion} datasets.
+In this thesis, I have implemented a quantitative BNN verificator using the
+answer set programming paradigm
+in the framework Clingo from Potassco. In this implementation I have derived
+an efficient encoding of BNN computation and of input regions under the hamming
+distance and under fixed indices. Further I have encapsulated this verificator
+together with a program for parsing BNNs into a Clingo-readable format
+in an easy to use framework.
+As far as I am concerned, this is the first such implementation using
+the ASP paradigm.
 
-% TODO: sth about results
+I have also evaluated the speed of this verificator on BNN models of various
+architectures based of PyTorch deep learning platform provided by NPAQ~\cite{baluta2019quantitative}
+trained in~\cite{10.1145/3563212} on MNIST~\cite{mnist2017} dataset.
+The verificator works especially well on robust networks when the input region
+is specified by fixed indices.
+
+% !TODO: sth about results
 
 \chapter{Used tools}
 
@@ -116,7 +166,7 @@ in sense that the problem is represented as logic program. Difference is in
 computational mechanism of finding solution.
 
 \subsection{Syntax and semantics of ASP}
-
+% TODO: italic terms
 Logic program $\Pi$ in ASP is a set of rules consisting of atoms.
 An atom is the elementary construct for representing knowledge~\cite{Delgrande}.
 Each atom constitutes a single variable which either is or is not in the answer
@@ -126,21 +176,23 @@ Each rule $r_i\in \Pi$ has form of
     \asprule{\asphead(r_i)}{\aspbody(r_i)}
 \end{equation}
 $\asphead(r_i)$ is then a single atom $p_0$, while $\aspbody(r_i)$ is a set of zero
-or more atoms $\{p_1, \dots, p_m, \aspnot p_{m+1}, \dots \aspnot p_n\}$.
+or more literals (atoms or negated atoms)
+$\{p_1, \dots, p_m, \aspnot p_{m+1}, \dots \aspnot p_n\}$.
 \begin{equation}
     \asprule{p_0}{p_1, \dots, p_m, \aspnot p_{m+1}, \dots, \aspnot p_n}
 \end{equation}
 Further the $\aspbody(r_i)$ can be split between
 $\aspbody^+(r_i) = \{p_1, \dots, p_m\}$
 and $\aspbody^-(r_i) = \{p_{m+1}\dots p_n\}$.
-If $\forall r_i \in \Pi.\, \aspbody^-(r_i) = \emptyset$, then $\Pi$
+If $\forall r_i \in \Pi.\, \aspbody^-(r_i) = \emptyset$, meaning there are no
+negative literals in the program, then $\Pi$
 is called \textit{basic}.
 
 Semantically rule (2.2) means \textit{If all atoms from $\aspbody^+(r_i)$
 are included in answer set and no atom from $\aspbody^-(r_i)$ is in answer set,
 then $\asphead(r_i)$ has to be in the set.}
 
-Set of atoms $X$ is closed under a basic program $\Pi$ if for any
+Set of atoms $X$ is closed under a basic program $\Pi$ if for any rule
 $r_i\in \Pi.\,\aspbody(r_i)\subseteq X \implies \asphead(r_i)\in X$.
 For general case the concept of \textit{reduct of a program $\Pi$ relative
 to a set $X$ of atoms} is needed.
@@ -184,7 +236,8 @@ If $X = \mathrm{Cn}(\Pi^X)$, then $X$ is one of answer sets.
         \bottomrule{}
     \end{tabular}
 \end{center}
-There is only a single answer set of $\Pi$, that is $\{q\}$. Also, there is
+There is only a single answer set of $\Pi$, that is $\{q\}$. Note that $\{p\}$
+is not an answer set as it is not minimal. Also, there is
 an interesting type of rule in the table, $\asprule{p}{}$. This type of rule
 is commonly reffered as \textit{fact} and ensures that atom $p$ is always
 included in the answer set.
@@ -215,7 +268,7 @@ simplifying both readability and computation of stable models.
 
 In this section I will only show the constraint, as it can be very easily
 transformed into base ASP rule. I will describe more language extensions
-provided with Clingo framework I will describe in section (2.2).
+provided with Clingo framework in section (2.2).
 
 \subsubsection{Constraint}
 
@@ -223,17 +276,17 @@ provided with Clingo framework I will describe in section (2.2).
     \asprule{}{p_1, \dots, p_m, \aspnot p_{m+1}, \dots, \aspnot p_n}
 \end{equation*}
 Constraint is a type of language extension with semantics that its body can
-not be in the answer set. It can be rewritten as following rule~\cite{anger2005glimpse}:
-\begin{equation*}
+not be in the answer set. It is defined as the following rule~\cite{anger2005glimpse}:
+\begin{equation}
     \asprule{f}{\aspnot f, p_1, \dots, p_m, \aspnot p_{m+1}, \dots, \aspnot p_n}
-\end{equation*}
+    \label{asp:constraint}
+\end{equation}
 where $f$ is a new atom (atom not used anywhere else).
 
 % TODO: format this
 
-Let's consider $\Pi$, $\asprule{f}{\aspnot f, p_1, \dots, p_m,
-\aspnot p_{m+1}, \dots, \aspnot p_n} = r \in \Pi$. Let $X$ be
-any set of atoms s.t. $\{p_1, \dots, p_m\}\subseteq X,
+Let's consider a logic program $\Pi$, with a constraint rule (\ref{asp:constraint}) call it $r$.
+Let $X$ be any set of atoms s.t. $\{p_1, \dots, p_m\}\subseteq X,
 \{p_{m+1}, \dots, p_n\}\cap X = \emptyset$. If $f\in X$, then the rule
 $\asprule{f}{\aspbody^+(r)}$ is not in $\Pi^x$, thus $f\notin \aspCn{\Pi^X}$
 and $X \neq \aspCn{\Pi^X}$. If $f\notin X$, then the rule
@@ -256,17 +309,18 @@ of example from the previous section.
     \}
 \end{equation*}
 By adding the constraint $\asprule{}{p_1, p_2}$, any set that contains both
-$p_1$ and $p_2$ is not an answer set.
+$p_1$ and $p_2$ is not an answer set. Program $\Pi$ thus has 4 answer sets,
+while $\Pi\cup \{\asprule{}{p_1, p_2}\}$ has only 3.
 
 \section{Clingo framework}
 
 Clingo is an integrated ASP system, consisting of a grounder Gringo and solver
 Clasp~\cite{aspEasy2016}. In the following section I will show basics of the
-clingo language, gringo as translation from clingo to aspif language and
+Clingo language, gringo as translation from Clingo to Aspif language and
 solving with clasp.
 
 \subsection{Clingo language}
-Clingo language is used for transcribing ASP programs and their extended versions.
+Clingo language~\cite{gebser2019potassco} is used for transcribing ASP programs and their extended versions.
 There are 3 possible forms of rules as shown in the table bellow.
 {\setlength{\tabcolsep}{0.2em}%
 \begin{center}
@@ -278,43 +332,70 @@ There are 3 possible forms of rules as shown in the table bellow.
         \bottomrule{}
     \end{tabular}
 \end{center}}\noindent
-Semantically these rules mean to use head of rule if whole body is of rule
-is consistent with the answer set. Fact does has an empty body, thus its
+Semantically these rules mean to use head of rule if whole body of rule
+is consistent with the answer set. Fact does have an empty body, thus its
 head is used always. No answer set is consistent with body of constraint.
 
 \subsubsection{Example}
-Program (2.6) can be rewritten into clingo language as following
+Program (2.6) can be rewritten into Clingo language as following
 program.
 \lstclingo{example.lp}
 Each rule consists of head and body, separated by \texttt{:-} operator.
 Every atom starts with small letter of english alphabet.
 Every statements ends with a dot.
 
-Clingo language also allows for the use of variables and arithmetic expressions
-in the parameters of atoms. Variable always starts with a big letter of english
-alphabet. Take the following program as an example.
+Clingo language also allows for the use of parametric atoms called functions%
+\footnote{In the case of Clingo language functions are the ones
+in the matematic sense. Here, the function is a mere finitary relation.}.
+Such atoms take form of \texttt{name(parameters)}, the name starts with
+a small letter of english alphabet, parameters can be of multiple types
+including integers, variables and arithmetic expressions (for comprehensive list
+see the Potassco guide~\cite{gebser2019potassco}). Multiple parameters may be
+present, in that case they are separated by comma (\texttt{,}).
+Variable always starts with a big letter of english alphabet.
+Take the following program as an example.
+
 % TODO: Maybe show it looks after substitution on the right?
 \lstclingo{example_variables.lp}
-This program contains four facts on line 1 and single substituable rule on line 2.
+This program contains four facts on line 1 and single substituable rule with
+arithmetic expression on line 2.
 As can be seen on line 1, multiple statements can share single line as long as
 they are all formed correctly. In the same manner, a statement can span over
 multiple lines.
 
-If the exact parameter is not needed, one can use a wildcard in the place of
-the parameter in the body of rule. The wildcard behaves as anonymous variable.
+If the exact parameter is not needed, one can use a wildcard (\texttt{\_}) in place of
+the parameter in the body of rule. The wildcard behaves as anonymous variable
+meaning it is assigned a fresh parameter in the process of grounding.
 \begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
-a(1..3, 0..1).
+a(1, 0). a(2, 4). a(3, -3).
 b(X) :- a(X, _).
 \end{lstlisting}
 
-\subsubsection{Conditional literals}
-% TODO section
+In the process of grounding parametric atoms, Gringo iteratively searches
+through the space of possible atoms of the same name and parameter count.
+If it finds suitable combination of atoms, it adds a new atom with the
+corresponding parameters. For instance, in the previous example atoms
+\texttt{b(1)}, \texttt{b(2)}, resp.\ \texttt{b(3)} would be added for
+atoms \texttt{a(1, 0)}, \texttt{a(2, 4)}, \texttt{a(3, -3)}.
+
+\subsubsection{Arithmetic functions and comparison predicates}
+
+As was already shown in one of the previous examples, Clingo language allows
+for the usage of some arithmetic functions for working with parameters.
+The following symbols are used for
+these functions: + (addition), - (subtraction, unary minus), * (multiplication), /  % chktex 8
+(integer division), \textbackslash{} (modulo), ** (exponentiation), || (absolute value), \& (bitwise
+AND), ? (bitwise OR), ˆ (bitwise exclusive OR), and ˜ (bitwise complement).  % chktex 26
+The built-in predicates to compare terms are = (equal), !=  % chktex 26
+(not equal), < (less than), <= (less than or equal), > (greater than), and >= (greater
+than or equal).~\cite{gebser2019potassco}.  
 
 \subsubsection{Intervals, pooling, wild cards}
 
-Another usefull constructs in clingo language are intervals and pooling.
+Another usefull constructs in Clingo language are intervals and pooling.
 Consider the following example of intervals (programs are equivalent):
 
+% TODO: overflowing program going to the right
 \begin{minipage}[t]{0.45\linewidth}%
 \centering%
 \begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
@@ -330,7 +411,7 @@ a(1, 1). a(2, 1). a(3, 1).
 \end{lstlisting}
 \end{minipage}
 Each combination of intervals is evaluated as a single rule. The first
-parameter \texttt{1..3} gives 3 choices, the second \texttt{0..1} 2 choices,
+parameter, \texttt{1..3}, gives 3 choices, the second, \texttt{0..1}, 2 choices,
 thus $6=3*2$ rules can be derived.
 
 For a more complex example consider the following program.
@@ -342,14 +423,15 @@ This program calculates prime numbers. A number is composite if it can be
 written as a product of two numbers greater than 1. Else it is prime.
 
 Pooling is very similiar to intervals. It also allows for compact writing
-of rules. As intervals allows for writing sets of consecutive numbers,
-pooling allows for writing any set. Using pooling, previous example could
-be rewritten as following program.
+of rules. Similiar to intervals allowing for writing sets of consecutive numbers,
+pooling allows for writing any set. Using pooling, the example from the start
+of this section could be rewritten as following program.
 \begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
 a((1;2;3), (0;1)).
 \end{lstlisting}
-In this case, each pool must be enclosed in braces, else this program would
-be equivalent to:
+The pooling (\texttt{;}) has lower precedence than the splitting of parameters
+(\texttt{,}). For this, each pool must be enclosed in parentheses,
+else this program would be equivalent to:
 \begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
 a(1). a(2). a(3, 0). a(1).
 \end{lstlisting}
@@ -361,15 +443,15 @@ a(foo; bar).
 
 \subsection{Gringo}
 
-Gringo is a software that grounds program in clingo language into the format
-aspif that is readable in Clasp. Gringo first resolves every rule with variables
+Gringo is a software that grounds program in Clingo language into the format
+Aspif that is readable in Clasp. Gringo first resolves every rule with variables
 into (possibly multiple) variable-free rules and then changes format of
-the program into Clasp-readable aspif. Gringo thus can introduce new atoms
-that were not obvious from the clingo program. Specification of aspif language
-is written in %[https://www.cs.uni-potsdam.de/wv/publications/DBLP_conf/iclp/GebserKKOSW16x.pdf].
+the program into Clasp-readable Aspif. Gringo thus can introduce new atoms
+that were not obvious from the Clingo program. Full specification of Aspif language
+is written in~\cite{aspEasy2016}.
 
-Aspif (ASP intermediate format) language consists of lines. First line of file
-is header of form 
+Aspif (ASP intermediate format) language consists of statements, each on its own
+line. First line of file is header of form 
 {%
 \newcommand{\ms}{\texttt{ }}
 \begin{center}
@@ -380,7 +462,7 @@ where $v_m$, $v_n$ and $v_r$ are versions of major, minor and revision numbers
 respectively and each $t_i$ is a tag. Then follow lines with statements
 translated from program. For this thesis only rule and show statements
 are relevant.
-Last line of aspif format file is a single 0.
+Last line of Aspif format file is a single 0.
 
 \subsubsection{Rule statement}
 
@@ -395,22 +477,24 @@ in which head $H$ has form of
 {%
 \newcommand{\ms}{\texttt{ }}
 \begin{center}
-    \texttt{h}\ms\texttt{m}\ms$a_1$\ms\dots\ms$a_m$
+    $h$\ms$m$\ms$a_1$\ms\dots\ms$a_m$
 \end{center}
 }\noindent
-where $\texttt{h}\in\{0, 1\}$, $\texttt{m}\geq 0$,
-$\forall i\in\{1, \dots, m\}a_i\in\NN^+$. Parameter \texttt{h} determines
-wherther head of this rule is disjunction (0) or choice (1), \texttt{m}
+where $h\in\{0, 1\}$, $m\geq 0$,
+$\forall i\in\{1, \dots, m\}\,.\, a_i\in\NN^+$. Parameter $h$ determines
+wherther head of this rule is disjunction (0) or choice (1), $m$
 determines number of literals and $a_i$ are positive literals.
+
 Body $B$ is called normal if it has form of
 {%
 \newcommand{\ms}{\texttt{ }}
 \begin{center}
-    0\ms\texttt{n}\ms$l_1$\ms\dots\ms$l_n$
+    0\ms$n$\ms$l_1$\ms\dots\ms$l_n$
 \end{center}
 }\noindent
-in which case it is called normal body (literals are in conjunction).
-Parameter $\texttt{n}\geq 0$ determines
+The normal body literals are in conjunction. For the head of statement with
+this body to be used, all its literals have to be consistent with the answer set.
+Parameter $n\geq 0$ determines
 the length of rule body and each $l_i$ is literal. If the literal is negative,
 inversed value of its index is used.
 
@@ -418,12 +502,14 @@ The other type of body $B$ is called weight body. Its form is
 {%
 \newcommand{\ms}{\texttt{ }}
 \begin{center}
-    1\ms{}\texttt{l}\ms{}n\ms{}$l_1$\ms{}$w_1$\ms{}\dots\ms$l_n$\ms$w_n$
+    1\ms{}$b$\ms{}$n$\ms{}$l_1$\ms{}$w_1$\ms{}\dots\ms$l_n$\ms$w_n$
 \end{center}
 }\noindent
-Parameter $\texttt{l}\geq 0$ determines lower bound, \texttt{n}
+Parameter $b\geq 0$ determines lower bound, $n$
 the length of rule body, each $l_i$ is literal and $w_i\geq 1$ its weight.
 If the literal is negative, inversed value of its index is used.
+In this case, the head of the rule is used if the sum of weights from literals
+consistent with the answer set is greater or equal to the lower bound.
 
 \subsubsection{Show statement}
 
@@ -432,12 +518,13 @@ directive. Each show statement is of form
 {%
 \newcommand{\ms}{\texttt{ }}
 \begin{center}
-    4\ms{}m\ms{}s\ms{}n\ms{}$l_1$\ms{}\dots\ms$l_n$
+    4\ms{}$m$\ms{}$s$\ms{}$n$\ms{}$l_1$\ms{}\dots\ms$l_n$
 \end{center}
 }\noindent
-where \texttt{m} is length of string \texttt{s}, \texttt{s} is string
-with name, \texttt{n} is number length of condition and $l_i$ are literals.
-If no \texttt{\#show} directive is in clingo file, all atoms are to be shown.
+where $m$ is length of string $s$, $s$ is string
+with name, $n$ is number length of condition and $l_i$ are literals.
+The show statement prints the string $s$ if all literals $l_i$ are cosistent
+with the answer set.
 
 \subsubsection{Example}
 
@@ -446,7 +533,7 @@ Let's illustrate the gringo parsing on some programs%
 in this section with option \texttt{{-}{-}preserve-facts=all}}%
 . First the program 
 $\Pi = \{\asprule{p}{\aspnot q}, \asprule{q}{\aspnot p}\}$%
-\footnote{In fact the aspif file generated by Gringo would have lines 2 and 3
+\footnote{In fact the Aspif file generated by Gringo would have lines 2 and 3
 swapped. In this thesis I have made this swap to better illustrate
 the translation.}.
 
@@ -471,10 +558,10 @@ asp 1 0 0
 \end{lstlisting}
 \end{minipage}
 
-First line of aspif file is headder. Lines 1 and 2 of clingo file are
-equivalent to lines 2 and 3 of aspif file. There you can see transcription
+First line of Aspif file is headder. Lines 1 and 2 of Clingo file are
+equivalent to lines 2 and 3 of Aspif file. There you can see transcription
 of negative literals \texttt{not q} and \texttt{not p} as -1 and -2
-respectively. Let's now decompose the line 2 of aspif program.
+respectively. Let's now decompose the line 2 of Aspif program.
 \begin{equation*}
     \begin{array}{r rrr rrr}
         1 & 0 & 1 & 2 & 0 & 1 & -1\\
@@ -487,7 +574,7 @@ with answer set, then the literal in the head has to be in the answer set.
 Finally, the literal on $a_1=2$ is alias for \texttt{p}.
 The body is then composed from $f=0$, the literals are in conjunction.
 Then $n=1$ means only one literal is in the body, that is $l_1=-1$, meaning
-negative literal with alias 1 (\texttt{not q}).
+negative literal with alias 1 (\texttt{not q}). Line 3 is dual to this line.
 
 Next, on lines 4 and 5, there are two statements for showing atoms.
 \begin{equation*}
@@ -496,12 +583,12 @@ Next, on lines 4 and 5, there are two statements for showing atoms.
         S & m & s & n & l_1\\
     \end{array}
 \end{equation*}
-First, is a show statement ($S=4$) for a single-lettered ($m=1$)
-atom \texttt{q}. It printed out if single ($n=1$) literal
+First is a show statement ($S=4$) for a single-lettered ($m=1$)
+atom \texttt{q}. It is printed out if single ($n=1$) literal
 numbered $l_1=1$ is in the answer set. Similiarly, the single-lettered atom
 \texttt{p} is printed out if single literal numbered 2 is in the answer set.
 
-To illustrate the variable resolving, let me show you another clingo program
+To illustrate the variable resolving, let me show you another Clingo program
 beeing parsed by gringo.
 
 \begin{minipage}[t]{0.45\linewidth}
@@ -539,25 +626,27 @@ On lines 1--4 there are 4 facts \texttt{a(1)}, \texttt{a(2)}, \texttt{a(3)} and
 a new atom with a single parameter. Then on line 5 is
 rule with variable $X$. To resolve this rule, gringo first looks through
 all known atoms of \texttt{a} and \texttt{b} and finds tuples that satisfy
-the positive literals of the body of the rule. There is only a single such
+the positive literals of the body of the rule, that is functions \texttt{a}
+and \texttt{b} each with the same parameter. There is only a single such
 instantiation, that is \texttt{a(2)} and \texttt{b(2)}. Thus new atom
 \texttt{b(5)} is added to known atoms. This resolution of parametric rules
 continues until there is no rule that could add any new atoms.
 
-Now, when we know all possibly needed atoms, clingo adds rules to the program.
-The 4 facts from lines 1--4 of clingo ended up as
-rules on lines 2--5 of aspif. As can be seen,
+Now, when we know all possibly needed atoms, Clingo adds rules to the program.
+The 4 facts from lines 1--4 of Clingo ended up as
+rules on lines 2--5 of Aspif. As can be seen,
 each fact got rewritten as rule with no parameter, thus applying every time.
-Rule from line 5 of clingo got transcribed as a single rule on line 6 in aspif
+Rule from line 5 of Clingo got transcribed as a single rule on line 6 in Aspif
 - there is only a single possible assignment of atoms that fit the rule.
 Literal 5, corresponding to atom \texttt{b(5)}, is in the answer set
 if both literals 4 and 2 corresponding to \texttt{b(2)} and \texttt{a(2)} resp.
 are in the answer set. This rule can not be applied on any other tuple of
-literal, thus the grounding of rules is over. Further in aspif file there are
+literals, thus the grounding of rules is over. Further in Aspif file there are
 only show statements.
 
 It should be noted that the parameters of atoms are only used in the grounding
-process. After that, the atoms for the solver are only annonymous numbers.
+process. After grounding, the atoms lose their names and parameters and are
+for the solver represented by only assigned numbers.
 
 One problem gringo has is that it is prone to generating endless number
 of atoms. Take the following program as an example.
@@ -584,7 +673,7 @@ asp 1 0 0
 \end{lstlisting}
 \end{minipage}
 As can be seen, in this case searching for atoms ends up with new atoms
-endlessly emerging. When writing clingo programs, one has to be aware of this
+endlessly emerging. When writing Clingo programs, one has to be aware of this
 behaviour.
 
 Another possibly unexcpected behaviour is that gringo works only on 32 or
@@ -617,16 +706,16 @@ asp 1 0 0
 0
 \end{lstlisting}
 \end{minipage}
-As seen on lines 65--67, the parameter of \texttt{a} overflown to negative
+As seen on lines 65--67, the parameter of \texttt{a} has overflown to negative
 values and then to zero.
 
 \subsection{Extensions in Clingo language}
 
-Further I will show some of extensions of Clingo language usefull for
-the implementation part of this thesis.
+Further I will show some of extensions of Clingo language usefull either
+in general or directly for the implementation part of this thesis.
 
 \subsubsection{Disjunctive logic programs}
-Disjunctive logic programs allow of use of disjunction in the fact or rule head.
+Disjunctive logic programs allow of use of disjunction in the rule head.
 {\setlength{\tabcolsep}{0.2em}%
 \begin{center}
     \begin{tabular}{l @{\hskip 1em} L l L}\toprule{}%
@@ -636,12 +725,14 @@ Disjunctive logic programs allow of use of disjunction in the fact or rule head.
         \bottomrule{}
     \end{tabular}
 \end{center}}\noindent
-where $A_0; \dots; A_m$ are atoms forming rule head. Semantically the rule means
+Semantically the rule means that
 if body holds, than at least one of $A_0, \dots, A_m$ holds. Additionaly, set
 of atoms devised by this rule has to be minimal.
+This minimality criterion distinguish the disjunctive logic programs from
+the cardinality constraints.
 % TODO: wtf is minimality criterion? can it be written better?
-The disjunctive logic programs are not commonly used as they are making
-the computational complexity higher.
+The disjunctive logic programs are not commonly used as they may increase
+the computational complexity~\cite{eiter1995computational}.
 % Is this really the case?
 
 \begin{minipage}[t]{0.45\linewidth}
@@ -666,7 +757,7 @@ asp 1 0 0
 0
 \end{lstlisting}
 \end{minipage}
-Transcription from clingo to aspif is straightforward. Each disjunctive head
+Transcription from Clingo to Aspif is straightforward. Each disjunctive head
 is transcribed as a single disjunctive rule.
 
 \subsubsection{Cardinality constraints}
@@ -677,23 +768,25 @@ is transcribed as a single disjunctive rule.
 \begin{equation*}
     \texttt{l <= }\{p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n\}\texttt{ <= u}
 \end{equation*}
-Cardinality constraint is so called conditional literal. It's semantics is that
+Cardinality constraint's semantics is that
 at least $l$ and at most $u$ of literals
 $p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n$
 has to be in the answer set for this literal to hold.
-Cardinality constraint can be also further unboudned on either one or both
-sides. Cardinality constraints
+The literals are percieved as set, thus multiple occurences of the same literal
+count only as one.
+Cardinality constraints
 could be encoded into ASP using oriented binary decision diagram.
 % TODO: Should there be further analysis of this?
-However, probably due to the complexity of this transformation size, gringo
+However, probably due to the complexity of this transformation size, Gringo
 encodes this conditional literal as (possibly) multiple rules with weight
 bodies~\cite{aspEasy2016}.
 
 The cardinality constraint can also be used without either one or both of
-$l$ or $u$. That way it is unbounded from bottom or top respectively. This
-is especially usefull for defining input space.
+$l$ or $u$. That way it is unbounded from bottom or top respectively. The
+unbounded cardinality constraint is especially usefull for definition
+of the input space.
 
-When transcripting from clingo language to aspif, each cardinality constraint
+When transcripting from Clingo language to Aspif, each cardinality constraint
 rule translates to up to two weighted body rules and up two normal rules.
 When used in head, additional choice rule is used.
 
@@ -722,16 +815,16 @@ asp 1 0 0
 0
 \end{lstlisting}
 \end{minipage}
-On line 1 in clingo and 2 in aspif, solver can choose any number of atoms
-\texttt{a}, \texttt{b}, \texttt{c}. Then rule on line 2 in clingo translates
-into lines 3--6 in aspif. Rules on lines 3, 4 create new literals 4, 5. These
+On line 1 in Clingo and 2 in Aspif, solver can choose any number of atoms
+\texttt{a}, \texttt{b}, \texttt{c}. Then rule on line 2 in Clingo translates
+into lines 3--6 in Aspif. Rules on lines 3, 4 create new literals 4, 5. These
 are set if lower bound is filled (sum is at least 1) or upper bound overshot
 (sum is more than 2, that is at least 3). Then on line 5
 a new literal 6 is set if 4 is set and 5 is not set. This corresponds
 to filling the lower bound and not overshooting upper bound simultaneously.
 Rule on line 6 is then used to set literal corresponding to \texttt{q}.
 In this case the rule is redundant, but generally this rule would implement
-the conjunction of body literals in the clingo rule.
+the conjunction of body literals in the Clingo rule.
 
 Use of the cardinality constraint in the head is very similiar.
 
@@ -762,8 +855,8 @@ asp 1 0 0
 0
 \end{lstlisting}
 \end{minipage}
-The main difference is in aspif file, line 8. Instead of positive building
-literals as in previous example on line 6, constraint is used. Thus either the
+The main difference is in Aspif file, line 8. Instead of positive building
+literals as in previous example on line 6, a constraint is used. Thus either the
 rule is not used resulting in nonexistence of literal 2 or the literal 8
 is set, corresponding to the cardinality constraint holding.
 Another difference is on the line 4. In the example with cardinality constraint
@@ -775,13 +868,13 @@ part of transcribtion of this rule.
 \end{equation*}
 Similiarly to usage of operator \texttt{<=} in the statement, operators
 \texttt{<}, \texttt{>=}, \texttt{>}, \texttt{=}, \texttt{!=} can be used in its
-place. In case of \texttt{=}, the formula is rewritten using two \texttt{<=}.
-The operator \texttt{!=} is evaluated two \texttt{<=} in disjunction.
+place. In case of \texttt{=} or \texttt{!=}, the formula is rewritten using two
+\texttt{<=} operators.
 
 In the body of statement, the operator \texttt{=} can be also used to assign
 value to variable. In that case, for each possible value, a new literal is
 created which is in the answer set if the equality holds. Thus the following
-two clingo programs are parsed into the same aspif file.
+two Clingo programs are parsed into the same Aspif file.
 
 \begin{minipage}[t]{0.45\linewidth}
 \centering
@@ -822,14 +915,14 @@ asp 1 0 0
 It can be seen that the generated program is highly redundant. For instance
 pairs of literals \texttt{3} and \texttt{5}, \texttt{6} and \texttt{9},
 \texttt{7} and \texttt{8}, \texttt{9} and \texttt{10} are the same.
-This might be on purpose as it lowers the computational time of Clasp.
+This might be on purpose as it somehow lowers the computational time of Clasp.
 I have measured the time to go through all solutions of both file generated by
-the gringo and equivalent file without redundancy. The files use modified
+the gringo and equivalent file without redundancy. The files used modified
 program equivalent to the one above with 20 literals.
-% TODO: neni to velmi nepresne? literalu je tam vice
-The results are written in table below.
+The results are written in Table~\ref{grounding:redundancy}.
 
 {\setlength{\tabcolsep}{0.4em}%
+\begin{table}
 \begin{center}
     \begin{tabular}{l @{\hskip 1em} r r}\toprule{}%
         File               & Best of 3 & Average of 3 \\\midrule{}
@@ -837,7 +930,9 @@ The results are written in table below.
         Without redundancy & 3.278 s   & 3.287 s \\
         \bottomrule{}
     \end{tabular}
-\end{center}}\noindent
+    \caption{Comparison between redundant and nonredundant grounding}%
+    \label{grounding:redundancy}%
+\end{center}\end{table}}\noindent
 
 % TODO: Is this section needed?
 % \subsubsection{Normal logic programs}
@@ -858,10 +953,26 @@ The results are written in table below.
 % If all literals $L_0, \dots, L_n$ are consistent with the answer set,
 % then atom $A_0$ is in the answer set.
 
+\subsubsection{Conditional literals}
+
+\begin{equation*}
+    L : L_1, \dots, L_n
+\end{equation*}
+
+Conditional literals allow for a more compact writing of conditions.
+Semantically, the notation represents either literal $L$ if the condition
+$L_1, \dots, L_n$ is consistent with the answer set, In the case of inconsistency
+with the condition the conditional literal appear to not be present.
+In rule bodies, it is equivalent to a condition $L$ is consistent with the answer set
+or conjunction of $L_1, \dots, L_n$ is not consistent with the answer set.
+
+Conditional literals are especially usefull when used inside of aggregates as
+their use help significantly to compact the programs.
+
 \subsubsection{Aggregates}
 
 \begin{equation*}
-    \texttt{l} \diamond_1 \texttt{\#agg}\{p_1; \dots; p_m; \aspnot p_{m+1}; \dots; \aspnot p_n\} \diamond_2 \texttt{u}
+    \texttt{l} \diamond_1 \texttt{\#agg}\{ l_1: L_1; \dots; l_n: L_n\} \diamond_2 \texttt{u}
 \end{equation*}
 Similiar to cardinality constraints are the aggregates. These work as functions
 applied on sets of tuples. Usable aggregate functions are \texttt{\#count},
@@ -869,14 +980,32 @@ applied on sets of tuples. Usable aggregate functions are \texttt{\#count},
 As in cardinality constraints, both $\diamond_1, \diamond_2$ default to 
 \texttt{<=} if ommited.
 
-% TODO: examples
+Usual use of aggregates is by substituting some number parameter for $l_i$
+based on the parametric literal $L_i$. This way the aggregate works as function
+over all instances of such literal. For example the following program
+\begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
+{a(1); a(2); a(5); a(10)}.
+s(S) :- S = #sum{ X : a(X) }.
+\end{lstlisting}
+allows for assigning to parameter of atom \texttt{s} only values which can be
+aquired as a sum of some numbers from list 1, 2, 5 and 10.
+
+The \texttt{\#count}, \texttt{\#sum} and \texttt{\#sum+} aggregates are rewritten
+simmiliarly to the cardinality constraint as up to two weighted body rules with
+the values $l_i$ as weights. The \texttt{\#min} and \texttt{\#max} aggregates
+are rewritten by sorting the possible values. The aggregate then returns the
+value iff some instance of this value is present and no instance of bigger value
+is present at the same time resulting in many statements in the Aspif file.
 
 \subsection{Clasp}
 
-% TODO: section
+Clasp is the solver of the Clingo framework. It takes Aspif file on input
+to search for answer sets of specified problem. This solver approaches the
+inference using the unit propagation of nogoods~\cite{DBLP:journals/ai/GebserKS12}.
+It is also able to search
+for all answer sets in one pass making it good option for the task of verification.
 
-\chapter{Můj přínos}
-% TODO: Rename section
+\chapter{Binary neural network}
 
 \section*{Notation}
 
@@ -901,16 +1030,21 @@ Let me first introduce you to the notation for this chapter.
     $[k]$ & Set of numbers up to $k$, that is $\{1, 2, \dots, k\}$\\
     $\mat{M}_{:, j}$ & j-th row of matrix $\mat{M}$\\
     $\vec{v}_j$ & j-th entry of vector $\vec{v}$\\
-    $\lfloor x \rfloor$ & bottom whole part\\
-      & $\lfloor x \rfloor = y \iff x = y + q \wedge 0 \leq q < 1$
-    \\ \bottomrule
+    \midrule
+    $\langle \vec x, \vec y\rangle$ & Scalar product\\
+    & $\langle \vec x, \vec y\rangle = \sum_i \vec x_i + \vec y_i$\\
+    $\sign_{\pm 1}(x)$ & Sign function using values +1, -1\\
+    & $\sign_{\pm 1}(x) = \left\{\begin{matrix}+1 & x\geq 0\\-1 & x < 0\end{matrix}\right.$\\  % chktex 40
+    $\lfloor x \rfloor$ & Bottom whole part\\
+      & $\lfloor x \rfloor = y \iff x = y + q \wedge 0 \leq q < 1$\\
+    \bottomrule
 \end{tabular}
     }}%
     \caption{Used notation}%
     \label{table:mat_notation}
 \end{table}
 
-\section{Binary neural network}\label{section:binneurnetw}
+\section{Definition of BNN}\label{section:binneurnetw}
 I have been working with deterministic binarized neural networks (BNN)
 as defined in~\cite{Hubara2016BinarizedNN} and~\cite{10.1145/3563212}.
 For convinience I have rewritten the output as a natural number instead of
@@ -943,7 +1077,7 @@ $t_{d+1}^{am}$.
     t_{d+1} = t_{d+1}^{am} \circ t_{d+1}^{lin}
 \end{equation}
 
-Each layer is a function with parameters defined in Table~\ref{table:bnn_layers}.
+Each layer is a function with parameters as defined in Table~\ref{table:bnn_layers}.
 
 \begin{table}[h]
     \makebox[\textwidth]{%
@@ -999,8 +1133,14 @@ Each layer is a function with parameters defined in Table~\ref{table:bnn_layers}
     \caption{Definition of BNN layers~\cite{10.1145/3563212}}%
     \label{table:bnn_layers}
 \end{table}
+% TODO: flip to landtable
 
-I have transformed the parameters to lower their count and make them integer only.
+\section{Transformation of BNN}
+
+In this section, I will show a possible trasformation of parameters to
+lower their count and make them integer only. This transformation is similiar
+to the one introduced in~\cite{10.1145/3563212}. The transformation to integer-only
+parameters is crucial as Clingo can not compute on real numbers.
 
 \begin{equation*}
     t_i(\vec x) = (t_i^{bin} \circ t_i^{bn} \circ t_i^{lin})(\vec x) = y
@@ -1017,6 +1157,7 @@ The argument of $\sign_{\pm 1}$ can be further analysed.
 
 There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
 
+% TODO: split this to be more obvious these are 3 possible cases
 \begin{equation*}
     \begin{matrix}
         \frac{\vec\alpha_j}{\vec\sigma_j} > 0: \\
@@ -1026,7 +1167,7 @@ There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
         \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
     \end{matrix}
 \end{equation*}
-
+\hfill\rule{0.7\textwidth}{0.4pt}\hfill\phantom{}
 \begin{equation*}
     \begin{matrix}
         \frac{\vec\alpha_j}{\vec\sigma_j} < 0: \\
@@ -1037,7 +1178,7 @@ There are three possible cases of value $\frac{\vec \alpha_j}{\vec \sigma_j}$:
         \langle \vec x, \mat W'_{:, j}\rangle + \vec b'_j \geq 0\\
     \end{matrix}
 \end{equation*}
-
+\hfill\rule{0.7\textwidth}{0.4pt}\hfill\phantom{}
 \begin{equation*}
     \begin{matrix}
         \vec\alpha_j = 0: \\
@@ -1065,7 +1206,9 @@ parameter or by modifying the BNN structure to remove the constant node.
     \right.
 \end{equation*}
 
-In my implementation I am also encoding inputs as binary values $\{0, 1\}$.
+In my implementation I am encoding inputs as binary values $\{0, 1\}$.
+This helps to speed up the computation in Clingo as it
+removes the need for multiplication inside of {\tt\#sum} aggregates.
 
 \begin{equation*}
     \begin{matrix}
@@ -1096,35 +1239,53 @@ The only needed transformation is to split bias to whole and decimal part.
 
 $\vec p$ is then used as main order of outputs.
 % TODO: Try to order the outputs by this order? -> would remove one aggregate
+%       using stable argmax yields just that
 
 Implementation of these transformations in Python is added as [appendix] % TODO
 
 \section{Encoding of BNN in Clingo}
 
+\subsection{Base encoding}
+
 Input for the Clingo was parsed from the model using Python program. This
 program also computed the transformation from Section~\ref{section:binneurnetw}.
 This program then outputs the model of BNN as multiple rules.
-Semantics are as follows.
+Semantics are as defined in Table~\ref{table:encoding_semantics}.
+% TODO: Use upper index to show layer - it would remove 
+% TODO: layers in this sections are bloks from previous
 
+{\renewcommand\fact[2]{\texttt{#1($#2$)}.}
+\begin{table}[h]
+    \makebox[\textwidth]{%
+\begin{tabular}{lLl}
+    \toprule{}%
+    Fact & \text{Param.} & Semantics\\
+    \midrule{}%
+    \fact{layer}{L, N} & L & layer number\\
+    & & $L=0$ corresponds to input layer\\
+    & & highest layer corresponds to output layer\\
+    & N & number of nodes in layer $L$\\
+    \fact{weight}{L, P, N, W} & L & layer\\
+    & P & node in layer $L-1$\\
+    & N & node in layer $L$\\
+    & W & weight of node $P$ to node $N$\\
+    \fact{bias}{L, N, B} & L & layer\\
+    & N & node in layer $L$\\
+    & B & bias for node $N$ in layer $L$\\
+    \fact{outpre}{N, P} & N & output node\\
+    & P & $N$ has precedence $P$\\
+    & & if two outputs are tied, highest $P$ is used\\
+    \bottomrule
+\end{tabular}
+    }%
+    \caption{Semantics of encoding BNN into Clingo-readable file}%
+    \label{table:encoding_semantics}
+\end{table}
+}
 % TODO: difference between layer and block
-\fact{layer}{$L, N$}
-Layer $L$ consists of $N$ nodes. Layer 0 is input layer, thus its number
-of nodes corresponds to the length of input vector.
-Highest layer is the output layer.
 
-\fact{weight}{$L, P, N, W$}
-Weight from node $P$ of layer $L-1$ to node $N$ of layer $L$ is $W$.
-
-\fact{bias}{$L, N, B$}
-Bias of node $N$ of layer $L$ is $B$.
-
-\fact{outpre}{$N, P$}
-Output node $N$ has a precedence of $P$. If tied, the output
-with higher precedence is the result.
-
-The encoding of input region is written in Section~\ref{section:inputregion}.
-
-I have transcribed the computation of BNN as the following clingo program.
+With this notation of literals, I have transcribed the computation of BNN
+as the following Clingo program.
 
 \begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
 % output layer
@@ -1163,7 +1324,9 @@ a single fact. Line 4 expands to number of choice rules equal to size of input
 vector. Lines 6--8 expand to a number of rules equal to hidden nodes of the
 network.
 
-Encoding of the output layer in this case is problematic. Rule
+\subsection{Improved encoding of the output layer}
+
+Encoding of the output layer as shown above is problematic. Rule
 on lines 10--12 generate for each of the output bits one more atom than is
 the size of last hidden layer, each with equality constraint. Then the rule
 on lines 16--17 generate % TODO? Is this true?
@@ -1201,7 +1364,7 @@ higher precedence is used. There is no need for the evaluation of output number
 as the precedence already is nonredundant.
 
 The use of choice rule and constraints has greatly reduced both size of
-the aspif file generated by gringo and the total time needed for computation
+the Aspif file generated by gringo and the total time needed for computation
 of answer sets as shown in the table below.
 
 % TODO: create table / graph for size of gringo grounded size and time
@@ -1212,16 +1375,17 @@ of answer sets as shown in the table below.
 % TODO: To be implemented
 % Definice input region
 An input region of BNN is some subset of inputs on which the analysis is
-performed. I have implemented both of input region types from~\cite{10.1145/3563212},
+performed. I have implemented two input region types from~\cite{10.1145/3563212},
 that is input region based on Hamming distance ($R_H$) and input region with
 fixed indices ($R_I$).
 
 The quantitative analysis of said BNN is a problem to say how many inputs
 in the input region differ from ground truth (or in this case the base input)
-in the outputs.
+in the outputs. Given BNN $\BNN$, an input region $R$ and base input vector $\hat v$, the number of
+missclassified inputs is $\|\{v\mid v\in R, \BNN(v) \neq \BNN(\hat v)\}\|$.
 
-To perform the quantitative analysis on some input region the encoding of such
-region is needed.
+To perform the quantitative analysis on some input region, the encoding of such
+region and of a missclassified (adversarial) input is needed.
 
 \subsection{Hamming distance}
 
@@ -1230,12 +1394,12 @@ region is needed.
                        \|\{i \mid \vec u_i \neq \vec v_i\}\| \leq r\}
 \end{equation*}
 
-Space of inputs under hamming distance $r\in\NN_0$ from input vector
+Space of inputs under hamming distance $r\in\NN_0$ from base vector
 $\vec u\in\BB^n$,
 $R_H(\vec u, r)$ is a set of input vectors, that differs on at most $r$ entries
-from the vector $\vec u$.
+from the base vector $\vec u$.
 
-In my implementation, full input vector is parsed by the Python parser.
+In my implementation, full base vector is parsed by the Python parser.
 If the entry of vector represents active state, fact \texttt{input($a$).},
 where $a$ corresponds to the index of that entry,
 is included in the model. Else nothing is added to the model. The maximal
@@ -1243,8 +1407,9 @@ allowed hamming distance is represented as fact \texttt{hamdist($r$).},
 where $r$ corresponds to the allowed radius of this distance.
 
 \begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
-% input space is at most hamdist from on
-:- #count{ N : not input(N), on(0, N); N : input(N), not on(0, N) } > H,
+% base vector is at most hamdist from on
+:- #count{ N : not input(N), on(0, N);
+           N : input(N), not on(0, N) } > H,
     hamdist(H).
 \end{lstlisting}
 The input region is then encoded in the Clingo language as a single constraint.
@@ -1260,10 +1425,11 @@ a set of input vectors that do not
 differ from the base vector $\vec u \in \BB^{n_1}$ on entries
 on indices from $I \subseteq [n_1]$.
 
-Like in the input region based of hamming distance, the full vector $\vec u$
-is added to the model using facts \texttt{input($a$).}. Then, the fixed indices
-in the form of fact \texttt{inpfix($i$).} for every index $i\in I$ is added.
-Note that this defintion is dual to the one in~\cite{10.1145/3563212}.
+Like in the input region based of hamming distance, the full base vector $\vec u$
+is added to the model using facts \texttt{input($a$).}. Then the fixed indices
+in the form of fact \texttt{inpfix($i$).} for every index $i\in I$ are added.
+Note that this defintion is dual to the one in~\cite{10.1145/3563212} where
+$I$ corresponds to the free indices.
 
 \begin{lstlisting}[language=prolog, numbers=left, countblanklines=false]
 % input does not differ from base on fixed indices
@@ -1276,9 +1442,13 @@ input \texttt{on(0, N)} and base input \texttt{input(N)} can not differ.
 \subsection{Encoding of adversarial output}
 
 For the output to differ from the one of base input, the program has to be
-further constrained. To implement the feature for the output to be adversarial,
-I have first used the same encoding as for the computing of the output of the
+further constrained. To implement the rule for the output to be adversarial,
+I have used the same encoding as for the computing of the output of the
 network.
+
+I have also tried encoding the rule by constraining the output to not be
+pre-computed value given by evaluating the base input outside the Clingo framework
+but this did not yield better results.
 % TODO: The direct constraint for the output to not be the one given
 %       by the base input is faster and smaller?
 
@@ -1318,14 +1488,13 @@ inputOn(L, N) :-
 
 \section{Methodology of evaluation}
 
-For the evaluation of my model, I have used inputs from dataset
-% TODO: is this true?
-of BNNQuanalyst. In the next chapter I will be reffering to instances of inputs
-0 to 9 as I0 to I9. The instances I have used for the testing are shown
-on Figure [].
+For the evaluation of my model, I have used inputs from MNIST dataset~\cite{mnist2017},
+the same as were used for the evaluation of BNNQuanalyst~\cite{10.1145/3563212}.
+In the next chapter I will be reffering to instances of inputs
+0 to 9 as I0 to I9.
 % TODO: name them I0 - I9
 % TODO: link
-% TODO: pictures
+% !TODO: pictures
 The architectures of different models is written in Table~\ref{table:model_architecture}
 
 \begin{table}
@@ -1347,10 +1516,9 @@ The architectures of different models is written in Table~\ref{table:model_archi
 
 The framework was evaluated using the computational sources of MetaVO,
 virtual organization providing computing resources for academic community.
-The framework was evaluated on hardware
-[TODO]  % TODO: actuall hardware of the run
-The framework was evaluated on 8 threads with 16 GB of RAM unless otherwise  % chktex 13
-specified.
+The framework was evaluated on physical machine
+\href{https://metavo.metacentrum.cz/pbsmon2/machine/kirke36.meta.zcu.cz}{kirke36.meta.zcu.cz}.
+The framework was evaluated on 8 CPU cores with 16 GB of RAM. % chktex 13
 
 %\section{Evaluation of different solvers}
 %I have evaluated BNN models 
@@ -1365,7 +1533,7 @@ on the number of all adversary inputs.
 Time to find 1st model (adversary input) is dependent on the number
 of models (adversary inputs). The more models exist for the problem, the higher
 chance is to find one by assigning values for literals at random. The table
-also shows that the size of aspif intermediate file does not change much
+also shows that the size of Aspif intermediate file does not change much
 between different inputs. The quantitative verification using ASP
 seems to scale better with depth of the evaluated BNN than with width.
 
@@ -1376,35 +1544,35 @@ seems to scale better with depth of the evaluated BNN than with width.
         % TODO: Refresh new values
         Input & \#M & T_M & T_1 & N_r & N_w & \#M & T_M & T_1 & N_r & N_l \\ \midrule
         & &&\multicolumn{1}{r}{M1}&& & &&\multicolumn{1}{r}{M2}&& \\ \midrule
-        I0 & 40821 & 34.143 & 0.14 & 11151 & 44386 & 16403 & 17.822 & 0.20 & 5601 & 22236 \\
-        I1 & 10945 & 39.961 & 0.12 & 11138 & 44373 & 34288 & 16.690 & 0.03 & 5588 & 22223 \\
-        I2 & 22518 & 39.480 & 0.14 & 11154 & 44389 & 26628 & 15.254 & 0.07 & 5604 & 22239 \\
-        I3 & 20666 & 37.030 & 0.13 & 11152 & 44387 & 10955 & 14.008 & 0.12 & 5602 & 22237 \\
-        I4 &114392 & 31.222 & 0.09 & 11149 & 44384 & 70244 & 14.608 & 0.06 & 5599 & 22234 \\
-        I5 & 36405 & 32.362 & 0.14 & 11147 & 44382 &140021 & 12.831 & 0.03 & 5597 & 22232 \\
-        I6 &     0 & 31.798 &    - & 11153 & 44388 &   487 & 18.832 & 0.20 & 5603 & 22238 \\ %chktex 8
-        I7 & 53242 & 32.387 & 0.07 & 11144 & 44379 & 15055 & 17.794 & 0.07 & 5594 & 22229 \\
-        I8 &139399 & 41.975 & 0.09 & 11151 & 44386 & 47558 & 14.506 & 0.07 & 5601 & 22236 \\
-        I9 & 42591 & 32.511 & 0.11 & 11150 & 44385 & 74443 & 13.078 & 0.04 & 5600 & 22235 \\ \midrule
+        I0 & 40821 & 30.419 & 0.15 & 11151 & 44386 & 16403 & 19.114 & 0.09 & 5601 & 22236 \\
+        I1 & 10945 & 33.523 & 0.18 & 11138 & 44373 & 34288 & 29.625 & 0.04 & 5588 & 22223 \\
+        I2 & 22518 & 31.482 & 0.13 & 11154 & 44389 & 26628 & 14.982 & 0.06 & 5604 & 22239 \\
+        I3 & 20666 & 32.190 & 0.16 & 11152 & 44387 & 10955 & 15.271 & 0.08 & 5602 & 22237 \\
+        I4 &114392 & 25.190 & 0.09 & 11149 & 44384 & 70244 & 13.806 & 0.06 & 5599 & 22234 \\
+        I5 & 36405 & 31.883 & 0.14 & 11147 & 44382 &140021 & 13.695 & 0.04 & 5597 & 22232 \\
+        I6 &     0 & 27.498 &    - & 11153 & 44388 &   487 & 16.880 & 0.35 & 5603 & 22238 \\ %chktex 8
+        I7 & 53242 & 28.737 & 0.13 & 11144 & 44379 & 15055 & 16.309 & 0.08 & 5594 & 22229 \\
+        I8 &139399 & 24.955 & 0.12 & 11151 & 44386 & 47558 & 14.072 & 0.08 & 5601 & 22236 \\
+        I9 & 42591 & 27.802 & 0.14 & 11150 & 44385 & 74443 & 14.335 & 0.05 & 5600 & 22235 \\ \midrule
         & &&\multicolumn{1}{r}{M6}&& & &&\multicolumn{1}{r}{M7}&& \\ \midrule
-        I0 & 51423 & 79.991 & 0.94 & 15702 & 62538 &  3330 & 27.282 & 0.05 & 6322 & 25098 \\
-        I1 &   196 &141.390 & 2.89 & 15689 & 62525 & 35548 & 19.151 & 0.12 & 6309 & 25085 \\
-        I2 & 45315 & 84.534 & 0.95 & 15705 & 62541 & 20752 & 17.112 & 0.09 & 6325 & 25101 \\
-        I3 &  6725 &104.792 & 1.09 & 15703 & 62539 &  8238 & 25.747 & 0.12 & 6323 & 25099 \\
-        I4 & 24909 &124.571 & 1.25 & 15700 & 62536 & 74224 & 18.924 & 0.04 & 6320 & 25096 \\
-        I5 & 22733 & 72.106 & 1.29 & 15698 & 62634 & 11053 & 20.125 & 0.11 & 6318 & 25094 \\
-        I6 &  6283 &128.535 & 1.35 & 15704 & 62540 & 15919 & 23.074 & 0.14 & 6324 & 25100 \\
-        I7 &  7091 &104.315 & 1.63 & 15695 & 62531 &  8361 & 21.750 & 0.15 & 6315 & 25091 \\
-        I8 & 49700 & 86.873 & 1.39 & 15702 & 62538 &146724 & 21.501 & 0.04 & 6322 & 25098 \\
-        I9 & 80704 &170.094 & 1.13 & 15701 & 62537 & 24300 & 20.277 & 0.13 & 6321 & 25097 \\ \bottomrule
+        I0 & 51423 & 68.897 & 0.96 & 15702 & 62538 &  3330 & 25.382 & 0.16 & 6322 & 25098 \\
+        I1 &   196 & 82.353 & 2.17 & 15689 & 62525 & 35548 & 21.913 & 0.07 & 6309 & 25085 \\
+        I2 & 45315 & 48.831 & 0.66 & 15705 & 62541 & 20752 & 37.921 & 0.11 & 6325 & 25101 \\
+        I3 &  6725 & 71.345 & 0.61 & 15703 & 62539 &  8238 & 26.670 & 0.10 & 6323 & 25099 \\
+        I4 & 24909 & 87.996 & 1.17 & 15700 & 62536 & 74224 & 21.288 & 0.16 & 6320 & 25096 \\
+        I5 & 22733 & 59.329 & 0.86 & 15698 & 62634 & 11053 & 21.608 & 0.07 & 6318 & 25094 \\
+        I6 &  6283 & 77.874 & 0.70 & 15704 & 62540 & 15919 & 26.313 & 0.15 & 6324 & 25100 \\
+        I7 &  7091 & 76.299 & 0.80 & 15695 & 62531 &  8361 & 23.145 & 0.29 & 6315 & 25091 \\
+        I8 & 49700 &129.550 & 0.85 & 15702 & 62538 &146724 & 15.858 & 0.05 & 6322 & 25098 \\
+        I9 & 80704 & 50.981 & 0.82 & 15701 & 62537 & 24300 & 20.125 & 0.15 & 6321 & 25097 \\ \bottomrule
     \end{tabular}
     \caption{Evaluation of M1, M2, M6, M7 over inputs I0 --- I9}%
     \caption*{\centering%
         $\#M$ number of adv.\ inputs,
         $T_M$ time to all adv.\ inputs [sec], $T_1$ time to 1st adv.\ input [sec]
         \\
-        $N_r$ number of lines (approx.\ rules) of aspif,
-        $N_l$ number of words (approx.\ literals) of aspif}%
+        $N_r$ number of lines (approx.\ rules) of Aspif,
+        $N_l$ number of words (approx.\ literals) of Aspif}%
     \label{table:eval_inputs}
 }
 % TODO: maybe remake into graph?
@@ -1413,7 +1581,7 @@ seems to scale better with depth of the evaluated BNN than with width.
 
 I have evaluated models M2, M3, M7, M11 on input I0 for hamming distance
 from 0 to 4. The results are shown in the Table~\ref{table:eval_distance}.
-As can be seen, the hamming distance does not affect the size of the aspif
+As can be seen, the hamming distance does not affect the size of the Aspif
 intermediate file at all. This is because the hamming distance does only change
 weight in a single constraint corresponding to the encoding of input region
 by hamming distance.
@@ -1431,25 +1599,25 @@ here the time grows relatively slowly.
         % TODO: Refresh new values
         Distance & \#M & T_M & T_1 & N_r & N_w & \#M & T_M & T_1 & N_r & N_l \\ \midrule
         & &&\multicolumn{1}{r}{M2}&& & &&\multicolumn{1}{r}{M3}&& \\ \midrule
-        0 & 0           &        0.079 &    - & 5601 & 22236 & 0      & 0.476        & - & 41205 & 164440 \\ % chktex 8
-        1 & 0           &        0.141 &    - & 5601 & 22236 & 0      & 1.717        & - & 41205 & 164440 \\ % chktex 8
-        2 & 91          &        0.707 & 0.05 & 5601 & 22236 & 0      & 146.393      & - & 41205 & 164440 \\ % chktex 8
-        3 & 16404       &       28.721 & 0.17 & 5601 & 22236 &[TO]\,0 &[TO]\,300.050 & - & 41205 & 164440 \\ % chktex 8 % TODO: is this right?
-        4 &[TO]\,507959 &[TO]\,300.006 & 0.04 & 5601 & 22236 &[TO]\,0 &[TO]\,300.299 & - & 41205 & 164440 \\ \midrule % chktex 8
+        0 & 0           &        0.078 &    - & 5601 & 22236 & 0      & 0.494        & - & 41205 & 164440 \\ % chktex 8
+        1 & 0           &        0.177 &    - & 5601 & 22236 & 0      & 2.316        & - & 41205 & 164440 \\ % chktex 8
+        2 & 91          &        0.775 & 0.13 & 5601 & 22236 & 0      & 156.865      & - & 41205 & 164440 \\ % chktex 8
+        3 & 16404       &       19.316 & 0.16 & 5601 & 22236 &[TO]\,0 &[TO]\,300.006 & - & 41205 & 164440 \\ % chktex 8 % TODO: is this right?
+        4 &[TO]\,447801 &[TO]\,300.055 & 0.05 & 5601 & 22236 &[TO]\,0 &[TO]\,300.025 & - & 41205 & 164440 \\ \midrule % chktex 8
         & &&\multicolumn{1}{r}{M7}&& & &&\multicolumn{1}{r}{M11}&& \\ \midrule
-        0 & 0           &   0.105      &    - & 6322 & 25098 &     0 & 0.054 &    - & 2052 & 8079 \\ % chktex 8
-        1 & 0           &   0.258      &    - & 6322 & 25098 &    12 & 0.157 & 0.05 & 2052 & 8079 \\ % chktex 8
-        2 & 73          &   1.122      & 0.14 & 6322 & 25098 &   207 & 0.125 & 0.05 & 2052 & 8079 \\
-        3 & 3330        &  23.355      & 0.11 & 6322 & 25098 &  1813 & 0.237 & 0.05 & 2052 & 8079 \\
-        4 &[TO]\,191969 &[TO]\,300.021 & 0.11 & 6322 & 25098 & 11830 & 0.950 & 0.05 & 2052 & 8079 \\ \bottomrule
+        0 & 0           &   0.103      &    - & 6322 & 25098 &     0 & 0.056 &    - & 2052 & 8079 \\ % chktex 8
+        1 & 0           &   0.295      &    - & 6322 & 25098 &    12 & 0.141 & 0.06 & 2052 & 8079 \\ % chktex 8
+        2 & 73          &   1.471      & 0.14 & 6322 & 25098 &   207 & 0.188 & 0.07 & 2052 & 8079 \\
+        3 & 3330        &  31.686      & 0.16 & 6322 & 25098 &  1813 & 0.398 & 0.06 & 2052 & 8079 \\
+        4 &[TO]\,167451 &[TO]\,300.008 & 0.13 & 6322 & 25098 & 11830 & 0.818 & 0.07 & 2052 & 8079 \\ \bottomrule
     \end{tabular}
     \caption{Evaluation of M2, M3, M7, M11 over hamming distance 0~---~4}%
     \caption*{\centering
         $\#M$ number of adv.\ inputs,
         $T_M$ time to all adv.\ inputs [sec], $T_1$ time to 1st adv.\ input [sec],
         \\
-        $N_l$ number of lines (approx.\ rules) of aspif,
-        $N_w$ number of words (approx.\ literals) of aspif
+        $N_l$ number of lines (approx.\ rules) of Aspif,
+        $N_w$ number of words (approx.\ literals) of Aspif
         \\
         $[TO]$ solving has timed out}%
     \label{table:eval_distance}
@@ -1469,7 +1637,7 @@ for l in 25 100 400; do
     echo -n "$pos "
   done | head --bytes=-1 "inpbits_0_${l}_0.txt"
   for free in 8 16 24; do
-    cat "inpbits_0_${l}_$(( $free-8 )).txt" \
+        cat "inpbits_0_${l}_$(( $free-8 )).txt" \
     | cut -d' ' -f'9-' > "inpbits_0_${l}_${free}.txt"
   done
 done
@@ -1496,23 +1664,23 @@ be speeded up significantly.
         % TODO: Refresh new values
         Free & \#M & T_M & T_1 & N_r & N_w & \#M & T_M & T_1 & N_r & N_l \\ \midrule
         & &&\multicolumn{1}{r}{M2}&& & &&\multicolumn{1}{r}{M3}&& \\ \midrule
-        0  &        0 &   0.079 &    - & 5700 & 22335 &    0 & 0.443 &    - & 41604 & 164839 \\ % chktex 8
-        8  &      215 &   0.103 & 0.01 & 5692 & 22327 &    0 & 0.446 &    - & 41596 & 164831 \\ % chktex 8
-        16 &    50517 &   0.484 & 0.01 & 5684 & 22319 &    0 & 0.486 &    - & 41588 & 164823 \\ % chktex 8
-        24 & 12467600 & 125.292 & 0.01 & 5676 & 22311 & 2704 & 1.705 & 0.05 & 41580 & 164815 \\ \bottomrule
+        0  &        0 &   0.076 &    - & 5700 & 22335 &    0 & 0.443 &    - & 41604 & 164839 \\ % chktex 8
+        8  &      215 &   0.099 & 0.01 & 5692 & 22327 &    0 & 0.455 &    - & 41596 & 164831 \\ % chktex 8
+        16 &    50517 &   0.779 & 0.01 & 5684 & 22319 &    0 & 0.493 &    - & 41588 & 164823 \\ % chktex 8
+        24 & 12467600 & 130.907 & 0.02 & 5676 & 22311 & 2704 & 1.688 & 0.04 & 41580 & 164815 \\ \bottomrule
         & &&\multicolumn{1}{r}{M7}&& & &&\multicolumn{1}{r}{M11}&& \\ \midrule
-        0  &        0 &   0.096 &    - & 6421 & 25197 &             0 &         0.053 &    - & 2076 & 8103 \\ % chktex 8
-        8  &       58 &   0.154 & 0.03 & 6413 & 25189 &           226 &         0.104 & 0.05 & 2068 & 8095 \\
-        16 &    38187 &   1.104 & 0.06 & 6405 & 25181 &         60144 &         2.061 & 0.07 & 2060 & 8087 \\
-        24 & 11819735 & 279.607 & 0.11 & 6397 & 25183 & [TO]\,7939149 & [TO]\,300.000 & 0.07 & 2052 & 8079 \\ \bottomrule
+        0  &        0 &   0.099 &    - & 6421 & 25197 &             0 &         0.058 &    - & 2076 & 8103 \\ % chktex 8
+        8  &       58 &   0.167 & 0.04 & 6413 & 25189 &           226 &         0.113 & 0.05 & 2068 & 8095 \\
+        16 &    38187 &   1.327 & 0.05 & 6405 & 25181 &         60144 &         2.229 & 0.06 & 2060 & 8087 \\
+        24 & 11819735 & 282.620 & 0.08 & 6397 & 25183 & [TO]\,9343147 & [TO]\,300.001 & 0.09 & 2052 & 8079 \\ \bottomrule
     \end{tabular}
     \caption{Evaluation of M2, M3, M7, M11 over 0~---~24 free bit positions}%
     \caption*{\centering
         $\#M$ number of adv.\ inputs,
         $T_M$ time to all adv.\ inputs [sec], $T_1$ time to 1st adv.\ input [sec],
         \\
-        $N_l$ number of lines (approx.\ rules) of aspif,
-        $N_w$ number of words (approx.\ literals) of aspif
+        $N_l$ number of lines (approx.\ rules) of Aspif,
+        $N_w$ number of words (approx.\ literals) of Aspif
         \\
         $[TO]$ solving has timed out}%
     \label{table:eval_inpbits}
@@ -1564,5 +1732,13 @@ its solvers have strong heuristics to find a fast way for the computation.
 % - má ASP pro další verifikaci význam?
 % - je možnost, že by přinesl alespoň relevantní benchmark pro další verifikační algoritmy (např. nad obecnými NN?)
 % 	+ není velká možnost, že by porazil algoritmy přizpůsobené přímo pro daný problém, ale je tu možnost že by byl fajn dokud nebudeme mít něco silnějšího než ASP pro problém
+
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+
+\section*{Code of BNN verificator}
+The full code of the verificator implemented in this thesis together with
+the examples can be found either in the Thesis archive in the IS MU
+or in the Github repository \href{https://github.com/Ardnij123/BNN_verification}{https://github.com/Ardnij123/BNN\_verification}
 
 \end{document}
