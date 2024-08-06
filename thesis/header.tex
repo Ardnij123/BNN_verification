@@ -1,10 +1,28 @@
+\usepackage{makecell}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{listings}
+
+% Landscape fullpage tables
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{geometry}
+
 % BNN representation
 \newcommand{\BB}{\mathbb{B}}       % {-1, 1}
 \newcommand{\RR}{\mathbb{R}}       % real numbers
 \newcommand{\NN}{\mathbb{N}}       % natural numbers
-\newcommand{\BNN}{\mathcal{N}}     % binary neural network
+\newcommand{\ZZ}{\mathbb{Z}}       % whole numbers
+\newcommand{\BNN}{\mathcal{N}^{\BB}}     % binary neural network
+\newcommand{\DNN}{\mathcal{N}}     % binary neural network
 \newcommand{\mat}[1]{\mathbf{#1}}  % matrix
 \newcommand{\sign}{\mathrm{sign}}  % signum function
+
+% Custom operators
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 
 % ASP representation
 \newcommand{\asprule}[2]{#1 \leftarrow{} #2}  % head <- body
@@ -95,3 +113,19 @@
         \restoregeometry%
     }%
 }%
+
+\newcommand{\sectionsep}{%
+    \vspace{1em}\hrule{}\vspace{1em}%
+}
+
+
+% Theorems, definitions, etc.
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
