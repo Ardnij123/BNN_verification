@@ -10,6 +10,9 @@
 \usepackage{afterpage}
 \usepackage{geometry}
 
+% Nested file structure of thesis
+\usepackage{import}
+
 % BNN representation
 \newcommand{\BB}{\mathbb{B}}       % {-1, 1}
 \newcommand{\RR}{\mathbb{R}}       % real numbers
@@ -88,7 +91,7 @@
 \makeatother
 
 % Writting rules
-\newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}
+\newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}  % chktex 9
 
 
 % Evaluation
@@ -129,3 +132,8 @@
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 
+
+% Import of chapters
+\newcommand{\importchapter}[1]{%
+    \import{chapters/#1/}{chapter.tex}%
+}

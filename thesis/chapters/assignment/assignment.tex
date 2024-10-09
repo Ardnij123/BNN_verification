@@ -1,0 +1,19 @@
+\chapter*{Thesis assignment}
+
+ASP (Answer Set Programming) is a form of constraint programming designed
+for solving various NP-complete search problems. It is often used
+as an alternative to SAT/SMT solvers or symbolic algorithms based on BDDs
+(Binary Decision Diagrams). Meanwhile, SAT/SMT and BDDs are one of the key
+tools in current verification and validation workflows for binarised
+neural networks (BNNs)~\cite{zhang2021bdd4bnn}. Conceptually, the goal of this thesis is therefore
+to explore the possibilities of applying ASP to reason about the behaviour
+of binarised neural networks. This should supplement the existing
+SAT/SMT/BDD-based approaches.
+
+More concretely, the student should familiarise themselves with the problem
+of BNN robustness and the ASP method in general. They should then formulate
+an ASP encoding of the BNN robustness problem such that the robustness of
+a network can be validated using a suitable ASP solver (e.g.\ clingo~\cite{gebser2019multi}).
+The student should then create a prototype implementation of this encoding
+that will be tested on a collection of reasonable examples
+(such as the ones from~\cite{zhang2021bdd4bnn}).
