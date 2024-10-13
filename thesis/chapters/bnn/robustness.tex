@@ -107,7 +107,8 @@ This may seem less useful, however it can lead to lower computational expenses.
     if and only if $Q_{w, h_p}(I) = 0$.
 \end{definition}
 
-\begin{lemma}{The property of qualitative robustness is independent of the function $w$}
+\begin{lemma}{The property of qualitative robustness is independent of the function $w$}%
+    \label{lemma:robustness_independence_of_weight}
     \begin{proof}
         For empty input region and regions such that $\int_I w(i) di = 0$
         when the function is being observed as a continuous,
@@ -178,6 +179,53 @@ of evaluation function $h_p$ applied over all inputs from the input region.
 More complex weight functions can be used to give some areas of the input region
 higher priority. Such weight function may reflect requirement for the robustness
 closer to the base input $p$.
+
+\begin{definition}{Strict qualitative robustness of function $F$ on input region $I$.}
+    Function $F: P\to Q$ is strictly (qualitatively) robust on input region $I\subseteq P$
+    if and only if for some $p\in P$ it is robust on this region with respect
+    to evaluation function $\overline{h_p}$ defined as follows:
+
+    \begin{equation*}
+        \overline{h_p}(q) = \left\{\begin{matrix}
+            0 & F(p) = q\\
+            1 & F(p) \neq q
+        \end{matrix}\right.
+    \end{equation*}
+\end{definition}
+
+\begin{lemma}{Function $F$ is strictly robust on input region $I$
+    if and only if for each two inputs $i, j\in I$, the function $F$ assigns the same value to them.}
+    \begin{proof}
+        Proof of equivalence in this lemma is done
+        by prooving corresponding implications.
+
+        For empty input region $I=\emptyset$, the statement holds trivially.
+        Further in the proof I will always assume nonempty input region.
+
+        First the left-to-right implication.
+        Let function $F$ be strictly robust on input region $I$,
+        $\overline{h_p}$ being the evaluation function.
+        As shown in the proof of Lemma~\ref{lemma:robustness_independence_of_weight},
+        for all instances from input region $i\in I$ holds
+        \begin{equation*}
+            \overline{h_p}(F(i)) = 0
+        \end{equation*}
+        By definition of evaluation function $\overline{h_p}$ it also holds
+        \begin{equation*}
+            F(p) = F(i)
+        \end{equation*}
+        As this holds for every input $i\in I$, for every two inputs $i, j\in I$:
+        \begin{equation*}
+            F(i) = F(p) = F(j)
+        \end{equation*}
+
+        Now for the opposite implication: Let for every $i, j\in I$, $F(i) = F(j)$.
+        Let $p\in I$. As $\overline{h_p}(F(p)) = 0$
+        and for every input $i\in I$ it holds that $F(i) = F(p)$,
+        $\overline{h_p}(F(i)) = 0$ for every input from the input region $I$.
+        The $F$ is thus strictly robust on input region $I$.
+    \end{proof}
+\end{lemma}
 
 % TODO: Can this (especially the weight and evaluation function)
 %       be implemented using the Clingo?

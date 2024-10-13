@@ -1,0 +1,431 @@
+\section{Robustness of Binarised neural network}
+
+There are two types of robustness problems. The qualitative robustness
+is a problem to determine wether the neural network gives the same (true)
+output for all inputs in some input region. The quantitative rubustness
+on the other hand determines the part of this input region, which has
+the same output as some chosen input of this region.
+
+Further I provide formal definition of robustness on functions in general.
+
+\subsection{Definition of robustness}
+
+% TODO: Maybe add something like diferentiability?
+\begin{definition}{Quantitative robustness of function.}
+    Let $F$ be a function, $F: P \to Q$.
+    Let $I$ be an input region of $F$, that is $I \subseteq P$.
+    Let $w$ be a function, $w: P\to \RR$, $\forall x\in P: w(x) > 0$.
+    Let $h_p$ be a function for some base input $p\in P$, $h_p: Q\to \RR$, that satisfies
+    \begin{equation*}
+        h_p(F(p)) = 0
+    \end{equation*}
+    \begin{equation*}
+        \forall x\in Q .\, 0 \leq \, h_p(x) \leq 1 
+    \end{equation*}
+
+    \noindent
+    Let $Q_{d, h_p}(I)$ be equal to
+    \begin{equation*}
+        Q_{w, h_p}(I) = \frac{\int_I w(i)\cdot h_p(F(i)) \, di}{\int_I w(i) \, di}
+        \hspace{1em} \text{or} \hspace{1em}
+        Q_{w, h_p}(I) = \frac{\sum_{i\in I} w(i)\cdot h_p(F(i))}{\sum_{i\in I} w(i)}
+    \end{equation*}
+    if the input region is non-discrete or discrete respectively.
+    Then $Q_{w, h_p}(I)$ is called the quantitative robustness of function $F$
+    with a weight function $w$ and evaluation function $h_p$ on input region $I$.
+
+    For empty input region $I = \emptyset$
+    or non-discrete input regions $I$ such that $\int_I w(i) di = 0$,
+    quantitative robustness is equal to $0$.
+\end{definition}
+
+The quantitative robustness is an average of values aquired by
+aplying the evaluation function $h_p$ on the input region
+weighted by the weight function $w$. The lower the value of robustness is,
+the more the function is robust on input region.
+
+The weight function can be used to make part of the inputs more prominent.
+For instance, by the use of weight function such as $w(x) = \frac{1}{1+||p-x||}$,
+inputs closer to the base input will have higher weight.
+
+The evaluation function can be used to encode dissimiliarity of an input
+from the base input $p$. That could prove useful in case of external metric.
+
+% Example
+
+The simplest example of the weight function is a constant function $w_1(x) = 1$.
+With constant function, every input is assigned the same weight,
+which leads to the quantitative robustness being an average
+of evaluation function $h_p$ applied over all inputs from the input region.
+
+More complex weight functions can be used to give some areas of the input region
+higher priority. Such weight function may reflect requirement for the robustness
+closer to the base input $p$.
+
+\begin{lemma}{For input region consisting only of the base input $I=\{p\}$,
+    the quantitative rubustness is equal to 0}
+    \begin{proof}
+        \begin{equation*}
+            Q_{w, h_p}(\{p\}) = \frac{w(p)\cdot h_p(p)}{w(p)} = \frac{w(p)}{w(p)}\cdot 0 = 0
+        \end{equation*}
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}{Quantitative robustness is between 0 and 1 for every possible combination
+    of functions and input regions.}
+    \begin{proof}
+        Let me first show that the quantitative robustness is nonnegative.
+        Both $w$ and $h_p$ are nonnegative on $P$ and $Q$ respectively,
+        thus $w(x)\cdot h_p(y)$ is nonnegative for all $(x, y)\in P\times Q$.
+        For that also values of integrals and summations over both $w(x)$
+        and $w(x)\cdot h_p(y)$ are nonnegative.
+        The fraction of two nonnegative values is nonnegative
+        and the quantitative robustness is nonnegative.
+
+        By definition holds $0 \leq h_p(y) \leq 1$, thus also $0 \leq h_p(F(x)) \leq 1$.
+        As $w(x) \geq 0$, 
+        \begin{equation*}
+            0 = w(x) \cdot 0 \leq w(x) \cdot h_p(F(x)) \leq w(x)\cdot 1
+        \end{equation*}
+        Again, integration or summation over any subset $I \subseteq P$
+        can be applied onto the latter two expressions.
+        \begin{equation*}
+            0 \leq \int_{I} w(i) \cdot h_p(F(i))\, di \leq \int_{I} w(i)\, di
+        \end{equation*}
+        \begin{equation*}
+            0 \leq \sum_{i\in I} w(i) \cdot h_p(F(i)) \leq \sum_{i\in I} w(i)
+        \end{equation*}
+        If the right-hand side term is equal to 0,
+        the statement holds by definition of qualitative robustness.
+        Else by division by the right-hand side term (nonnegative), following holds
+        \begin{equation*}
+            0 \leq \frac{\int_{I} w(i) \cdot h_p(F(i))\, di}{\int_{I} w(i)\, di} \leq 1
+        \end{equation*}
+        \begin{equation*}
+            0 \leq \frac{\sum_{i\in I} w(i) \cdot h_p(F(i))}{\sum_{i\in I} w(i)} \leq 1
+        \end{equation*}
+    \end{proof}
+\end{lemma}
+
+While the quantitative robustness does tell us something about how much
+of the input region is evaluated wrong (or even how much is it wrong),
+the qualitative robustness does only say if there is any wrong output.
+This may seem less useful, however it can lead to lower computational expenses.
+
+\begin{definition}{Qualitative robustness of function $F$ on input region $I$}
+    Function $F : P\to Q$ is (qualitatively) robust on input region $I\subseteq P$
+    with respect to evaluation function $h_p$
+    if and only if $Q_{w, h_p}(I) = 0$.
+\end{definition}
+
+\begin{lemma}{The property of qualitative robustness is independent of the function $w$.}%
+    \label{lemma:robustness_independence_of_weight}
+    \begin{proof}
+        For empty input region, the lemma holds trivially by definition.
+
+        Otherwise as weight function $w$ is by definition positive,
+        all statements of the following chain are equivalent.
+        \begin{equation*}
+            Q_{w, h_p}(I) = \frac{\sum_{i\in I} w(i)\cdot h_p(F(i))}{\sum_{i\in I} w(i)} = 0
+        \end{equation*}
+        Since $\sum_{i\in I} w(i) > 0$:
+        \begin{equation*}
+            \sum_{i\in I} w(i)\cdot h_p(F(i)) = 0
+        \end{equation*}
+        As both $w$ and $h_p$ are non-negative
+        \begin{equation*}
+            \forall i\in I. \, w(i)\cdot h_p(F(i)) = 0
+        \end{equation*}
+        \begin{equation*}
+            \forall i\in I. \, w(i) = 0 \vee h_p(F(i)) = 0
+        \end{equation*}
+        From the definition $\forall x\in P.\, w(x) > 0$
+        \begin{equation*}
+            \forall i\in I. \, h_p(F(i)) = 0
+        \end{equation*}
+        This statement is independent of the function $w$,
+        thus the lemma holds for the discrete variation.
+
+        % TODO: Is this true?
+        % Can it be proven similiarly?
+        The non-discrete variant can be proven similarly.
+    \end{proof}
+\end{lemma}
+
+%\begin{definition}{Qualitative robustness of function $F$ on input region $I$}
+%Function $f : P\to Q$ is (qualitatively) robust on input region $I\subseteq P$
+%if and only if the function assigns the same element of $Q$
+%to every input element of the region $I$.
+%
+%\begin{equation*}
+%f \text{ is robust on } I \iff \forall i, j\in I.\, f(i) = f(j)
+%\end{equation*}
+%\end{definition}
+%
+%\begin{definition}{Quantitative robustness of function $f$ on input region $I$
+%with the respect to base input $\overline{i}$.}
+%Function $f : P \to Q$ is quantitatively robust on input region $I\subseteq P$
+%and base input $\overline i\in I$ with a threshold $\epsilon \geq 0$
+%if the probability of choosing input from $I$,
+%following the uniform distribution,
+%to which the function $f$ assigns the same element of $Q$ as to the input $\overline i$
+%is at least $\epsilon$.
+%
+%\begin{equation*}
+%f \text{ is robust on } (I, \overline i) \text{ with threshold } \epsilon \iff
+%	\frac{\|i \mid i\in I.\, f(i) = f(\overline i)\|}{\|I\|} \geq \epsilon
+%\end{equation*}
+%\end{definition}
+
+The robustness according to my definition can be contraintuitive
+when applied to functions that are not continuous on the input interval.
+An extreme example of such function is the Dirichlet function $D: \RR\to \RR$.
+\begin{equation*}
+    D(x) = \left\{
+        \begin{matrix}
+            1 & \text{ if } x\in \QQ\\
+            0 & \text{ if } x\in \RR\setminus \QQ
+        \end{matrix}
+        \right.
+\end{equation*}
+
+\begin{lemma}{The Dirichlet function $D$ is robust on any interval $\langle k, l\rangle$
+    where $k, l$ are rational numbers, $k\neq l$.}
+    \begin{proof}
+        As shown in the Example 3.1.1 of~\cite{HONG200565},
+        the Dirichlet function has Lebesgue integral
+        on interval $[0, 1]$ with a value equal to $0$.
+
+% Commented lines are proving b in Q <=> ab in Q
+%        Lets prove that for every rational number $a\in \QQ\setminus \{0\}$
+        Lets prove that for every rational number $a\in \QQ$
+        and real number $b\in \RR$
+        following statements are equivalent:
+        \begin{enumerate}\setlength{\itemsep}{0pt}
+            \item $b$ is rational
+            \item $a+b$ is rational
+%            \item $a\cdot b$ is rational
+        \end{enumerate}
+
+%        1. $\implies$ 2., 1. $\implies$ 3.:\\
+        1. $\implies$ 2.:\\
+        Since both $a$ and $b$ are rational,
+        by definition they can be written as a fraction of integers
+        \begin{equation*}
+            a = \frac{p}{q}, b = \frac{p'}{q'}
+        \end{equation*}
+%        The sum and product then can be expressed as a fraction of integers,
+        The sum can be expressed as a fraction of integers,
+%        thus are also rational.
+        thus is also rational.
+        \begin{equation*}
+%            a+b = \frac{pq'+p'q}{qq'}, a\cdot b = \frac{pp'}{qq'}
+            a+b = \frac{pq'+p'q}{qq'}
+        \end{equation*}
+
+%        2. $\implies$ 1., 3. $\implies$ 1.:\\
+        2. $\implies$ 1.:\\
+        The $b$ can be written using the rational $a$
+%        and the sum or product of $a$ and $b$.
+        and the sum of $a$ and $b$.
+        \begin{equation*}
+%            b = (a+b) + (-a), b = (a\cdot b)\cdot \frac{1}{a}
+            b = (a+b) + (-a)
+        \end{equation*}
+%        Now since both $-a$, $\frac{1}{a}$ and $(a+b)$ or $(a\cdot b)$ are rational,
+        Now since both $(-a)$ and $(a+b)$ are rational,
+        $b$ was already proven to be rational in the opposite side implication.
+
+%        For $a=0$ also the first and second statements are equivalent trivially.
+
+        Lets show that the integral of Dirichlet function $D$ is equal
+        to $0$ on any interval bounded by rational numbers.
+        The limits of the definite integral can be transformed by removing $k$
+        and adding it to the argument of $D$. As was proven previously,
+        for rational number $k$, $D(x+k) = D(x)$.
+        \begin{equation*}
+            \int_{k}^{l} D(x) dx = \int_{0}^{l-k} D(x+k) dx = \int_{0}^{l-k} D(x) dx
+        \end{equation*}
+        As the dirichlet function is nonnegative, following is true.
+        \begin{equation*}
+            0 \leq \int_0^{l-k} D(x) dx \leq \int_0^{\lceil l-k \rceil} D(x) dx
+        \end{equation*}
+        The right-hand side integral can be split into unit-long parts.
+        \begin{equation*}
+            \int_0^{\lceil l-k\rceil} D(x) dx
+            = \int_0^1 D(x) dx + \int_1^2 D(x) dx + \ldots
+                + \int_{\lceil l-k \rceil-1}^{\lceil l-k \rceil} D(x) dx
+        \end{equation*}
+        Finally, as every unit integral has rational bounds,
+        it can be transformed to integral with 0 as lower bound like already shown.
+        \begin{equation*}
+            \int_u^{u+1} D(x) dx = \int_0^1 D(x+u) dx = \int_0^1 D(x) dx = 0
+        \end{equation*}
+        \begin{equation*}
+            0 \leq \int_{k}^{l} D(x) dx \leq \int_0^{\lceil l-k \rceil} D(x) dx = 0
+        \end{equation*}
+
+        To show the robustness of Dirichlet function, the quantitative robustness
+        with respect to constant weight function $w_1$
+        and identity as the evaluation function can be used.
+
+        \begin{equation*}
+            Q_{w_1, id}(\langle k, l\rangle)
+            = \frac{\int_{k}^{l} 1\cdot D(x) dx}{\int_{k}^{l} 1} = \frac{0}{l-k} = 0
+        \end{equation*}
+    \end{proof}
+\end{lemma}
+
+\noindent\textbf{%
+Since this thesis focuses on robustness of the discrete input regions,
+I will further assume only discrete version of the robustness problem.%
+}
+
+\begin{definition}{Strict qualitative robustness of function $F$ on input region $I$.}
+    Function $F: P\to Q$ is strictly (qualitatively) robust on input region $I\subseteq P$
+    if and only if for some $p\in P$ it is robust on this region with respect
+    to evaluation function $\overline{h_p}$ defined as follows:
+
+    \begin{equation*}
+        \overline{h_p}(q) = \left\{\begin{matrix}
+            0 & F(p) = q\\
+            1 & F(p) \neq q
+        \end{matrix}\right.
+    \end{equation*}
+\end{definition}
+
+\begin{lemma}{Function $F$ is strictly robust on input region $I$
+    if and only if for each two inputs $i, j\in I$, the function $F$ assigns the same value to them.}
+    \begin{proof}
+        Proof of equivalence in this lemma is done
+        by prooving corresponding implications.
+
+        For empty input region $I=\emptyset$, the statement holds trivially.
+        Further in the proof I will always assume nonempty input region.
+
+        First the left-to-right implication.
+        Let function $F$ be strictly robust on input region $I$,
+        $\overline{h_p}$ being the evaluation function.
+        As shown in the proof of Lemma~\ref{lemma:robustness_independence_of_weight},
+        for all instances from input region $i\in I$ holds
+        \begin{equation*}
+            \overline{h_p}(F(i)) = 0
+        \end{equation*}
+        By definition of evaluation function $\overline{h_p}$ it also holds
+        \begin{equation*}
+            F(p) = F(i)
+        \end{equation*}
+        As this holds for every input $i\in I$, for every two inputs $i, j\in I$:
+        \begin{equation*}
+            F(i) = F(p) = F(j)
+        \end{equation*}
+
+        Now for the opposite implication: Let for every $i, j\in I$, $F(i) = F(j)$.
+        Let $p\in I$. As $\overline{h_p}(F(p)) = 0$
+        and for every input $i\in I$ it holds that $F(i) = F(p)$,
+        $\overline{h_p}(F(i)) = 0$ for every input from the input region $I$.
+        The $F$ is thus strictly robust on input region $I$.
+    \end{proof}
+\end{lemma}
+
+The strict robustness is equivalent to the robustness as defined in~\cite{10.1145/3563212}.
+The $t$-target robustness from this article is equivalent to my definition
+of robustness with respect to evaluation function $h_t: Q\to \RR$
+\begin{equation*}
+    h_t(q) = \left\{\begin{matrix}
+        0 & \text{ if } q \neq t\\
+        1 & \text{ if } q = t
+    \end{matrix}\right.
+\end{equation*}
+Finally the term $Pr(R(u, \tau))$ is equal to quantitative robustness  % chktex 35
+with respect to weight function $w_1$ and evaluation function $h_u$
+on input region $R(u, \tau)$.
+
+% TODO: Can this (especially the weight and evaluation function)
+%       be implemented using the Clingo?
+%       Maybe via the python interface with custom incremental counter?
+
+\subsection{Definition of input regions}
+
+As both the qualitative and quantitative robustness rely on subsets
+of feasible inputs, definition of these is needed.
+
+I provide definition of two classes of input regions, input regions based
+on the Hamming distance and input regions with fixed indices.
+The input region based on the Hamming distance $R(\vec u, r)$ contains
+all input vectors that have at most $r$ bits changed.
+The input region with fixed indices $R(\vec u, I)$ specifies set of indices $I$
+on which the input vector may differ form $I$.
+Definition are taken from~\cite{zhang2021bdd4bnn}.
+
+\begin{definition}{Input region based on the Hamming distance.}
+    For an input $\vec u\in \BB^{n_1}_{\pm 1}$ and an integer $r \geq 0$, let
+    $R(\vec u, r) := \{\vec x\in \BB^{n_1}_{\pm 1} \mid HD(\vec x, \vec u) \leq r \}$,
+    where $HD(\vec x, \vec u)$ denotes the Hamming distance
+    between $\vec x$ and $\vec u$.
+\end{definition}
+
+Intuitively, $R(\vec u, r)$ includes input vectors that differ from $\vec u$ on at most
+$r$ positions. Examples of such input regions are:
+\begin{align*}
+    R((1, 1, 1, 1), 1) = \{&(1, 1, 1, 1),\\
+    &(-1, 1, 1, 1), (1, -1, 1, 1), (1, 1, -1, 1), (1, 1, 1, -1)\}
+\end{align*}
+\begin{align*}
+    R((-1, 1, -1), 2) = \{&(-1, 1, -1),\\
+    &(1, 1, -1), (-1, -1, -1), (-1, 1, 1),\\
+    &(-1, -1, 1), (1, 1, 1), (1, -1, -1)\}
+\end{align*}
+
+\begin{lemma}{Let $\vec u$ be a vector from $\BB^{d}_{\pm 1}$.
+    Then $||R(\vec u, r)|| = \sum_{i=0}^{\min(r, d)} {d\choose i}$}%
+    \label{lemma:size_of_hamming}%
+    \begin{proof}
+        $R(\vec u, r)$ is union of sets
+        \begin{equation*}
+            R(\vec u, r) = \bigcup_{i=0}^{r} \{\vec x \mid HD(\vec x, \vec u) = i\}
+        \end{equation*}
+        These sets are disjoint as elements of each have different number
+        of positions changed. The size of each of these sets is equal to
+        \begin{equation*}
+            ||\{\vec x \mid HD(\vec x, \vec u) = i\}|| = {d\choose i}
+        \end{equation*}
+        because they consist of $d$ positions, out of which $i$ are choosen to be altered.
+        Finally, as for $i$ larger than $d$, ${d\choose i}=0$, the statement holds.
+    \end{proof}
+\end{lemma}
+
+\begin{definition}{Input region based on fixed bits.}
+    For an input $\vec u\in \BB^{n_1}_{\pm 1}$ and set of indices $I \subseteq [n_1]$, let
+    $R(\vec u, I) := \{\vec x\in \BB^{n_1}_{\pm 1} \mid \forall i\in I.\, x_i = u_i \}$.
+\end{definition}
+
+The input region based on fixed bits $R(\vec u, I)$ does specify
+the positions which are fixed to the values of the base vector $\vec u$.
+Examples of such input regions are:
+\begin{align*}
+    R((1,1,-1,1), \{1,3,4\}) = \{(1,1,-1,1), (1,-1,-1,1)\}
+\end{align*}
+\begin{align*}
+    R((1,1,1,1), &\{3\}) = \{(1,1,1,1), (-1,1,1,1), (1,-1,1,1), (-1,-1,1,1),\\
+    &(1,1,1,-1), (-1,1,1,-1), (1,-1,1,-1), (-1,-1,1,-1)\}\\
+\end{align*}
+
+\begin{lemma}{Let $\vec u$ be a vector from $\BB^{d}_{\pm 1}$, $I\subseteq [n_1]$.
+    Then $||R(\vec u, I)|| = 2^{d-||I||}$}%
+    \label{lemma:size_of_fixed}%
+    \begin{proof}
+        Each element of $I$ does fix a single position in the input vector.
+        The number of variable positions is $d-||I||$, each being instance of
+        $+1$ or $-1$. This makes the number of variants $2^{d-||I||}$.
+    \end{proof}
+\end{lemma}
+
+\begin{remark}
+    Lemmas~\ref{lemma:size_of_hamming} and~\ref{lemma:size_of_fixed}
+    allow for fast computation of the size of the input region.
+\end{remark}
+
+% Definition of the robustness problem
+    % Input region variants (hamming, fixed bits)
+    % Examples of input regions
