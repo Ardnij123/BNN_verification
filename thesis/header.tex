@@ -30,7 +30,9 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 % ASP representation
-\newcommand{\asprule}[2]{#1 \leftarrow{} #2}  % head <- body
+\newcommand{\asprule}[2]{\ensuremath{#1 \leftarrow{} #2.}}  % head <- body.
+\newcommand{\aspfact}[1]{\ensuremath{#1.}}  % head.
+\newcommand{\aspconstraint}[1]{\ensuremath{\leftarrow{} #1.}}
 \newcommand{\aspnot}{\mathrm{not}\,}          % not p
 \newcommand{\asphead}{\mathrm{head}}          % head(r)
 \newcommand{\aspbody}{\mathrm{body}}          % body(r)
@@ -134,6 +136,8 @@
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 
+\theoremstyle{example}
+\newtheorem{example}{Example}[section]
 
 % Import of chapters
 \newcommand{\importchapter}[1]{%

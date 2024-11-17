@@ -1,0 +1,616 @@
+\section{Extended logic program}
+
+Extended logic program is a finite set of facts, rules and constraints
+each consisting literals. A literal is an atom or its negation.
+An atom is the elementary construct for representing knowledge~\cite{Delgrande}.
+Each atom constitutes a single variable, it can be seen as a possible feature of solution.
+
+In order to be able to distinguish between a query which fails in the sense
+that it does not succeed and a query which fails in the stronger sense
+that its negation succeeds, extended logic programs allow
+for the \textit{classical negation~$\neg$}
+in addition to the \textit{negation-as-failure~not}~\cite{gelfond1991}.
+
+Further I provide formal definition of extended logic programs according to~\cite{gelfond1991,KRHandbook}.
+I will assume the notation of signature as defined in~\cite{zarba2006}.
+
+% \begin{definition}{Signature.}
+%     A (many-sorted) signature is a tuple $\Sigma = (S, C, F, P)$, where:
+%     \begin{itemize}
+%         \item $S$ is a nonempty set of sorts, each sort $\sigma\in S$
+%             is associated with a set of variables $\mathbf{Var}_\sigma$ and
+%             set of constants $\mathbf{Con}_\sigma$,
+%         \item $C$ is a countable set of constant symbols whose sorts belong to~$S$,
+%         \item $F$ is a countable set of function symbols whose arities
+%             are constructed using sorts that belong to~$S$,
+%         \item $P$ is a countable set of predicate symbols whose arities
+%             are constructed using sorts that belong to~$S$.
+%     \end{itemize}
+%     We denote with $\mathbf{Fun}_{\sigma_1\times\cdots\times\sigma_n\to \sigma}$
+%     the set of function symbols of arity $\sigma_1\times\cdots\times\sigma_n\to \sigma$.
+%     We denote with $\mathbf{Pred}_{\sigma_1\times\cdots\times\sigma_n\to \sigma}$
+%     the set of function symbols of arity $\sigma_1\times\cdots\times\sigma_n\to \sigma$.
+%     Given a signature $\Sigma = (S, C, F, P)$, we write $\Sigma^{S}$ for $S$,
+%     $\Sigma^{C}$ for $C$, $\Sigma^{F}$ for $F$ and $\Sigma^{P}$ for $P$~\cite{zarba2006}.
+% \end{definition}
+
+\subsection{Syntax of Extended logic program}
+
+\begin{definition}{Terms~\cite{zarba2006}.}
+    Let $\Sigma$ be a signature. The set of $\Sigma$-terms of sort $\sigma$
+    is the smallest set of expressions satisfying the following properties:
+    \begin{itemize}
+        \item Each variable $x$ of sort $\sigma$ is a term of sort $\sigma$, provided that $\sigma\in \Sigma^S$.
+        \item Each constant symbol $c\in \Sigma^C$ of sort $\sigma$ is a $\Sigma$-term of sort $\sigma$.
+        \item If $f\in \Sigma^F$ is a function symbol of arity $\sigma_1\times\cdots\times \sigma_n\to \sigma$
+            and $t_i$ is a $\Sigma$ term of $\sigma_i$, for $i=1,\ldots, n$, then $f(t_1,\ldots,t_n)$ is a term of sort $\sigma$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{Atoms, literals~\cite{zarba2006}.}
+    Let $\Sigma$ be a signature.
+    A $\Sigma$-atom is an expression of the form
+    \begin{equation*}
+        p(t_1, \ldots, t_n)
+    \end{equation*}
+    where $p\in \Sigma^P$ is a predicate symbol of arity $\sigma_1\times\cdots\times\sigma_n$
+    and for $i=1,\ldots,n$, $t_i$ is a $\Sigma$-term of sort $\sigma_i$.
+
+    A $\Sigma$-literal is a formula of the form
+    \begin{equation*}
+        \varphi\, \text{ or } \,\neg\varphi
+    \end{equation*}
+    where $\varphi$ is a $\Sigma$-atom.
+\end{definition}
+
+For both function and predicate symbols infix notation can be used if was estabilished
+(e.g.\ $+$, $-$, $=$, $\leq$, \ldots). If this notation would result in ambiguity, brackets should be used.
+
+\begin{example}%
+    \label{Sigma1}%
+    Let $\Sigma_1$ be a signature with sorts
+    \begin{equation*}
+        \sigma_\BB = \{True, False\}, \sigma_\NN = \NN_0
+    \end{equation*}
+    and with function symbols $\vee, \wedge$ of arity $\sigma_\BB\times \sigma_\BB\to \sigma_\BB$,
+    and function symbols $=, <$ of arity $\sigma_\NN\times\sigma_\NN\to \sigma_\BB$.
+    Let $p$ be a predicate of arity $\sigma_\BB$, and $q$ be a predicate of arity $\sigma_\NN\times\sigma_\BB$
+    Also let variables $X, Y, Z$ be of sort $\sigma_\NN$ and let there be no variables of sort $\sigma_\BB$.\\
+    Then expressions
+    \begin{gather*}
+        True,\ False,\\
+        True \vee False,\ False \wedge True,\\
+        (42 = 42),\ (X = 17),\ (3 < Y) \vee (6 = 6),\\
+        [(5 = 1)\wedge True] \vee False
+    \end{gather*}
+    are some of the $\Sigma$-terms of sort $\sigma_\BB$.\\
+    Expressions
+    \begin{gather*}
+        p(True),\ p(False),\\
+        p([(5 = 1) \wedge True] \vee False),\\
+        q(0, True),\ q(42, False),\\
+        q(123, (42 = 42)),\ q(93, True \vee (Z < 17))
+    \end{gather*}
+    are some of the $\Sigma$-atoms.
+\end{example}
+
+\begin{definition}{Rule~\cite{KRHandbook}.}\label{def:rule}
+    Let $\Sigma$ be a signature. A $\Sigma$-rule ($\Sigma$-formula) $r$ is an expression of the form
+    \begin{equation*}
+        \asprule{l_0\, or\, \ldots\, or\, l_k}{l_{k+1}, \ldots, l_{m}, \aspnot l_{m+1}, \ldots, \aspnot l_{n}}
+    \end{equation*}
+    where each $l_i$ is a $\Sigma$-literal. The following notation is used:
+    \begin{equation*}
+        \asphead(r) = \{l_0, \ldots, l_k\}
+    \end{equation*}
+    \begin{equation*}
+        \aspbody(r) = \{l_{k+1}, \ldots, l_{m}, \aspnot l_{m+1}, \ldots, \aspnot l_n\}
+    \end{equation*}
+    \begin{equation*}
+        \aspbody^+(r) = \{l_{k+1}, \ldots, l_{m}\}
+    \end{equation*}
+    \begin{equation*}
+        \aspbody^-(r) = \{\aspnot l_{m+1}, \ldots, \aspnot l_n\}
+    \end{equation*}
+    Further, if $\asphead(r) = \emptyset$, the rule is called a constraint and is written as
+    \begin{equation*}
+        \asprule{}{l_{k+1}, \ldots, l_{m}, \aspnot l_{m+1}, \ldots, \aspnot l_{n}}
+    \end{equation*}
+    If $\aspbody(r) = \emptyset$, the rule is called a fact and is written as
+    \begin{equation*}
+        l_0\, or\, \ldots\, or\, l_k.
+    \end{equation*}
+
+    The term $\aspnot$ is called default negation.
+\end{definition}
+
+\begin{definition}{Logic program~\cite{KRHandbook}.}
+    Logic program is a pair $(\Sigma, \Pi)$ where $\Sigma$ is a signature
+    and $\Pi$ is a collection (set) of $\Sigma$-rules.
+\end{definition}
+
+In this thesis, I will be mostly working with logic programs that have
+zero or one literal in the head of each of their rules.
+While allowing for multiple literals in the head of a rule can allow
+for otherwise impossible to achieve expressions, it does introduce
+a large portion of nontriviality and even computational cost.
+General logic programs are in the complexity class $\Sigma_2^P$~\cite{dis_datalog_complexity},
+logic programs without disjunction in head are $NP$-complete~\cite{schlipf1995_computation}
+and logic programs with neither disjunction nor default negation belong to $P$~\cite{KRHandbook}.
+
+\begin{example}\label{exp:logic_program1}
+    An example of a logic program with signature $\Sigma_1$ from Example~\ref{Sigma1}
+    is a pair $(\Sigma_1, \Pi_1)$ where $\Pi_1$ is a set
+    \begin{equation*}
+        \Pi_1 =
+            \begin{cases}
+                \aspfact{p(True)}\\
+                \aspfact{q(5, True)}\\
+                \asprule{p(False)}{\aspnot p(True)}\\
+                \asprule{q(Y, True)}{q(X, (Y < X))}
+            \end{cases}
+    \end{equation*}
+\end{example}
+
+The logic program is often denoted only by its second element $\Pi$.
+In that case its signature consists of symbols occuring in the program.
+
+% Poznámka: různé programy pro řešení umožňují použití rozšířené definice
+% pro tuto práci si však vystačíme s touto a více nebudeme uvažovat.
+
+\subsection{Semantics of extended logic program}
+
+For the definition of the extended logic programs to be usefull,
+definition of stable models is needed.
+Many definitions have been created~\cite{12definitions}.
+Here I will show the definition using the reduct
+of a logic program~\cite{KRHandbook},
+which was used for the ASP solver I am using for the implementation
+of verification, Clingo~\cite{GebserKKS17}.
+
+First of all, the logic program needs to be grounded.
+Grounding is a process in which we substitute each rule
+in the program for its equivalent rules with constant symbols only.
+
+The semantics of function symbols is usually defined in the groun\-d\-er
+(the program that does the grounding)
+thus the programs can be grounded before the start of solving
+of the logic program.
+
+\begin{definition}{Ground program~\cite{KRHandbook}.}
+    Terms, literals, and rules of program $\Pi$ with signature $\sigma$ are called ground if they
+    contain no variables and no function symbols. A program is called
+    ground if all its rules are ground. A rule $r'$ is called a ground instance of a rule $r$ of $\Pi$
+    if it is obtained from $r$ by:
+    \begin{itemize}
+        \item replacing $r'$s variables by properly typed ground terms of $\sigma$;
+        \item replacing $r'$s function terms by their values.
+    \end{itemize}
+    A program $gr(\Pi)$ consisting of all ground instances of all rules of $\Pi$
+    is called the ground instantiation of $\Pi$.
+\end{definition}
+
+\begin{example}\label{exp:grounding}
+    The ground instantiation of the logic program $(\Sigma_1, \Pi_1)$ defined in the
+    Example~\ref{exp:logic_program1} can be found as follows:
+
+    The fact $\aspfact{p(True)}$ does not contain any variable nor function symbol.
+    For this, it is ground. The same holds for the fact $\aspfact{q(5, True)}$
+    and the rule $\asprule{p(False)}{\aspnot p(True)}$
+
+    To ground the rule $\asprule{q(Y, True)}{q(X, (Y < X))}$,
+    this rule should be first substitued for each rule with pair $(X, Y)$ substitued
+    for every element from $\sigma_\NN \times \sigma_\NN$, that is every element
+    from $\NN_0\times \NN_0$. Then in the second parameter of atom in the body,
+    the expression substitued for $(Y < X)$ would be replaced with $True$ or $False$,
+    depending on the substitution for $X$ and $Y$. This would lead to the ground
+    instantiation $gr(\Sigma_1, \Pi_1)$ being infinite.
+
+    To fight this, we can allow only the instantiation of rule $r$ in which
+    only the substitutions of variables in the $\aspbody^+(r)$
+    leading to the already existing atoms are allowed.
+    After the stable model will be defined,
+    it will be easy to see that this constraint does not remove any
+    stable models of program, as every atom in it has to also be
+    in the head of some rule.
+
+    In this example, we already know that the atom $p(5, True)$ does exist.
+    This means we can substitute $X\equiv 5$ and $(Y<X)\equiv True$.
+    Also as $(Y<X)\equiv (Y < 5) \equiv True$, to successfully instantiate
+    the rule, it has to hold that $Y < 5$. There are no other constraints
+    on the rule, thus the rule instantiates into rules:
+
+    \begin{equation*}
+        \begin{matrix}
+            Y=0 & : & \asprule{q(0, True)}{q(5, True)}\\
+            Y=1 & : & \asprule{q(1, True)}{q(5, True)}\\
+            Y=2 & : & \asprule{q(2, True)}{q(5, True)}\\
+            Y=3 & : & \asprule{q(3, True)}{q(5, True)}\\
+            Y=4 & : & \asprule{q(4, True)}{q(5, True)}\\
+        \end{matrix}
+    \end{equation*}
+
+    But now we have introduced new atoms on predicate $q$. We have to also add
+    all instances of the rule, in which these atoms are allowed.
+    As the individual atoms only differ in the first term, the instances are
+    seen easily. The instances added by the new rules also do not introduce
+    new atoms on predicate $q$, the ground instance is thus in this case finite.
+
+    \begin{equation*}
+        \begin{matrix}
+            X=4, Y=0 & : & \asprule{q(0, True)}{q(4, True)}\\
+            X=4, Y=1 & : & \asprule{q(1, True)}{q(4, True)}\\
+            X=4, Y=2 & : & \asprule{q(2, True)}{q(4, True)}\\
+            X=4, Y=3 & : & \asprule{q(3, True)}{q(4, True)}\\
+            X=3, Y=0 & : & \asprule{q(0, True)}{q(3, True)}\\
+            X=3, Y=1 & : & \asprule{q(1, True)}{q(3, True)}\\
+            X=3, Y=2 & : & \asprule{q(2, True)}{q(3, True)}\\
+            X=2, Y=0 & : & \asprule{q(0, True)}{q(2, True)}\\
+            X=2, Y=1 & : & \asprule{q(1, True)}{q(2, True)}\\
+            X=1, Y=0 & : & \asprule{q(0, True)}{q(1, True)}\\
+        \end{matrix}
+    \end{equation*}
+
+    The full ground instantiation $gr((\Sigma_1, \Pi_1))$ is thus the program:
+
+    \begin{equation*}
+        gr((\Sigma_1, \Pi_1)) =
+            \begin{cases}
+                \aspfact{p(True)}\\
+                \aspfact{q(5, True)}\\
+                \asprule{p(False)}{\aspnot p(True)}\\
+                \asprule{q(0, True)}{q(5, True)}\\
+                \asprule{q(1, True)}{q(5, True)}\\
+                \asprule{q(2, True)}{q(5, True)}\\
+                \asprule{q(3, True)}{q(5, True)}\\
+                \asprule{q(4, True)}{q(5, True)}\\
+                \asprule{q(0, True)}{q(4, True)}\\
+                \asprule{q(1, True)}{q(4, True)}\\
+                \asprule{q(2, True)}{q(4, True)}\\
+                \asprule{q(3, True)}{q(4, True)}\\
+                \asprule{q(0, True)}{q(3, True)}\\
+                \asprule{q(1, True)}{q(3, True)}\\
+                \asprule{q(2, True)}{q(3, True)}\\
+                \asprule{q(0, True)}{q(2, True)}\\
+                \asprule{q(1, True)}{q(2, True)}\\
+                \asprule{q(0, True)}{q(1, True)}\\
+            \end{cases}
+    \end{equation*}
+\end{example}
+
+The Example~\ref{exp:grounding} also illustrates the need for the logic programs
+to be well written. As was shown in this example, due to a single flawed rule,
+the size of the ground instantiation of the logic program is quadratic
+given the highest number in the first parameter of atoms of the predicate $q$.
+
+Grounders differ in the exact algorithm of the grounding as well as in the
+allowed signature of the logic program.
+The exact full syntax and semantics
+of the ASP grounder GRINGO can be found in~\cite{GEBSER_2015}.
+
+% Semantics of a rule
+
+\begin{definition}{Partial interpretation of a signature.}
+    A partial interpretation $S$ of a signature $\Sigma$ is a set
+    of $\Sigma$-literals in which for each $\Sigma$-atom $\varphi$
+    there is either $\varphi$, $\neg\varphi$ or neither of them.
+\end{definition}
+
+% TODO: Make this better
+
+A partial interpretation can be used to denote the solution of a logic program.
+It allows for 3-valued logic --- an atom either is true, is false or is unknown.
+The atom being unknown can specify an atom, that was not derived,
+while the atom being false strictly says it cannot be true.
+
+For a partial interpretation to be a solution (answer set) of the program,
+it further needs to be consistent with the logic program
+and all its literals have to be founded in the program (the set has to be minimal).
+
+Each rule $r$ is seen as a statement $\asphead(r)$ holds
+if all the literals from the $\aspbody^+(r)$ hold
+and at the same time no literal from the $\aspbody^-(r)$ hold.
+The facts have empty body, thus their head has to hold in every solution.
+On the other hand, the body of constraints can never be consistent with
+the solution as its head is empty thus can not be consistent with solution.
+Further follows a more formal definition.
+
+\begin{definition}{Consistent partial interpretation.}\label{consistent_interpretation}
+    Partial interpretation $S$ is said to be consistent with the body of rule $r$
+    if and only if $\aspbody^+(r) \subseteq S$ and
+    $\aspbody^-(r) \cap S = \emptyset$.
+
+    Partial interpretation $S$ is said to be consistent with the head of rule $r$
+    if and only if $\asphead(r) \cap S \neq \emptyset$
+
+    Partial interpretation $S$ is said to be consistent with a rule $r$
+    if and only if $S$ is not consistent with $\aspbody(r)$
+    or $S$ is consistent with $\asphead(r)$.
+
+    Partial interpretation $S$ is said to be consistent with a logic program
+    $(\Sigma, \Pi)$ if and only if it is consistent with all of its rules.
+\end{definition}
+
+\begin{definition}{Basic logic program.}%
+    \label{def:basic_logic_program}
+    A logic program $(\Sigma, \Pi)$ is called basic if there is no negative atom
+    in body of any of its rules nor constraints, that is
+    \begin{equation*}
+        \forall r\in \Pi.\ \aspbody^{-}(r) = \emptyset
+    \end{equation*}
+\end{definition}
+
+Now for the answer sets (partial interpretations that are solutions)
+of a logic program a reasonable constraints
+on them are to satisfy (be consistent with) the logic program and to only contain
+information that needs to be true (each answer set has to be minimal).
+
+% WTF? This does not work for the general logic programs?
+%
+% a; b; c.
+% :- not a. :- not b. :- not c.
+%
+% Minimal consistent interpretation is {a, b, c}
+% but by the definition 3.1.11 it is not an answer set.
+\begin{definition}{Answer set of a basic logic program~\cite{KRHandbook}.}\label{def:as_basic}
+    Let $(\Sigma, \Pi)$ be a basic logic program and $S$ be a partial interpretation
+    of $\Sigma$. $S$ is an answer set (solution) for $\Pi$ if $S$ is minimal
+    (in the sense of set-theoretic inclusion) among the partial interpretations
+    consistent with $\Pi$.
+\end{definition}
+
+For a grounded basic logic program, finding its answer set (solution)
+is easy. It can be built incrementally.
+Heads of facts have to be included in the partial interpretation for it to be
+an answer set. Then in each step all heads of rules, that have its
+bodies consistent with the previous set, are added into the set.
+This is done as long as any literal is added into the partial interpretation.
+
+\begin{lemma}{Incremental building of the answer set of the basic logic program.}%
+    \label{lemma:incremental}
+    Let $(\Sigma, \Pi)$ be a basic logic program with at most one literal
+    in the head of every rule.
+    Let
+    \begin{equation*}
+        S_0 = \emptyset,
+    \end{equation*}
+    \begin{equation*}
+        S_{i+1} = S_{i}\cup \{\varphi \mid \{\varphi\} = \asphead(r), \aspbody^+(r) \subseteq S_i\} \text{ for each } i \geq 0.
+    \end{equation*}
+    Denote by $S_\infty$ the union of all $S_i$ for $i\geq 0$.
+    If it holds that:
+    \begin{itemize}
+        \item for every $\Sigma$-atom $\varphi$, $S_\infty$ contains at most one
+            of literals $\varphi, \neg\varphi$, and
+        \item $S_\infty$ is consistent with every constraint of $\Pi$,
+    \end{itemize}
+    then $S_\infty$ is
+    the only answer set of program $(\Sigma, \Pi)$. Else $(\Sigma, \Pi)$ has no answer set.
+
+    \begin{proof}
+        $S_\infty$ does contain only (some of) heads of rules from $\Pi$,
+        each of these being $\Sigma$-literals. If $S_\infty$ does also not contain
+        both $\varphi$ and $\neg\varphi$ for any $\Sigma$-atom $\varphi$,
+        $S_\infty$ is a partial interpretation of $\Sigma$.
+
+        By definition $S_\infty$ contains the literal from the head of each rule,
+        that has its body consistent with the $S_\infty$. For this the $S_\infty$
+        is consistent with every non-constraint rule of the logic program.
+
+        Let $rank: S_\infty \to \NN_0$ be a function that assigns to every literal
+        $\varphi \in S_\infty$ the lowest value $n$ such that $\varphi \in S_n$.
+        Let there be some answer set $A$ of $(\Sigma, \Pi)$ such that
+        $S_\infty\setminus A = \Delta \neq \emptyset$.
+        Let $\alpha$ be a literal from $\Delta$ with the lowest $rank$.
+        By definition, $rank(\alpha) \geq 1$ as $S_0$ is empty.
+        As the literal $\alpha\in S_{rank(\alpha)}$ and $\alpha \not\in S_{rank(\alpha)-1}$,
+        either $\alpha$ is in a head of some fact (thus $rank(\alpha)=1$ and $\alpha$
+        needs to be in $A$ for it to be consistent),
+        or there must be some rule $r\in\Pi$ such that $\aspbody^+(r)$ is not consistent
+        with $S_{rank(\alpha)-2}$ and is consistent with $S_{rank(\alpha)-1}$.
+        (The rule $r$ is what made the literal $\alpha$ in $S_{rank(\alpha)}$.)
+        But $A$ does contain all the literals from $S_{rank(\alpha)-1}$. (Literal $\alpha$
+        has the lowest rank of all literals from $S_\infty$ not included in $A$.)
+        Thus $A$ is not consistent with $r$ and is not an answer set of $(\Sigma, \Pi)$.
+        By contradiction, for every answer set $B$ of $(\Sigma, \Pi)$,
+        $S_\infty \subseteq B$. As the answer set is by definition minimal,
+        the $S_\infty$ is the only possible answer set of $(\Sigma, \Pi)$.
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    Let $(\Sigma, \Pi)$ be a logic program,
+    \begin{equation*}
+        \Pi =
+            \begin{cases}
+                \aspfact{p(a)}\\
+                \asprule{p(b)}{p(a)}\\
+                \asprule{p(c)}{p(b)}\\
+                \aspfact{p(x)}\\
+                \asprule{p(y)}{p(x), p(a)}\\
+                \asprule{p(z)}{p(x), p(c)}\\
+                \asprule{p(n)}{p(a), p(k)}\\
+            \end{cases}
+    \end{equation*}
+
+    When building the solution, we first start with an empty set.
+    \begin{equation*}
+        S_0 = \{\}
+    \end{equation*}
+    In the first step only the facts have bodies consistent with
+    the partial solution $S_0$. We can add literals in their heads into
+    the partial solution.
+    \begin{equation*}
+        S_1 = \{p(a), p(x)\}
+    \end{equation*}
+    With these two literals in the partial solution, rules $\asprule{p(b)}{p(a)}$
+    and $\asprule{p(y)}{p(x), p(a)}$ have their bodies consistent
+    with the partial solution $S_1$. For this we add literals in heads of these
+    rules into the partial solution.
+    \begin{equation*}
+        S_2 = \{p(a), p(x), p(b), p(y)\}
+    \end{equation*}
+    In the next step, another rule $\asprule{p(c)}{p(b)}$ has its body consistent
+    with the partial solution $S_2$. We add the literal from its head into
+    the partial solution.
+    \begin{equation*}
+        S_3 = \{p(a), p(x), p(b), p(y), p(c)\}
+    \end{equation*}
+    This addition into the partial solution makes the body of yet another
+    rule $\asprule{p(z)}{p(x), p(c)}$ to be consistent with the partial solution.
+    \begin{equation*}
+        S_4 = \{p(a), p(x), p(b), p(y), p(c), p(z)\}
+    \end{equation*}
+    No other literals have to be added into the partial solution.
+    $S_4$ is the only solution of logic program $(\Sigma, \Pi)$.
+\end{example}
+
+The only literal from the heads of rules that have not been included
+into the partial solution is $p(n)$. This literal relies
+on some unknown literal $p(k)$ that is not in any head of rules of $\Pi$.
+Another case of literal that is not in a solution of logic program
+is shown in the following example.
+
+\begin{example}\label{example:cycle}
+    Let $(\Sigma, \Pi)$ be a logic program,
+    \begin{equation*}
+        \Pi =
+            \begin{cases}
+                \asprule{p(a)}{p(b)}\\
+                \asprule{p(b)}{p(a)}\\
+            \end{cases}
+    \end{equation*}
+    This logic program a single solution, that is an empty set.
+    While the partial interpretation $\{p(a), p(b)\}$ is consistent
+    with the logic program, it is not the minimal set.
+\end{example}
+
+% TODO: The negative literals here are not a good way to say it
+The simple way of building answer sets of a basic programs,
+can be extended to all logic programs. In basic programs we have assumed
+that no rule with negative literals does exist in the logic program.
+To fight the negative literals in a general extended logic program,
+we can first define a partial interpretation of $\Sigma$ that constitutes
+the possible answer set, then take all rules $r\in\Pi$ that have no intersection
+of their $\aspbody^-(r)$ with our partial interpretation and into the reduced logic program
+include only the nonnegative $\aspbody^+(r)$ from them. If this reduced program
+yields the same answer set as the partial interpretation we have defined,
+it is an answer set.
+
+\begin{definition}{Reduct of a logic program~\cite{KRHandbook}.}
+    Let $(\Sigma, \Pi)$ be a logic program, $S$ be a partial interpretation of $\Sigma$.
+    Let $\Pi^S$ be a set of rules such that
+    \begin{equation*}
+        \Pi^S = \{\asprule{\asphead(r_i)}{\aspbody^+(r_i)}
+                  \mid r_i\in \Pi,\,\aspbody^-(r_i)\cap S = \emptyset\}
+    \end{equation*}
+    Then $\Pi^S$ is called a reduct of $\Pi$ relative to the partial interpretation $S$.
+\end{definition}
+
+\begin{example}
+    In the reduct can be encountered a new type of rule that was not yet discussed here.
+    Let $\Pi = \{\asprule{}{\aspnot \varphi}\}$, $S = \{\}$ for some atom $\varphi$.
+    The reduct $\Pi^S$ contains
+    a single rule with both head and body empty.
+    Based on the Definition~\ref{consistent_interpretation},
+    no partial interpretation can be consistent
+    with such rule as no partial interpretation can be consistent with an empty head
+    and every partial interpretation is consistent with an empty body.
+    This is however a desired behaviour, the interpretation $S$ was defined
+    in a way it was not consistent with the rule so it is only right
+    the reduct can not have any answer set.
+\end{example}
+
+\begin{definition}{Answer set of general grounded logic program~\cite{KRHandbook}.}%
+    \label{answer_set_general}
+    A partial interpretation $S$ of $\Sigma$ is an answer set for $(\Sigma, \Pi)$
+    if $S$ is an answer set for $\Pi^S$.
+\end{definition}
+
+Definition~\ref{answer_set_general} gives a direct way of computing answer sets
+of any logic programs. For every possible subset $S$ of grounded atoms in program $\Pi$,
+the reduct $\Pi^S$ can be constructed and evaluated for its answer set.
+If the found answer set is equal to the subset of grounded atoms $S$, it is said
+to be also an answer set of the program $\Pi$.
+
+Let's illustrate the computation of an answer set of general logic program on two examples.
+
+\begin{example}
+    Let $(\Sigma, \Pi)$, where
+    \[\Pi = \{\asprule{\varphi}{\varphi}, \asprule{\psi}{\aspnot \varphi}\},\]
+    be a logic program with two atoms $\varphi, \psi$.
+    There are 4 subsets of set of all atoms. First the reduct relative to
+    the subset is made, on it the calculation of its answer set (AS) is made.
+    If the answer set of reduct is equal to the subset, it is an answer set of the
+    whole logic program.
+    \begin{center}
+        \begin{tabular}{L L L}\toprule{}%
+            S        & \Pi^S          & \text{AS of }\Pi^S \\\midrule{}%
+            \{\}     & \asprule{\varphi}{\varphi} & \{\psi\} \\
+                     & \asprule{\psi}{}  &       \\\addlinespace[0.5em]
+            \{\varphi\}    & \asprule{\varphi}{\varphi} & \{\}  \\\addlinespace[0.5em]
+            \{\psi\}    & \asprule{\varphi}{\varphi} & \{\psi\} \\
+                     & \asprule{\psi}{}  &       \\\addlinespace[0.5em]
+            \{\varphi, \psi\} & \asprule{\varphi}{\varphi} & \{\}  \\
+            \bottomrule{}
+        \end{tabular}
+    \end{center}
+    There is only a single answer set of $(\Sigma, \Pi)$, that is $\{\psi\}$.
+    Similiar to Example~\ref{example:cycle}, in the reduct $\Pi^{\{\varphi\}}$
+    partial interpretation $\{\varphi\}$ is not an answer set as it is
+    not minimal.
+\end{example}
+
+\begin{example}\label{example:xor}
+    Let $(\Sigma, \Pi)$, where
+    \[\Pi = \{\asprule{\varphi}{\aspnot \psi}, \asprule{\psi}{\aspnot \varphi}\},\]
+    be a logic program with two atoms $\varphi, \psi$.
+    Again, there are 4 subsets of set of all atoms.
+    \begin{center}
+        \begin{tabular}{L L L}\toprule{}%
+            S        & \Pi^S         & \text{AS of }\Pi^S \\\midrule{}%
+            \{\}     & \asprule{\varphi}{} & \{\varphi, \psi\} \\
+                     & \asprule{\psi}{} &          \\\addlinespace[0.5em]
+            \{\varphi\}    & \asprule{\varphi}{} & \{\varphi\}    \\\addlinespace[0.5em]
+            \{\psi\}    & \asprule{\psi}{} & \{\psi\}    \\\addlinespace[0.5em]
+            \{\varphi, \psi\} &               & \{\}     \\
+            \bottomrule{}
+        \end{tabular}
+    \end{center}
+    This time there are two answer sets of $(\Sigma, \Pi)$, $\{\varphi\}$ and $\{\psi\}$.
+\end{example}
+
+% Well, this does not work
+% \subsection{Disjunctive heads of rules}
+% 
+% Until now only rules with single or none literal in the head were discussed.
+% In the Definition~\ref{def:rule}, the rule has been defined with
+% possibly multiple literals in the head. However when we were computing
+% the answer sets of logic programs, we assumed the heads to be limited.
+% While the Definition~\ref{def:as_basic} does remain unchanged,
+% computing 
+% 
+% The logic program of the Example~\ref{example:xor} introduced a useful property.
+% Its two rules assert that at least a single of $\varphi, \psi$
+% is always included into the answer set of this logic program.
+% This property can be used to rewrite each rule with multiple literals in head
+% into multiple rules, each with a single literal in its head.
+% 
+% \begin{lemma}{Rule with disjunctive head.}
+%     Let $(\Sigma, \Pi)$ be a logic program, containing rule $r$ with head
+%     \[\asphead(r) = \{l_1, l_2, l_3, \ldots, l_k\}\]
+%     and body
+%     \[\aspbody(r) = \{l_{k+1}, \ldots, l_m, \aspnot l_{m+1}, \ldots, \aspnot l_{n}\}\]
+%     Then it is equivalent to program $(\Sigma, \Pi')$ where $\Pi'$ is
+%     modified set of rules:
+%     \begin{equation*}
+%         \begin{matrix}
+%             {r'}_1 = (\asprule{l_1}{\aspnot l_2, \aspnot l_3, \ldots, \aspnot l_k, l_{k+1}, \ldots, l_m, \aspnot l_{m+1}, \ldots, \aspnot l_{n}})\\
+%             {r'}_2 = (\asprule{l_2}{\aspnot l_1, \aspnot l_3, \ldots, \aspnot l_k, l_{k+1}, \ldots, l_m, \aspnot l_{m+1}, \ldots, \aspnot l_{n}})\\
+%             \vdots\\
+%             {r'}_k = (\asprule{l_k}{\aspnot l_1, \aspnot l_2, \ldots, \aspnot l_{k-1}, l_{k+1}, \ldots, l_m, \aspnot l_{m+1}, \ldots, \aspnot l_{n}})\\
+%         \end{matrix}
+%     \end{equation*}
+%     \[R' = \{{r'}_1, {r'}_2, \ldots, {r'}_k\}\]
+%     \[\Pi' = (\Pi \setminus\{r\})\cup R'\]
+% \end{lemma}
