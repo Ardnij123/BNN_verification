@@ -1,0 +1,345 @@
+\subsection{Gringo}
+
+Gringo~\cite{GebserKKS17} is software that grounds logic program in Clingo language
+and translates it into the Aspif format that is readable by logic program solver Clasp.
+Gringo first resolves every rule with variables
+into (possibly multiple) variable-free rules and then changes format of
+the program into Clasp-readable Aspif. Gringo thus can introduce new atoms
+that were not obvious from the Clingo program. Full specification of Aspif language
+is written in~\cite{aspEasy2016}.
+
+\subsubsection{Aspif format}
+
+Aspif (ASP intermediate format) language consists of statements, each on its own
+line. First line of file is a header of form 
+\newcommand{\ms}{\texttt{ }}
+\begin{center}
+    \texttt{asp $v_m$ $v_n$ $v_r$ $t_1$ \dots{} $t_k$}
+\end{center}
+where $v_m$, $v_n$ and $v_r$ are versions of major, minor and revision numbers
+respectively and each $t_i$ is a tag. Then follow lines with rules and statements
+translated from program.
+Last line of Aspif format file is a single 0.
+
+For the translation from Clingo to Aspif language, Gringo introduces mapping $M$ of literals
+onto positive numbers. Each literal is assigned a positive number, which identifies it
+in the whole Aspif program. To assert the constraint that no solution contains
+both an atom and its classical negation, for each such tuple of literals $\varphi, \neg\varphi$,
+Gringo introduces new rule to forbid such solutions:
+\begin{center}
+    \texttt{:- $\varphi$, $\neg\varphi$.}
+\end{center}
+
+In this thesis only rules and show statements are relevant.
+
+\subsubsection{Rule statements}
+
+Rule in Aspif has form of
+\begin{center}
+    \texttt{1 $H$ $B$}
+\end{center}
+in which head $H$ has form of
+\begin{center}
+    \texttt{$h$ $m$ $a_1$ \dots{} $a_m$}
+\end{center}
+where $h\in\{0, 1\}$, $m\geq 0$,
+$\forall i\in\{1, \dots, m\}\,.\, a_i\in\NN^+$. Parameter $h$ determines
+wherther head of this rule is disjunction (0) or choice (1), $m$
+determines number of literals and $a_i$ are literals mapped to positive integers.
+
+Body $B$ is called normal if it has form of
+\begin{center}
+    \texttt{0 $n$ $l_1$ \dots{} $l_n$}
+\end{center}
+where $n$ is the number of literals in statement and for each literal $\varphi$
+corresponding to $l_i$, $l_i = M(\varphi)$ if $\varphi$ is positive in the sense of
+the default negation, otherwise $l_i = -M(\varphi)$.
+Literals of the normal body are in conjunction meaning all its positive literals
+and none of its negative literals have
+to be consistent with the answer set in order for the head of rule to be used.
+
+The other type of body $B$ is called weight body. Its form is
+\begin{center}
+    \texttt{1 $b$ $n$ $l_1$ $w_1$ \dots{}  $l_n$ $w_n$}
+\end{center}
+Parameter $b\geq 0$ determines lower bound, $n$
+the length of rule body, for each literal $\varphi$ corresponding to $l_i$,
+$l_i = M(\varphi)$ if $\varphi$ is positive in the sense of
+the default negation, otherwise $l_i = -M(\varphi)$
+and $w_i\geq 1$ is the weight assigned to this literal.
+In weight body, the head of the rule is used if the sum of weights of expressions
+consistent with the answer set is greater or equal to the lower bound.
+
+\begin{example}\label{exp:gringo_grounding}
+    Consider the following program in Clingo language:
+    \begin{lstlisting}[language=prolog]
+p(a).
+p(b) :- p(a).
+p(c) :- p(a), p(b).
+
+q(1..3).
+
+r(1) :- not r(2).
+r(2) :- not r(1).
+
+s(true) :- q(1) : q(2), q(3).
+
+t(A) :- A = #count { X: q(X) }.
+\end{lstlisting}
+
+    When grounding the program, first a set of ground rules will be generated.
+    In this case, non ground rules are on lines 5 and 12. Expansion of the rule
+    on line 5 is going to be easy, it is going to expand into 3 facts,
+    with values 1, 2 or 3 as the parameter.
+    \begin{lstlisting}[language=prolog, firstnumber=5]
+q(1). q(2). q(3).
+\end{lstlisting}
+    The rule on line number 12 will be expanded in two steps. First, the set of
+    conditional terms will be expanded.
+    \begin{lstlisting}[language=prolog, firstnumber=12]
+t(A) :- A = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+\end{lstlisting}
+	Now that both the minimal and maximal number of terms are known, the variable
+    \texttt{A} can be grounded.
+    \begin{lstlisting}[language=prolog, firstnumber=12]
+t(0) :- 0 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+t(1) :- 1 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+t(2) :- 2 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+t(3) :- 3 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+\end{lstlisting}
+
+    After the grounding process, the full program will have the form of:
+    \begin{lstlisting}[language=prolog]
+p(a).
+p(b) :- p(a).
+p(c) :- p(a), p(b).
+
+q(1). q(2). q(3).
+
+r(1) :- not r(2).
+r(2) :- not r(1).
+
+s(true) :- q(1) : q(2), q(3).
+
+t(0) :- 0 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+t(1) :- 1 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+t(2) :- 2 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+t(3) :- 3 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
+\end{lstlisting}
+
+    Finally, Gringo will process these grounded rules into statements\footnote{
+        In fact, Gringo will do some optimizations already in the time of
+    translation into statements. For instance, it does see that literal \texttt{p(a)}
+    has to always be included in the answer set, thus also the body of rule on line 2
+    does always hold and line 2 would be substitued for a fact.
+    The mapping of literals to numbers is also not the same as Gringo would use.}.
+    On the first line of the resulting Aspif file informations about the version
+    will be written.
+    \begin{lstlisting}
+1 0 0
+\end{lstlisting}
+
+    Then, the fact and rules on lines 1--3 will be translated. Literals
+    \texttt{p(a)}, \texttt{p(b)} and \texttt{p(c)} will be mapped to numbers \texttt{1},
+    \texttt{2} and \texttt{3}.
+    \begin{lstlisting}[firstnumber=2]
+1 0 1 1 0 0
+1 0 1 2 0 1 1
+1 0 1 3 0 2 1 2
+\end{lstlisting}
+    The first statement has a disjunctive head containing a single literal with assigned
+    number \texttt{1}, that is the literal \texttt{p(a)}. It also has normal body
+    containing no literal. As it does not contain any literal, the statement is a fact.\\
+    The second statement also has a disjunctive head containing a single literal
+    \texttt{p(b)}. Its body is normal, containing a single literal \texttt{p(a)},
+    thus this rule ensures literal \texttt{p(b)} if \texttt{p(a)} is consistent.\\
+    The third statement also has a disjunctive head containing a single literal
+    \texttt{p(c)}. Its body is normal, containing 2 literals \texttt{p(a)} and \texttt{p(b)}.
+
+    Line 5 contains only three facts. Each of them is going to be translated into a single
+    rule, similiar to the fact from line 1. Literals \texttt{q(1)}, \texttt{q(2)} and \texttt{q(3)}
+    will be assigned numbers \texttt{4}, \texttt{5}, \texttt{6}.
+    \begin{lstlisting}[firstnumber=5]
+1 0 1 4 0 0
+1 0 1 5 0 0
+1 0 1 6 0 0
+\end{lstlisting}
+
+    Rules on lines 7--8 contain default negation. According to the definition, negated values
+    of numbers assigned to corresponding literals will be used in statement bodies.
+    Literals \texttt{r(1)} and \texttt{r(2)} will be assigned numbers \texttt{7} and \texttt{8}.
+    \begin{lstlisting}[firstnumber=8]
+1 0 1 7 0 1 -8
+1 0 1 8 0 1 -7
+\end{lstlisting}
+
+    The rule on line 10 does use conditional literal.
+    To translate this into statements, Gringo uses trick similiar to the one used
+    in the Example~\ref{exp:conditional_literal}.
+    For each conditional literal $H : B$ it first creates a rule with a new literal
+    $\varphi$ in the head and the body $B$ as the body of the rule.
+    Then it adds another literal $\psi$ that corresponds to the value of
+    the conditional literal and another two rules asserting that the literal
+    $\psi$ is consistent with solution if $H$ is consistent or
+    $\varphi$ is not consistent with the solution.
+
+    The rule expands into the following rules in the Clingo language:
+    \begin{lstlisting}[language=prolog, numbers=none, escapeinside={(*}{*)}]
+(*$\varphi$*) :- q(2), q(3).
+(*$\psi$*) :- q(1).
+(*$\psi$*) :- not (*$\varphi$*).
+s(true) :- (*$\psi$*).
+\end{lstlisting}
+    These rules are then directly translated into Aspif statements.
+    Literals \texttt{q(1)}, \texttt{q(2)} and \texttt{q(3)} are already
+    assigned numbers \texttt{4}, \texttt{5} and \texttt{6}. Literals
+    $\varphi$, $\psi$ and \texttt{s(true)} are assigned numbers 
+    \texttt{9}, \texttt{10} and \texttt{11}.
+    \begin{lstlisting}[firstnumber=10]
+1 0 1 9 0 2 5 6
+1 0 1 10 0 1 4
+1 0 1 10 0 1 -9
+1 0 1 11 0 1 10
+\end{lstlisting}
+
+    The last set of rules do contain aggregates. These four rules only differ
+    in the number of literals being true in the solution.
+    To be transcribe these rules into statements in which only the lower bound
+    is defined (where only the operator \texttt{<=} is allowed),
+    Gringo splits each equality into two inequalities. Any expression
+    in form of ($A$ and $B$ are head and rest of body):
+    \begin{lstlisting}[language=prolog, numbers=none, escapeinside={(*}{*)}]
+(*$A$*) :- K = (*$\alpha$*){...}, (*$B$*).
+\end{lstlisting}
+    is first rewritten as three rules using only operator \texttt{<=}\footnote{
+        In fact, Gringo treats the lowest and highest values differently.
+        As there is no way to undershoot or overshoot these values,
+        it does not create the first or second rule respectively in these cases.
+    }:
+    \begin{lstlisting}[language=prolog, numbers=none, escapeinside={(*}{*)}]
+(*$\varphi$*) :- K <= (*$\alpha$*){...}, (*$B$*).
+(*$\psi$*) :- K + 1 <= (*$\alpha$*){...}, (*$B$*).
+(*$A$*) :- (*$\varphi$*), not (*$\psi$*).
+\end{lstlisting}
+    where $\varphi$ and $\psi$ are fresh literals.
+    These expressions are equivalent as the value of an aggregate is always
+    a whole number. The default negation in the last rule negates the \texttt{<=}
+    operator of the second rule making its meaning close to \texttt{>}.
+
+    In our example, there are 4 such rules, thus we will be using 8 fresh literals.
+    \texttt{t(0)}, \texttt{t(1)}, \texttt{t(2)} and \texttt{t(3)} are
+    assigned numbers \texttt{12}, \texttt{13}, \texttt{14} and \texttt{15}.
+    Fresh literals are assigned numbers 
+    \texttt{16}, \texttt{17}, \texttt{18}, \texttt{19},
+    \texttt{20}, \texttt{21}, \texttt{22}, \texttt{23}.
+    \texttt{q(1)}, \texttt{q(2)} and \texttt{q(3)} are already assigned numbers
+    \texttt{4}, \texttt{5} and \texttt{6}.
+    \begin{lstlisting}[firstnumber=14]
+1 0 1 16 1 0 3 4 1 5 1 6 1
+1 0 1 17 1 1 3 4 1 5 1 6 1
+1 0 1 12 0 2 16 -17
+1 0 1 18 1 1 3 4 1 5 1 6 1
+1 0 1 19 2 1 3 4 1 5 1 6 1
+1 0 1 13 0 2 18 -19
+1 0 1 20 2 1 3 4 1 5 1 6 1
+1 0 1 21 3 1 3 4 1 5 1 6 1
+1 0 1 14 0 2 20 -21
+1 0 1 22 3 1 3 4 1 5 1 6 1
+1 0 1 23 4 1 3 4 1 5 1 6 1
+1 0 1 15 0 2 22 -23
+\end{lstlisting}
+
+    The last line of the Aspif program will be a single zero.
+    Full program\footnote{
+        As there are no show statements in the former logic program,
+        the Aspif program would contain a show statement for each literal
+        of the grounded program.
+    } will take form of:
+    \begin{lstlisting}
+1 0 0
+1 0 1 1 0 0
+1 0 1 2 0 1 1
+1 0 1 3 0 2 1 2
+1 0 1 4 0 0
+1 0 1 5 0 0
+1 0 1 6 0 0
+1 0 1 7 0 1 -8
+1 0 1 8 0 1 -7
+1 0 1 9 0 2 5 6
+1 0 1 10 0 1 4
+1 0 1 10 0 1 -9
+1 0 1 11 0 1 10
+1 0 1 16 1 0 3 4 1 5 1 6 1
+1 0 1 17 1 1 3 4 1 5 1 6 1
+1 0 1 12 0 2 16 -17
+1 0 1 18 1 1 3 4 1 5 1 6 1
+1 0 1 19 2 1 3 4 1 5 1 6 1
+1 0 1 13 0 2 18 -19
+1 0 1 20 2 1 3 4 1 5 1 6 1
+1 0 1 21 3 1 3 4 1 5 1 6 1
+1 0 1 14 0 2 20 -21
+1 0 1 22 3 1 3 4 1 5 1 6 1
+1 0 1 23 4 1 3 4 1 5 1 6 1
+1 0 1 15 0 2 22 -23
+0
+\end{lstlisting}
+\end{example}
+
+It is very important to choose the right representation of a problem
+in answer set programming. As shown in the example above, some representations
+may lead to very large size of a grounded logic program.
+When using variables in the head of a rule, one has to be aware
+of the number of literals and rules added through the grounding process.
+
+\subsubsection{Show statements}
+
+Show statement is for specification of output, they result from \texttt{\#show}
+directive. Each show statement is of form:
+\begin{center}
+    4\ms{}$m$\ms{}$s$\ms{}$n$\ms{}$l_1$\ms{}\dots\ms$l_n$
+\end{center}
+where $m$ is length of string $s$, $s$ is string
+with name, $n$ is number length of condition and $l_i$ are literals.
+The show statement prints the string $s$ if all literals $l_i$ are cosistent
+with the answer set.
+
+\begin{example}
+    In the logic program from Example~\ref{exp:gringo_grounding} in Clingo format,
+    there are no show statements. Thus for every literal $l$ with of the grounded
+    logic program mapped to number $M(l)$, a single show statement of form:
+    \begin{center}
+        4\ms{}$||L||$\ms{}$L$\ms{}$1$\ms{}$M(l)$
+    \end{center}
+    would be added into the logic program in Aspif format.
+
+    To get the Aspif representation mentioned in this Example,
+    a single show statement \texttt{\#show.} could be used.
+
+    If show statement \texttt{\#show q/1.} was added to the former logic program,
+    the following set of show statements would be included in its Aspif
+    representation:
+    \begin{lstlisting}[firstnumber=26]
+4 4 q(1) 1 4
+4 4 q(2) 1 5
+4 4 q(3) 1 6
+\end{lstlisting}
+\end{example}
+
+\subsection{Clasp}
+
+Clasp is the solver of the Clingo framework. It takes logic program in the Aspif
+format to search for answer sets of a grounded logic program.
+The solver approaches the inference using the unit propagation
+of nogoods~\cite{DBLP:journals/ai/GebserKS12}.
+
+For the inference of answer sets of some logic program,
+Clasp uses backpropagation over a tree of partial solutions.
+Each time the it sees a partial solution that is not an answer set
+of the problem, it derives new constraints on the solution which it
+propagates up the tree of partial solutions. This allows Clasp
+to prune large branches of partial solutions.
+
+For model (answer sets) counting, Clasp uses a method
+called model enumeration. To determine that a set is an answer set,
+it needs to evaluate the exact set. This means, that the time complexity
+of an enumeration is always dependent on the number of answer sets.

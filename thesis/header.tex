@@ -5,6 +5,7 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{listings}
+\usepackage[utf8]{inputenc}
 
 % Landscape fullpage tables
 \usepackage{pdflscape}
@@ -143,3 +144,6 @@
 \newcommand{\importchapter}[1]{%
     \import{chapters/#1/}{chapter.tex}%
 }
+
+% Special characters
+\DeclareUnicodeCharacter{21B5}{$\hookleftarrow$}

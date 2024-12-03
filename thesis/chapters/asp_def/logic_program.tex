@@ -178,12 +178,12 @@ thus the programs can be grounded before the start of solving
 of the logic program.
 
 \begin{definition}{Ground program~\cite{KRHandbook}.}
-    Terms, literals, and rules of program $\Pi$ with signature $\sigma$ are called ground if they
+    Terms, literals, and rules of program $\Pi$ with signature $\Sigma$ are called ground if they
     contain no variables and no function symbols. A program is called
     ground if all its rules are ground. A rule $r'$ is called a ground instance of a rule $r$ of $\Pi$
     if it is obtained from $r$ by:
     \begin{itemize}
-        \item replacing $r'$s variables by properly typed ground terms of $\sigma$;
+        \item replacing $r'$s variables by properly typed ground terms of $\Sigma$;
         \item replacing $r'$s function terms by their values.
     \end{itemize}
     A program $gr(\Pi)$ consisting of all ground instances of all rules of $\Pi$
@@ -418,7 +418,7 @@ This is done as long as any literal is added into the partial interpretation.
     \end{proof}
 \end{lemma}
 
-\begin{example}
+\begin{example}\label{exp:long_program}
     Let $(\Sigma, \Pi)$ be a logic program,
     \begin{equation*}
         \Pi =

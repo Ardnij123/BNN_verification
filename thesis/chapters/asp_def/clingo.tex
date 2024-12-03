@@ -1,0 +1,611 @@
+\section{Clingo}
+
+Clingo is an integrated ASP system, consisting of a grounder Gringo and solver
+Clasp~\cite{aspEasy2016}. In the following section I will show basics of the
+Clingo language, Gringo as translation from Clingo to Aspif language and
+solving with Clasp.
+
+\subsection{Clingo language}
+Clingo language~\cite{gebser2019potassco} is used for transcribing ASP programs
+in the Clingo system.
+The Clingo language does allow for facts, rules and constraints just like
+the logic programs defined in this thesis.
+
+\begin{example}
+    Transcription of a logic program from the Example~\ref{exp:long_program} to Clingo language.
+    On the left side is a set of rules from this example,
+    on the right is equivalent program in the Clingo language.
+
+    \begin{minipage}{.4\textwidth}
+    \begin{equation*}
+        \Pi =
+            \begin{cases}
+                \aspfact{p(a)}\\
+                \asprule{p(b)}{p(a)}\\
+                \asprule{p(c)}{p(b)}\\
+                \aspfact{p(x)}\\
+                \asprule{p(y)}{p(x), p(a)}\\
+                \asprule{p(z)}{p(x), p(c)}\\
+                \asprule{p(n)}{p(a), p(k)}\\
+            \end{cases}
+    \end{equation*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.4\textwidth}
+        \vspace{1em}
+        \begin{lstlisting}[language=Prolog, numbers=none, basicstyle=\linespread{1.25}\normalsize]
+p(a).
+p(b) :- p(a).
+p(c) :- p(b).
+p(x).
+p(y) :- p(x), p(a).
+p(z) :- p(x), p(c).
+p(n) :- p(a), p(k).
+\end{lstlisting}
+    \end{minipage}
+\end{example}
+
+\subsection{Basic syntax of Clingo language}
+
+\vspace{-0.5em}
+\textit{%
+    Unless specified otherwise,
+    source of information in this section is~\cite{gebser2019potassco}.}
+    \vspace{1em}
+
+Terms in the Clingo language are of multiple sorts.
+The simplest sort of terms are constants and strings.
+Constants match the regular expression \texttt{\_*[a-z][A-Za-z0-9\_']*}.  % chktex 8
+They start with underscores followed by lowercase letter and a sequence of characters.
+Similiarly, strings match the regular expression
+\texttt{"([\^{}\textbackslash"↵]|\textbackslash[\textbackslash"n])*"}.  % chktex 18
+They allow for any reasonable text.
+
+Another sort of Clingo language signature are integers.
+Constant integers can be captured by the regular expression
+\texttt{-?(0|[1-9][0-9]*)}.  % chktex 8
+As can be seen, zero character can only be at the start of zero number.
+Number zero (\texttt{0}) and negative zero (\texttt{-0}) are the same constants.
+The range of integers is platform dependent, they are either 32-bit or 64-bit.
+
+Grounder Gringo also built-in support for arithmetic functions over integers.
+Following symbols are used: \texttt{+} (addition), \texttt{-} (substraction), \texttt{*}
+(multiplication), \texttt{/} (integer division, rounding down), \texttt{\textbackslash}
+(modulo), \texttt{**} (exponentiation), \texttt{|\ldots|} (absolute value),
+\texttt{\&} (bitwise AND), \texttt{?} (bitwise OR), \texttt{\^{}} (bitwise XOR),
+and \texttt{\~} (bitwise complement).  % chktex 14
+Arithmetic functions use infix notation.
+
+Gringo also allows for comparison predicates over all terms.
+These are predicates that are evaluated during grounding.
+The comparison predicates are \texttt{=} (equal), \texttt{!=} (not equal),
+\texttt{<} (less than), \texttt{<=} (less than or equal),
+\texttt{>} (greater than) and \texttt{>=} (greater than or equal).
+Integers are comared in the usual way, constants and strings are ordered lexicographically.
+All integers are smaller than constants which are smaller than strings.
+Additionaly two special constants \texttt{\#sup} and \texttt{\#inf} do exist,
+constituting to the greatest and lowest term.
+
+Another sorts of terms are functions and tuples.
+Such terms take form of \texttt{$f$($t_1$, \ldots, $t_n$)} for the functions
+and \texttt{($t_1$, \ldots, $t_n$)} for the tuples where $f$ is a function symbol
+and $t_1$, \ldots, $t_n$ are terms. The tuple has to have at least a single term long,
+in that case it is written as \texttt{($t_1$,)} to differentiate it from brackets.
+Function symbols are constrained in the same way as names of constants.
+Function with no terms as arguments is by the grounder seen as a constant with the function
+symbol as a name.
+Functions and tuples as terms do not have any interpretation.
+There is no mapping from function terms to some other terms as the name might suggest.
+
+Finally, the last type of terms are variables.
+Variables can be matched with a regular expression \texttt{\_*[A-Z][A-Za-z0-9\_']*}.  % chktex 8
+Variables are used to generalize rules of the logic program,
+a ground (variable-free) program is constructed during the process of grounding.
+A special variable \texttt{\_} is called an annonymous variable or wildcard.
+At the start of the grounding process, a fresh (not used elsewhere) variable term
+is substitued for each annonymous variable.
+It stands for a placeholder, meaning any term can take its place.
+
+An atom is syntatically consistent with a constant or a function.
+The predicate symbol starts with any number of underscores \texttt{\_}
+followed by a lowercase letter and any number of alphanumeric characters,
+underscores and \texttt{'}.
+Atom using predicate symbol with arity of lenght zero can be written without the parentheses.
+One predicate symbol can be used with different arities.
+
+A literal is an atom or its classical negation.
+In the Clingo language, classical negation is indicated by minus symbol \texttt{-}  % chktex 8
+before the literal.
+
+Finally, each ASP rule $r$ of form
+\[\asprule{l_0\, or\, \ldots\, or\, l_k}{l_{k+1}, \ldots, l_{m}, \aspnot l_{m+1}, \ldots, \aspnot l_{n}}\]
+is transcribed into following expression of Clingo language:
+\begin{center}
+    \texttt{$l_0$; \ldots; $l_k$ :- $l_{k+1}$, \ldots, $l_{m}$, not $l_{m+1}$, \ldots, not $l_{n}$.}  % chktex 26
+\end{center}
+Specially, if $\asphead(r)$ is nonempty and $\aspbody(r)$ is empty, a shorthand transcription
+can be used:
+\begin{center}
+    \texttt{$l_0$; \ldots; $l_k$.}  % chktex 26
+\end{center}
+
+In the basic notation of rules, semicolons \texttt{;} and commas \texttt{,}
+can be freely interchanged. While this is true, I will try to stick to semicolons in heads
+and commas in bodies of rules for better readability.
+Where this is not possible (see Conditional literals), I will always point it out.
+
+\begin{example}\label{exp:transcription_clingo}%
+    Transcription of terms and atoms of Example~\ref{Sigma1}.
+
+    In the example, signature $\Sigma_1$ had sorts
+    \begin{equation*}
+        \sigma_\BB = \{True, False\}, \sigma_\NN = \NN_0.
+    \end{equation*}
+    On these sorts, function symbols $\vee, \wedge$ of arity
+    $\sigma_\BB\times \sigma_\BB\to \sigma_\BB$,
+    and function symbols $=, <$ of arity $\sigma_\NN\times\sigma_\NN\to \sigma_\BB$
+    were defined.
+    Also, there were two predicate symbols, $p$ of arity $\sigma_\BB$,
+    and $q$ of arity $\sigma_\NN\times\sigma_\BB$.
+    Finally, there were 3 variables $X, Y, Z$ of sort $\sigma_\NN$.
+
+    Let the interpretation of these function symbols be the usual one,
+    that is $\vee, \wedge$ are logical \textit{OR} and \textit{AND}
+    and $=, <$ are \textit{equal} and \textit{less than}.
+    In Clingo language, there is no such thing as boolean values. However, we can still use
+    integers $0$ and $1$ in their place. Function symbols $\vee$ and $\wedge$
+    can then be modelled by using bit and and bit or arithmetic functions of the Clingo language.
+
+    Function symbols $=$ and $<$ are a bit more problematic.
+    In the Clingo language as defined so far there are no user defined function\footnote{
+        In fact there are External functions which use Python or Lua API
+        to compute values on grounding.
+        You can read about them in~\cite{gebser2019potassco}.
+        I will not be showing them here as I do not use them in my implementation.
+    }.
+	% TODO: Rewrite this
+    When working with rules with these function symbols, we can however use
+    comparison predicates to build multiple rules, each with its own assignment
+    to the term value.
+
+    In the following, on the left side are $\Sigma$-terms of sort $\sigma_\BB$,
+    on the right side are their transcriptions into the Clingo language according to
+    the above text. % TODO: additional predicates
+	When the expression would need to be rewritten into multiple rules,
+    different cases are inside curly brackets split by comma, for each case the substituted term
+    is before the square brackets and added comparison predicates are inside the square brackets.
+
+    \begin{minipage}{.45\textwidth}
+        $True,\ False$,\\
+        $True \vee False$, $False \wedge True$,\\
+        $(42 = 42)$,\\
+        \\
+		$(X = 17)$,\\
+        \\
+        $(3 < Y) \vee (6 = 6)$,\\
+        \\
+        \\
+        \\
+        $[(5 = 1)\wedge True] \vee False$\\
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.5\textwidth}
+        \begin{lstlisting}[language=Prolog, numbers=none, basicstyle=\normalsize]
+1, 0,
+1 ? 0, 0 & 1,
+{1 [42 = 42],
+ 0 [42 != 42]},
+{1 [X = 17],
+ 0 [X != 17]},
+{1 ? 1 [3 < Y, 6 = 6],
+ 1 ? 0 [3 < Y, 6 != 6],
+ 0 ? 1 [3 >= Y, 6 = 6],
+ 0 ? 0 [3 >= Y, 6 != 6]},
+{(1 & 1) ? 0 [5 = 1],
+ (0 & 1) ? 0 [5 != 1]}
+\end{lstlisting}
+    \end{minipage}
+
+    Usage of these and other similiar $\Sigma$-terms in atoms is described
+	in the following transcription.
+    On the left side are some $\Sigma$-facts, on the right side is their transcription into
+    the Clingo language.
+
+    \begin{minipage}{.45\textwidth}
+        $\aspfact{p(True)}$\\
+        $\aspfact{p(False)}$\\
+        $\aspfact{p([(5 = 1) \wedge True] \vee False)}$\\
+		\\
+        $\aspfact{q(0, True)}$\\
+        $\aspfact{q(123, (42 = 42))}$\\
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.5\textwidth}
+        \begin{lstlisting}[language=Prolog, numbers=none, basicstyle=\normalsize]
+p(1).
+p(0).
+p((1 & 1) ? 0) :- 5 = 1.
+p((0 & 1) ? 0) :- 5 != 1.
+q(0, 1).
+q(123, 1) :- 42 = 42.
+q(123, 0) :- 42 != 42.
+\end{lstlisting}
+    \end{minipage}
+\end{example}
+
+When transcripting rules of Example~\ref{exp:transcription_clingo},
+we have made some facts into rules by introducing new comparison predicates into the rule.
+In the section about grounding, we will however see, that these predicates will be
+removed during the grounding process.
+
+\subsection{Extensions of ASP in Clingo language}
+
+\textit{%
+    Unless specified otherwise,
+    source of information in this section is~\cite{gebser2019potassco}.}
+    \vspace{1em}
+
+Clingo language allows for many extensions of the Answer set programming.
+In this section, I will describe extensions, which will be used in the implemention part
+of this thesis.
+
+% TODO: Add this into the grounding section
+
+\subsubsection{Intervals and Pooling}
+
+When defining rules, it is often desired to define rules on a range of values.
+For this type of rule, Clingo language allows for the use of intervals and pools.
+Intervals and pools can be used in place of terms in both heads and bodies of rules.
+
+For two whole numbers $i, j$, an interval \texttt{$i$..$j$} means,
+that during grounding a rule containing this interval expands to multiple rules,
+one for each $k$ s.t.\ $i \leq k\leq j$ in its place.
+If there are multiple such intervals, they expand one by one,
+latter ones expanding in all rules already partially expanded by previous intervals.
+
+\begin{example}
+    Consider the following program in Clingo language~\cite{gebser2019potassco}:
+    \begin{lstlisting}[language=prolog, numbers=none]
+grid(1..3, 1..3).
+\end{lstlisting}
+    At the start of the grounding process, this program expands into the program:
+    \begin{lstlisting}[language=prolog, numbers=none]
+grid(1, 1). grid(1, 2). grid(1, 3).
+grid(2, 1). grid(2, 2). grid(2, 3).
+grid(3, 1). grid(3, 2). grid(3, 3).
+\end{lstlisting}
+\end{example}
+
+A pool is an expression in the form \texttt{($t_1$; $t_2$; \ldots; $t_n$)}.
+Similiarly to the intervals during the grounding of a rule containing this pool,
+the rule expands to all rules containing $t_1$, $t_2$, \ldots, $t_n$ in place
+of this pool. If there are multiple pools they expand consecutively.
+
+\begin{example}
+    Consider the following program in Clingo language:
+    \begin{lstlisting}[language=prolog, numbers=none]
+grid((a; 3; #inf), (1; 2)).
+\end{lstlisting}
+    At the start of the grounding process, this program expands into the program:
+    \begin{lstlisting}[language=prolog, numbers=none]
+grid(a, 1).    grid(a, 2).
+grid(3, 1).    grid(3, 2).
+grid(#inf, 1). grid(#inf, 2).
+\end{lstlisting}
+\end{example}
+
+\begin{example}
+    Consider the following program in Clingo language:
+    \begin{lstlisting}[language=prolog, numbers=none]
+stairs(A, 1..A) :- A = 1..3.
+\end{lstlisting}
+	When grounding this program, the grounder has to first expand the interval in the body.
+    The head interval contains a variable \texttt{A} with value not yet known.
+    After the first expansion, the following program emerges.
+    \begin{lstlisting}[language=prolog, numbers=none]
+stairs(A, 1..A) :- A = 1.
+stairs(A, 1..A) :- A = 2.
+stairs(A, 1..A) :- A = 3.
+\end{lstlisting}
+    Now there is only a single possible value of \texttt{A} in each expanded rule.
+    \texttt{A} can be unified with this value and the head interval can be expanded.
+    For better readability, I have removed comparison predicates from the body.
+    \begin{lstlisting}[language=prolog, numbers=none]
+stairs(1, 1).
+stairs(2, 1). stairs(2, 2).
+stairs(3, 1). stairs(3, 2). stairs(3, 3).
+\end{lstlisting}
+\end{example}
+
+\subsubsection{Conditional literals}
+
+A conditional literal is an expression of the form:
+\begin{center}
+    \texttt{$l_0$ : $l_1$, \ldots, $l_n$}  % chktex 26
+\end{center}
+where each of $l_0, l_1, \ldots, l_n$ are literals. This expression has a meaning
+of an inner implication. The conditional literal is consistent with a signature
+if and only if its head $l_0$ is consistent with this signature
+or its body $l_1, \ldots, l_n$ is not consistent with this signature.
+It can be seen as an expression
+\textit{put $l_0$ in its place if all literals $l_1, \ldots, l_n$
+are consistent with the partial solution}.
+
+In the notation of conditional literals, use of commas \texttt{,} is compulsory.
+This is different from the rules, where commas and semicolons can be interchanged freely.
+When the conditional literal is not the last literal of a rule body,
+a semicolon must be used as an end of this conditional literal.
+Conditional literals can be quite nontrivial, especially when used in head of a rule.
+
+\begin{example}\label{exp:conditional_literal}
+    Consider following rules in Clingo language:
+    \begin{lstlisting}[language=prolog, numbers=none]
+a :- b : c; d.
+a :- b : c, d.
+\end{lstlisting}
+
+    The first rule has a body composed of a conditional literal
+    \texttt{b : c} and a literal \texttt{d}.  % chktex 26
+    For this rule an equivalent program without conditional literals would be following:
+    \begin{lstlisting}[language=prolog, numbers=none]
+x :- b.
+x :- not c.
+a :- x, d.
+\end{lstlisting}
+    In this logic program the conditional literal was replaced with a fresh literal \texttt{x}.
+    This literal is true if either the head of conditional literal is consistent
+    or the body is not consistent.
+
+    The only difference between first and second rule is the comma or semicolon
+    between literals \texttt{c} and \texttt{d}.
+    Second rule has a body consisting only of conditional literal \texttt{b : c, d}.  % chktex 26
+    An equivalent program to this rule would be following:
+    \begin{lstlisting}[language=prolog, numbers=none]
+x :- b.
+x :- not c.
+x :- not d.
+a :- x.
+\end{lstlisting}
+\end{example}
+
+\begin{example}
+    Consider following rule in Clingo language:
+    \begin{lstlisting}[language=prolog, numbers=none]
+a : b.
+\end{lstlisting}
+    The rule consists of a single conditional literal in the head.
+    If the literal \texttt{b} is not consistent with the partial solution,
+    this rule acts as a rule with both head and body empty, thus invalidating any such solution.
+    Rather than simply rewriting as a rule with \texttt{a} and \texttt{b}
+    in the head and body respectively, the rule is equivalent to following program:
+    \begin{lstlisting}[language=prolog, numbers=none]
+:- not b.
+a :- b.
+\end{lstlisting}
+\end{example}
+
+\subsubsection{Aggregates}
+
+Aggregates are expressions of form
+\begin{center}
+    \texttt{$s_1$ $<_1$ $\alpha$ \{ $t_1$:$L_1$; \ldots; $t_n$:$L_n$ \} $<_2$ $s_2$},  % chktex 26
+\end{center}
+where $s_1, s_2$ are terms, $<_1, <_2$ are comparison predicate symols,
+$\alpha$ is an aggregate symbol,
+$t_1, \ldots, t_n$ are terms and $L_1, \ldots, L_n$ are sets of literals.
+
+The full expression can be split into multiple parts. First, there is set of (conditional) terms%
+\footnote{To distinguish between a comparison predicate symbol of Clingo language
+and a equality in the normal means, in this subsection I will
+use $\equiv$ rather than $=$ for the second.}
+\begin{center}
+    $T \equiv $ \texttt{\{ $t_1$:$L_1$; \ldots; $t_n$:$L_n$ \}}.  % chktex 26
+\end{center}
+This set can be computed as a union of subsets
+\[T \equiv \{t_1:L_1\}\cup \ldots \cup \{t_n:L_n\}.\]
+If any of these subsets contains variables, it can be grounded similiarly to rule.
+Grounded expressions can then be evaluated into sets of terms.
+The full expression is thus evaluated into set of terms containing all terms whose
+sets of literals are consistent with the partial solution.
+
+Set $T$ is evaluated in a set-like manner meaning if multiple its terms are the same,
+only a single one of them is included in the final set.
+When multiple occurences of the same term is needed, special form of terms can be used.
+This form is tuple-like, only without outer brackets.
+
+Should some term $t_i$ be included in every such set regardless of consistency of any atoms
+(that is $L_i = \emptyset$),
+both the colon and part with literals \texttt{:$L_i$} may be omitted.
+
+\begin{example}\label{exp:aggregate_expressions}
+    Let $S$ be a partial solution s.t.\ literals \texttt{p(1)}, \texttt{p(4)},
+    \texttt{p(5)} and \texttt{p(7)} are consistent with $S$.
+
+    The expression
+    \begin{center}
+        $T \equiv$ \texttt{\{ 1; 3; 4; a; x \}}  % chktex 26
+    \end{center}
+    does not contain any variables nor literals, thus it is evaluated onto itself.
+
+    The expression
+    \begin{center}
+        $T \equiv$ \texttt{\{ 1:p(1); 3:p(3); 4:p(4), p(7) \}}  % chktex 26
+    \end{center}
+    does contain literals. When evaluated, it is first looked at the literals if they are
+    consistent with the partial solution. For the first conditional term,
+    \texttt{p(1)} is consistent with $S$, thus \texttt{1} is included in the set.
+    The second conditional term depends on literal \texttt{p(3)} which is not consistent
+    with $S$, \texttt{3} is not included in the set.
+    Finally, the last conditional term depends on literals \texttt{p(4)} and \texttt{p(7)}.
+    Both of these literals are consistent with $S$, \texttt{4} is included in the set.
+    \begin{center}
+        $T \hookrightarrow$ \texttt{\{ 1; 4 \}}  % chktex 26
+    \end{center}
+
+    The expression
+    \begin{center}
+        $T \equiv$ \texttt{\{ Y-X:p(X), p(Y), X <= Y \}}  % chktex 26
+    \end{center}
+    does contain both literals and variables. First we can start by grounding the expression.
+    We are looking for pairs of literals \texttt{p(X), p(Y)} that comply to the comparison
+    predicate \texttt{X <= Y}.
+    \begin{center}
+        $T\hookrightarrow$ \texttt{\{ 0:p(1), p(1); 3:p(1), p(4); 4:p(1), p(5); 6:p(1), p(7); 0:p(4), p(4); 1:p(4), p(5); 3:p(4), p(7); 0:p(5), p(5); 2:p(5), p(7); 0:p(7), p(7) \}}  % chktex 26
+    \end{center}
+    Now as we only took tuples of literals satisfying both the rules from the expression
+    and being consistent with the partial solution, to evaluate $T$ we can directly
+    take terms in the set.
+    \begin{center}
+        $T\hookrightarrow$ \texttt{\{ 0; 1; 2; 3; 4; 6 \}}  % chktex 26
+    \end{center}
+
+    In the evaluation of the last expression, we have lost the multiplicity of each term
+    as it was evaluated as a set. To counteract that, we can add the lower parameter
+    of each pair of literals to the terms.
+    \begin{center}
+        $T \equiv$ \texttt{\{ Y-X,X:p(X), p(Y), X <= Y \}}\\  % chktex 26
+        $T\hookrightarrow$ \texttt{\{ 0,1; 3,1; 4,1; 6,1; 0,4; 1,4; 3,4; 0,5; 2,5; 0,7 \}}.  % chktex 26
+    \end{center}
+\end{example}
+
+An aggregate acts as a function over set of conditional terms,
+aggregate symbol $\alpha$ specifies the type of function.
+Currently allowed aggregate symbols are \texttt{\#count},
+\texttt{\#sum}, \texttt{\#sum+}, \texttt{\#min} and \texttt{\#max}.
+These stand for count of different terms, sum over terms, sum over positive terms,
+minimal term and maximal term respectively.
+Max and min aggregates do follow the same ordering as comparison predicates.
+If a term is composed of multiple parts, \texttt{\#sum} and \texttt{\#sum+}
+do their summation over
+the first part of term. If this part is not integer, the whole term is skipped.
+Summation over tuples or functions is not implemented.
+If the aggregate symbol $\alpha$ is omitted, it defaults to \texttt{\#count}.
+
+Aggregate returns a value in the form of a term. This value can then be compared
+with another term or assigned to variable. The same comparison predicate symbols
+can be used in place of $<_1, <_2$ as in comparison predicates.
+Both \texttt{$s_1$ $<_1$} and \texttt{$<_2$ $s_2$} can be omitted.
+If only $<_1$ or $<_2$ is omitted, comparison predicates defaults to \texttt{<=}.
+
+\begin{example}
+    In this example we will work with expressions from Example~\ref{exp:aggregate_expressions}.
+    Let $S$ be a partial solution s.t.\ literals \texttt{p(1)}, \texttt{p(4)},
+    \texttt{p(5)} and \texttt{p(7)} are consistent with $S$.
+
+    The rule
+    \begin{center}
+        \texttt{a(X) :- X = \#count\{ 1; 3; 4; a; x \}.}  % chktex 26
+    \end{center}
+    adds a single atom \texttt{q(5)} into the solution as all
+    elements of the aggregate set are terms.
+    Here only a single left-hand comparison predicate is used. The right-hand
+    predicate is omitted.
+
+    The rule
+    \begin{center}
+        \texttt{a :- 2 \#sum\{ 1:p(1); 3:p(3); 4:p(4), p(7) \} <= 7}  % chktex 26
+    \end{center}
+    adds a single atom \texttt{q} into the solution.
+    As already shown, the inner expression evaluates into
+    \begin{center}
+        \texttt{\{ 1; 4 \}},  % chktex 26
+    \end{center}
+    sum of this set is equal to 5, which satisfies comparison \texttt{2 <= 5 <= 7}.
+    The left-hand side comparison predicate symbol is omitted, thus by default is \texttt{<=}.
+
+    Both rules
+    \begin{center}
+        \texttt{a(X) :- X = \#max\{ Y-X:p(X), p(Y), X <= Y \}.}  % chktex 26
+    \end{center}
+    and
+    \begin{center}
+        \texttt{a(X) :- X = \#max\{ Y-X,X:p(X), p(Y), X <= Y \}.}  % chktex 26
+    \end{center}
+    add a single atom \texttt{a(6)} into the solution. If tuple without brackets
+    is used in the definition of term, the \texttt{\#max} aggregate does take only
+    the first element into account.
+
+    If both terms are needed, one can use the following rule:
+    \begin{center}
+        \texttt{a(X, Y) :- (X, Y) = \#max\{ (Y-X,X):p(X), p(Y), X <= Y \}.}  % chktex 26
+    \end{center}
+    This time each term of the aggregate set is a single tuple.
+    As written in Basic syntax, terms are compared in lexicographic manner.
+\end{example}
+
+A special form of aggregates is also allowed in the head of a rule.
+This type of aggregates, called head aggregates, are of form:
+\begin{center}
+    \texttt{$s_1$ $<_1$ $\alpha$ \{ $t_1$:$l_1$:$L_1$; \ldots; $t_n$:$l_n$:$L_n$ \} $<_2$ $s_2$},  % chktex 26
+\end{center}
+where $s_1, s_2$ are terms, $<_1, <_2$ are comparison predicate symols,
+$\alpha$ is an aggregate symbol,
+$t_1, \ldots, t_n$ are terms, $l_1, \ldots, l_n$ are literals
+and $L_1, \ldots, L_n$ are sets of literals.
+
+When evaluating the set, term $t_i$ is included in the set if both literal $l_i$
+and all literals from $L_i$ are consistent with the solution.
+Additionaly, if the aggregate forms a head of rule $r$ and body of $r$ is consistent
+with the solution, the aggregate can introduce any number of literals $l_i$
+for such all literals $L_i$ are consistent with the solution.
+This is especially useful for generating an input space of logic program.
+
+For all $s_1, s_2, <_1, <_2, \alpha, L_i$ the default values and rules for omitting
+are still the same as when using the aggregates in the body.
+Specially, the expression
+\begin{center}
+    \texttt{$s_1$ $<_1$ \{ $l_1$:$L_1$; \ldots; $l_n$:$L_n$ \} $<_2$ $s_2$},  % chktex 26
+\end{center}
+is equivalent to
+\begin{center}
+    \texttt{$s_1$ $<_1$ \#count\{ $t_1$:$l_1$:$L_1$; \ldots; $t_n$:$l_n$:$L_n$ \} $<_2$ $s_2$},  % chktex 26
+\end{center}
+where all $t_i$ are distinct.
+
+\begin{example}\label{exp:input_space}
+    Let the logic program consist of a single fact
+    \begin{center}
+        \texttt{\{a; b; c; d; e\}.}
+    \end{center}
+    This fact is a syntactic shortcut of fact\footnote{
+        The following expression is not a valid rule in clingo language
+        as it does not contain $\emptyset$. I choose to include it into the
+        notation here to improve readability.
+    }
+    \begin{center}
+        \texttt{\#count\{ 1:a:$\emptyset$; 2:b:$\emptyset$; 3:c:$\emptyset$; 4:d:$\emptyset$; 5:e:$\emptyset$ \}.}  % chktex 26
+    \end{center}
+    As an empty set of literals is consistent with any solution, any of atoms
+    \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}, \texttt{e}
+    can be included into the solution by this rule. As there is no constraint on the
+    result of this aggregate, any subset of this set of atoms can be included into
+    the solution.
+\end{example}
+
+The statement in the Example~\ref{exp:input_space} allows us to easily define the input space
+of logic program.
+
+\subsubsection{Show statements}
+
+Often only a part of a solution is needed, while most of the solution can be hidden.
+For this, Clingo does support show statement. Such statement takes one of following forms:
+\begin{center}
+    \begin{tabular}{l}
+        \texttt{\#show $p$/$n$.}\\
+        \texttt{\#show $t$:$L_1$, \ldots, $L_n$.}\\
+        \texttt{\#show.}
+    \end{tabular}
+\end{center}
+
+In the first form, atoms with predicate symbol $p$ with exactly $n$ parameters
+are shown on the output. If at least one such atom is included in the solution,
+only atoms specified by \texttt{\#show} statements are shown.
+A predicate symbol and its classical negation is taken as two distinct symbols.
+
+The second form allows for showing terms if some literals are consistent with the solution.
+For a term $t$ and literals $L_1, \ldots, L_n$, term $t$ is shown on the output
+if all literals $L_1, \ldots, L_n$ are consistent with the solution.
+This form does not hide any atoms from the solution.
+
+Finally, the third form specifies, that no atom other than these specified by
+show statements in the first form should be shown on the output.
