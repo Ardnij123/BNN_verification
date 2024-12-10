@@ -14,7 +14,7 @@ in addition to the \textit{negation-as-failure~not}~\cite{gelfond1991}.
 Further I provide formal definition of extended logic programs according to~\cite{gelfond1991,KRHandbook}.
 I will assume the notation of signature as defined in~\cite{zarba2006}.
 
-% \begin{definition}{Signature.}
+% \begin{definition}[Signature]
 %     A (many-sorted) signature is a tuple $\Sigma = (S, C, F, P)$, where:
 %     \begin{itemize}
 %         \item $S$ is a nonempty set of sorts, each sort $\sigma\in S$
@@ -36,7 +36,7 @@ I will assume the notation of signature as defined in~\cite{zarba2006}.
 
 \subsection{Syntax of Extended logic program}
 
-\begin{definition}{Terms~\cite{zarba2006}.}
+\begin{definition}[Terms~\cite{zarba2006}]
     Let $\Sigma$ be a signature. The set of $\Sigma$-terms of sort $\sigma$
     is the smallest set of expressions satisfying the following properties:
     \begin{itemize}
@@ -47,7 +47,7 @@ I will assume the notation of signature as defined in~\cite{zarba2006}.
     \end{itemize}
 \end{definition}
 
-\begin{definition}{Atoms, literals~\cite{zarba2006}.}
+\begin{definition}[Atoms, literals~\cite{zarba2006}]
     Let $\Sigma$ be a signature.
     A $\Sigma$-atom is an expression of the form
     \begin{equation*}
@@ -94,7 +94,7 @@ For both function and predicate symbols infix notation can be used if was estabi
     are some of the $\Sigma$-atoms.
 \end{example}
 
-\begin{definition}{Rule~\cite{KRHandbook}.}\label{def:rule}
+\begin{definition}[Rule~\cite{KRHandbook}]\label{def:rule}
     Let $\Sigma$ be a signature. A $\Sigma$-rule ($\Sigma$-formula) $r$ is an expression of the form
     \begin{equation*}
         \asprule{l_0\, or\, \ldots\, or\, l_k}{l_{k+1}, \ldots, l_{m}, \aspnot l_{m+1}, \ldots, \aspnot l_{n}}
@@ -124,7 +124,7 @@ For both function and predicate symbols infix notation can be used if was estabi
     The term $\aspnot$ is called default negation.
 \end{definition}
 
-\begin{definition}{Logic program~\cite{KRHandbook}.}
+\begin{definition}[Logic program~\cite{KRHandbook}]
     Logic program is a pair $(\Sigma, \Pi)$ where $\Sigma$ is a signature
     and $\Pi$ is a collection (set) of $\Sigma$-rules.
 \end{definition}
@@ -177,7 +177,7 @@ The semantics of function symbols is usually defined in the groun\-d\-er
 thus the programs can be grounded before the start of solving
 of the logic program.
 
-\begin{definition}{Ground program~\cite{KRHandbook}.}
+\begin{definition}[Ground program~\cite{KRHandbook}]
     Terms, literals, and rules of program $\Pi$ with signature $\Sigma$ are called ground if they
     contain no variables and no function symbols. A program is called
     ground if all its rules are ground. A rule $r'$ is called a ground instance of a rule $r$ of $\Pi$
@@ -290,7 +290,7 @@ of the ASP grounder GRINGO can be found in~\cite{GEBSER_2015}.
 
 % Semantics of a rule
 
-\begin{definition}{Partial interpretation of a signature.}
+\begin{definition}[Partial interpretation of a signature]
     A partial interpretation $S$ of a signature $\Sigma$ is a set
     of $\Sigma$-literals in which for each $\Sigma$-atom $\varphi$
     there is either $\varphi$, $\neg\varphi$ or neither of them.
@@ -315,7 +315,7 @@ On the other hand, the body of constraints can never be consistent with
 the solution as its head is empty thus can not be consistent with solution.
 Further follows a more formal definition.
 
-\begin{definition}{Consistent partial interpretation.}\label{consistent_interpretation}
+\begin{definition}[Consistent partial interpretation]\label{consistent_interpretation}
     Partial interpretation $S$ is said to be consistent with the body of rule $r$
     if and only if $\aspbody^+(r) \subseteq S$ and
     $\aspbody^-(r) \cap S = \emptyset$.
@@ -331,7 +331,7 @@ Further follows a more formal definition.
     $(\Sigma, \Pi)$ if and only if it is consistent with all of its rules.
 \end{definition}
 
-\begin{definition}{Basic logic program.}%
+\begin{definition}[Basic logic program]%
     \label{def:basic_logic_program}
     A logic program $(\Sigma, \Pi)$ is called basic if there is no negative atom
     in body of any of its rules nor constraints, that is
@@ -352,7 +352,7 @@ information that needs to be true (each answer set has to be minimal).
 %
 % Minimal consistent interpretation is {a, b, c}
 % but by the definition 3.1.11 it is not an answer set.
-\begin{definition}{Answer set of a basic logic program~\cite{KRHandbook}.}\label{def:as_basic}
+\begin{definition}[Answer set of a basic logic program~\cite{KRHandbook}]\label{def:as_basic}
     Let $(\Sigma, \Pi)$ be a basic logic program and $S$ be a partial interpretation
     of $\Sigma$. $S$ is an answer set (solution) for $\Pi$ if $S$ is minimal
     (in the sense of set-theoretic inclusion) among the partial interpretations
@@ -497,7 +497,7 @@ include only the nonnegative $\aspbody^+(r)$ from them. If this reduced program
 yields the same answer set as the partial interpretation we have defined,
 it is an answer set.
 
-\begin{definition}{Reduct of a logic program~\cite{KRHandbook}.}
+\begin{definition}[Reduct of a logic program~\cite{KRHandbook}]
     Let $(\Sigma, \Pi)$ be a logic program, $S$ be a partial interpretation of $\Sigma$.
     Let $\Pi^S$ be a set of rules such that
     \begin{equation*}
@@ -521,7 +521,7 @@ it is an answer set.
     the reduct can not have any answer set.
 \end{example}
 
-\begin{definition}{Answer set of general grounded logic program~\cite{KRHandbook}.}%
+\begin{definition}[Answer set of general grounded logic program~\cite{KRHandbook}]%
     \label{answer_set_general}
     A partial interpretation $S$ of $\Sigma$ is an answer set for $(\Sigma, \Pi)$
     if $S$ is an answer set for $\Pi^S$.

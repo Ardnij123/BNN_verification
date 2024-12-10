@@ -11,7 +11,7 @@ Further I provide formal definition of robustness on functions in general.
 \subsection{Definition of robustness}
 
 % TODO: Maybe add something like diferentiability?
-\begin{definition}{Quantitative robustness of function.}
+\begin{definition}[Quantitative robustness of function]
     Let $F$ be a function, $F: P \to Q$.
     Let $I$ be an input region of $F$, that is $I \subseteq P$.
     Let $w$ be a function, $w: P\to \RR$, $\forall x\in P: w(x) > 0$.
@@ -101,7 +101,7 @@ of the input region is evaluated wrong (or even how much is it wrong),
 the qualitative robustness does only say if there is any wrong output.
 This may seem less useful, however it can lead to lower computational expenses.
 
-\begin{definition}{Qualitative robustness of function $F$ on input region $I$}
+\begin{definition}[Qualitative robustness of function $F$ on input region $I$]
     Function $F : P\to Q$ is (qualitatively) robust on input region $I\subseteq P$
     with respect to evaluation function $h_p$
     if and only if $Q_{w, h_p}(I) = 0$.
@@ -144,7 +144,7 @@ This may seem less useful, however it can lead to lower computational expenses.
     \end{proof}
 \end{lemma}
 
-%\begin{definition}{Qualitative robustness of function $F$ on input region $I$}
+%\begin{definition}[Qualitative robustness of function $F$ on input region $I$]
 %Function $f : P\to Q$ is (qualitatively) robust on input region $I\subseteq P$
 %if and only if the function assigns the same element of $Q$
 %to every input element of the region $I$.
@@ -154,8 +154,8 @@ This may seem less useful, however it can lead to lower computational expenses.
 %\end{equation*}
 %\end{definition}
 %
-%\begin{definition}{Quantitative robustness of function $f$ on input region $I$
-%with the respect to base input $\overline{i}$.}
+%\begin{definition}[Quantitative robustness of function $f$ on input region $I$
+%with the respect to base input $\overline{i}$]
 %Function $f : P \to Q$ is quantitatively robust on input region $I\subseteq P$
 %and base input $\overline i\in I$ with a threshold $\epsilon \geq 0$
 %if the probability of choosing input from $I$,
@@ -180,7 +180,7 @@ More complex weight functions can be used to give some areas of the input region
 higher priority. Such weight function may reflect requirement for the robustness
 closer to the base input $p$.
 
-\begin{definition}{Strict qualitative robustness of function $F$ on input region $I$.}
+\begin{definition}[Strict qualitative robustness of function $F$ on input region $I$]
     Function $F: P\to Q$ is strictly (qualitatively) robust on input region $I\subseteq P$
     if and only if for some $p\in P$ it is robust on this region with respect
     to evaluation function $\overline{h_p}$ defined as follows:
@@ -247,7 +247,7 @@ The input region with fixed indices $R(\vec u, I)$ specifies set of indices $I$
 on which the input vector may differ form $I$.
 Definition are taken from~\cite{zhang2021bdd4bnn}.
 
-\begin{definition}{Input region based on the Hamming distance.}
+\begin{definition}[Input region based on the Hamming distance]
 For an input $\vec u\in \BB^{n_1}_{\pm 1}$ and an integer $r \geq 0$,
 let $R(\vec u, r) := \{\vec x\in \BB^{n_1}_{\pm 1} \mid HD(\vec x, \vec u) \leq r \}$, where $HD(\vec x, \vec u)$ denotes the Hamming distance
 between $\vec x$ and $\vec u$.
