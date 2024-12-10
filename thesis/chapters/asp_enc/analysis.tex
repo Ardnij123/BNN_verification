@@ -1,0 +1,106 @@
+\section{Analysis of BNN}
+
+In the \cref{def:binarised_perceptron} I have introduced a binarised perceptron $p^\BB$
+as a linear model composed from an inner potential $\xi$, parametrised by
+real bias $b$ and vector of binarised values $\vec w$, and a heavyside step function $H$.
+Further I have shown that this model has the exact same expressive power
+as the binarised perceptron with batch normalization.
+
+Then in the \Cref{sec:clingo} I have shown the Clingo language. This language allows
+for computations over the set of whole numbers. It also allows for the use
+of aggregate expressions, which can be leveraged for summations.
+
+The last large roadblock in the encoding of binarised perceptron into Clingo language
+is the real bias, as Clingo does only allow for the use of whole numbers.
+
+\begin{lemma}\label{lem:integer_perceptron}
+    For every binarised perceptron with bias from real numbers
+    there is an equivalent binarised perceptron
+    with bias from whole numbers and vice versa.
+
+    \begin{proof}
+        Idea behind this construction comes from~\cite{zhang2021bdd4bnn}.
+
+        Let $p^\BB$ be a binarised perceptron without batch normalisation.
+        \[p^\BB(\vec x) = H \circ \xi (\vec x) = \begin{cases}
+            1 & b + \sum_{i=1}^k w_i \cdot x_i \geq 0\\
+            -1 & b + \sum_{i=1}^k w_i \cdot x_i < 0\\
+        \end{cases}\]
+        Both each $w_i$ and $x_i$ are whole numbers ($\pm 1$-binarised values),
+        thus also the sum $\sum_{i=1}^k w_i \cdot x_i$ is a whole number.
+        As the formula for binarised perceptron only compares a sum of a real
+        number and a whole number to a whole number, in both cases integer part
+        of the bias $\lfloor b\rfloor$ can be used in place of the bias.
+        \[p^\BB(\vec x) = H \circ \xi (\vec x) = \begin{cases}
+            1 & \lfloor b\rfloor + \sum_{i=1}^k w_i \cdot x_i \geq 0\\
+            -1 & \lfloor b\rfloor + \sum_{i=1}^k w_i \cdot x_i < 0\\
+        \end{cases}\]
+        Such perceptron uses only whole numbers.
+        Whole numbers are subset of real numbers, thus also the implication
+        in the other direction is true.
+    \end{proof}
+\end{lemma}
+
+\begin{remark}
+    The proof of~\cref{lem:integer_perceptron} gives a direct way to encode a binarised
+    perceptron without batch normalisation into a binarised perceptron with bias
+    from whole numbers. Using also the~\cref{lem:batch_perceptron}, a binarised perceptron
+    with bias from whole numbers can be easily constructed even from binarised perceptron
+    with batch normalisation.
+\end{remark}
+
+Real bias is however included not only in perceptrons of inner layers,
+but also in the last Argmax layer. A transcription of this type of layer
+into whole numbers is needed.
+
+\begin{lemma}\label{lem:integer_argmax}
+    % TODO: reformulate this
+    Every Argmax layer with real-valued bias parameters can be transcribed
+    using multiple whole numbers in place of bias parameters.
+
+    \begin{proof}
+        The Argmax layer $t^{am}: \BB^m\to \BB^n$ consists of inner potential
+        $\xi$ and argmax encoding using the one-hot vector.
+        \[t^{am}(\vec x) = (y_1, \ldots, y_n)\]
+        \[y_k = \begin{cases}
+            1 & k = \argmax_{i=1}^n (\xi_i(\vec x))\\
+            0 & \text{otherwise}
+        \end{cases}\]
+        \[ \xi_i(\vec x) = b_i + \sum_{j=1}^m w_{i, j} \cdot x_j \]
+        The condition of an output position $y_k$ having value 1 can be rewritten
+        into another condition using the maximality of this position.
+
+        Position $y_k$ on the output has value of $1$ if and only if
+        for every other output position $y_l$ one of following holds:
+        \begin{itemize}
+            \item $\xi_k(\vec x) > \xi_l(\vec x)$
+            \item $\xi_k(\vec x) = \xi_l(\vec x) \wedge k < l$
+        \end{itemize}
+        By substitution for inner potential and splitting bias $b$ into its
+        integer part $\floor{b}$ and fractional part $\{b\}$, the first condition splits.
+        The condition can be true either if the integer part $\floor{\xi_k(\vec x)}$
+        is bigger than the integer part $\floor{\xi_l(\vec x)}$
+        or if they are equal and the fractional part $\{\xi_k(\vec x)\} = \{b_k\}$
+        is bigger than $\{\xi_l(\vec x)\} = \{b_l\}$:
+        \begin{itemize}
+            \item $\floor{b_k} + \sum_{j=1}^m w_{k, j} \cdot x_j > \floor{b_l} + \sum_{j=1}^m w_{l, j} \cdot x_j$
+            \item $\floor{b_k} + \sum_{j=1}^m w_{k, j} \cdot x_j = \floor{b_l} + \sum_{j=1}^m w_{l, j} \cdot x_j
+                \wedge \{b_k\} > \{b_l\}$
+            \item $\floor{b_k} + \sum_{j=1}^m w_{k, j} \cdot x_j = \floor{b_l} + \sum_{j=1}^m w_{l, j} \cdot x_j
+                \wedge \{b_k\} = \{b_l\} \wedge k < l$
+        \end{itemize}
+
+        Conditions in the last paragraph do provide for an encoding using whole numbers.
+        Integer parts of biases $b_k$ and $b_l$ are already whole numbers.
+        The output positions are enumerated, thus $k$ and $l$ are already whole numbers.
+        Finally, on fractional parts $\{b_k\}$ and $\{b_l\}$ an ordering
+        can be created. The Argmax layer can thus be transcribed using only whole numbers.
+    \end{proof}
+
+    \begin{remark}
+        Instead of using both the ordering of the fractional part of bias $\{b_k\}$
+        and the position $k$, an ordering that prioritizes high fractional part of bias 
+        and with lower priority low position $k$ can be used.
+        I will be using this ordering in the encoding of BNN.%
+    \end{remark}
+\end{lemma}

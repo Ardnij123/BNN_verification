@@ -15,6 +15,15 @@
 % Nested file structure of thesis
 \usepackage{import}
 
+% Drawing graphs
+\usepackage{tikz}
+\usepackage{blindtext}
+\newcommand\void[1]{}
+
+% Clever references
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
 % BNN representation
 \newcommand{\BB}{\mathbb{B}}       % {-1, 1}
 \newcommand{\RR}{\mathbb{R}}       % real numbers
@@ -24,11 +33,13 @@
 \newcommand{\BNN}{\mathcal{N}^{\BB}}     % binary neural network
 \newcommand{\DNN}{\mathcal{N}}     % binary neural network
 \newcommand{\mat}[1]{\mathbf{#1}}  % matrix
-\newcommand{\sign}{\mathrm{sign}}  % signum function
+\newcommand{\sgn}{\mathrm{sgn}}  % signum function
 
 % Custom operators
+\newcommand{\floor}[1]{\left\lfloor{} #1 \right\rfloor{}}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argsort}{arg\,sort}
 
 % ASP representation
 \newcommand{\asprule}[2]{\ensuremath{#1 \leftarrow{} #2.}}  % head <- body.
@@ -95,8 +106,9 @@
 }
 \makeatother
 
-% Writting rules
+% Writting rules etc
 \newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}  % chktex 9
+\newcommand\atom[2]{\texttt{#1($#2$)}}
 
 
 % Evaluation
@@ -128,17 +140,22 @@
 
 
 % Theorems, definitions, etc.
+\theoremstyle{plain}
+\crefname{theorem}{Theorem}{Theorems}
 \newtheorem{theorem}{Theorem}[section]
+\crefname{lemma}{Lemma}{Lemmas}
 \newtheorem{lemma}[theorem]{Lemma}
 
 \theoremstyle{definition}
+\crefname{definition}{Definition}{Definitions}
 \newtheorem{definition}{Definition}[section]
+\crefname{example}{Example}{Examples}
+\newtheorem{example}{Example}[section]
 
 \theoremstyle{remark}
+\crefname{remark}{Remark}{Remarks}
 \newtheorem*{remark}{Remark}
 
-\theoremstyle{example}
-\newtheorem{example}{Example}[section]
 
 % Import of chapters
 \newcommand{\importchapter}[1]{%
@@ -147,3 +164,48 @@
 
 % Special characters
 \DeclareUnicodeCharacter{21B5}{$\hookleftarrow$}
+
+% Drawing perceptron networks
+% chktex-file 1
+% chktex-file 8
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{calc}
+
+\newlength{\nodesize}
+\setlength{\nodesize}{1.5em}
+
+\tikzset{inp/.style = {shape=rectangle,draw,left}}
+\tikzset{perc/.style = {rectangle split, rectangle split parts=2, rectangle split horizontal,rounded corners, draw, left}}
+\newcommand{\setupnodes}[1]{
+    \node (lastNode) at #1 {};
+}
+\newcommand\nsep{(0,-1)}
+\newcommand{\valuenode}[1]{
+    \node[inp] (#1) at (lastNode) {$#1$};
+    \node (lastNode) at ($(#1.south east) + (0,-1)$) {};
+}
+\newcommand{\percnode}[3][]{
+    \foreach \l/\p in {#2}{
+        \node[perc] (p{#2}) at (lastNode) { $\xi_{\p}^{\l}$ \nodepart{two} $\sigma_{\p}^{\l}$ };
+    }
+    \node (lastNode) at ($(p{#2}.south east) + (0,-1)$) {};
+    \foreach \x/\w in {#3}{\draw[#1] (\x.east) -- (p{#2}.west) node[near start,above] {$\w$};}
+}
+
+\tikzset{const/.style = {shape=rectangle,draw}}
+\tikzset{comp/.style = {rectangle,rounded corners,draw}}
+\newcommand{\constnode}[1]{
+    \foreach \sym/\arg in {#1}{
+        \node[const] (const{#1}) at (lastNode) {\atom{\sym}{\arg}};
+    }
+    \node (lastNode) at ($(const{#1}.south) + (0,-1)$) {};
+}
+\newcommand{\compnode}[4][]{
+    \foreach \sym/\arg in {#2}{
+        \node[comp] (comp{#2}) at (lastNode) {\atom{\sym}{\arg}};
+    }
+    \node (lastNode) at ($(comp{#2}.south) + (0,-1)$) {};
+    \foreach \x in {#3}{\draw[#1] (const{\x}.east) -- (comp{#2}.west);}
+    \foreach \x in {#4}{\draw[#1] (comp{\x}.east) -- (comp{#2}.west);}
+}

@@ -175,7 +175,7 @@ t(3) :- 3 = #count{ 1: q(1); 2: q(2); 3: q(3) }.
 
     The rule on line 10 does use conditional literal.
     To translate this into statements, Gringo uses trick similiar to the one used
-    in the Example~\ref{exp:conditional_literal}.
+    in the \cref{exp:conditional_literal}.
     For each conditional literal $H : B$ it first creates a rule with a new literal
     $\varphi$ in the head and the body $B$ as the body of the rule.
     Then it adds another literal $\psi$ that corresponds to the value of
@@ -304,7 +304,7 @@ The show statement prints the string $s$ if all literals $l_i$ are cosistent
 with the answer set.
 
 \begin{example}
-    In the logic program from Example~\ref{exp:gringo_grounding} in Clingo format,
+    In the logic program from \cref{exp:gringo_grounding} in Clingo format,
     there are no show statements. Thus for every literal $l$ with of the grounded
     logic program mapped to number $M(l)$, a single show statement of form:
     \begin{center}
@@ -325,7 +325,7 @@ with the answer set.
 \end{lstlisting}
 \end{example}
 
-\subsection{Clasp}
+\subsection{Clasp}\label{sec:clasp}
 
 Clasp is the solver of the Clingo framework. It takes logic program in the Aspif
 format to search for answer sets of a grounded logic program.

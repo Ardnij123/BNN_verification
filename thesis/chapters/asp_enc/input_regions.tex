@@ -1,0 +1,51 @@
+\subsection{Encoding of input regions}
+
+Similiarly to the final encoding of the argrmax layer, I will encode input region
+by first allowing for any input vector using an head aggregate with unspecified boundaries
+over literals \texttt{on(0, 0..N-1)}, on top of this I will then build constraints % chktex 36
+defined by the desired input region.
+
+\begin{lstlisting}[language=Prolog, numbers=none]
+{ on(0, 0..N-1) } :- layer(0, N).
+\end{lstlisting}
+
+\subsubsection{Input region based on the Hamming distance}
+
+To constrain input such that only inputs with hamming distance at most $r$ are allowed,
+a simple aggregate rule can be added into the set of rules.
+The rule denies any partial solution with input that contains more than $r$ possitions
+differing from the base input to be an answer set.
+
+\begin{lstlisting}[language=Prolog, numbers=none]
+:- #count{ N :     on(0, N), not input(N);
+           N : not on(0, N),     input(N) } > R,
+    hammdist(R).
+\end{lstlisting}
+
+\subsubsection{Input region based on the fixed bits}
+
+Constraining the input on some fixed bits is trivial. To make such constraint,
+for each fixed position, one can forbid either the base input position having value 1
+and real input position not having 1 and vice versa.
+
+\begin{lstlisting}[language=Prolog, numbers=none]
+:-     on(0, N), not input(N), inpfix(N).
+:- not on(0, N),     input(N), inpfix(N).
+\end{lstlisting}
+
+The second constraint can be substitued for a rule with \texttt{on(0,N)} % chktex 36
+in its head and not in its body.
+
+\begin{lstlisting}[language=Prolog, numbers=none]
+:- on(0, N), not input(N), inpfix(N).
+on(0, N) :- input(N), inpfix(N).
+\end{lstlisting}
+
+Finally, instead of allowing for any input to have either value at the start,
+one can encode the possibility for another value only for the input positions
+that are not fixed. This may allow for further optimizations in the grounding process.
+
+\begin{lstlisting}[language=Prolog, numbers=none]
+on(0, N) :- input(N), inpfix(N).
+{ on(0, K) } :- not inpfix(K), layer(0, N), K = 1..N-1.
+\end{lstlisting}

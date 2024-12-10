@@ -139,7 +139,7 @@ logic programs without disjunction in head are $NP$-complete~\cite{schlipf1995_c
 and logic programs with neither disjunction nor default negation belong to $P$~\cite{KRHandbook}.
 
 \begin{example}\label{exp:logic_program1}
-    An example of a logic program with signature $\Sigma_1$ from Example~\ref{Sigma1}
+    An example of a logic program with signature $\Sigma_1$ from \cref{Sigma1}
     is a pair $(\Sigma_1, \Pi_1)$ where $\Pi_1$ is a set
     \begin{equation*}
         \Pi_1 =
@@ -192,7 +192,7 @@ of the logic program.
 
 \begin{example}\label{exp:grounding}
     The ground instantiation of the logic program $(\Sigma_1, \Pi_1)$ defined in the
-    Example~\ref{exp:logic_program1} can be found as follows:
+    \cref{exp:logic_program1} can be found as follows:
 
     The fact $\aspfact{p(True)}$ does not contain any variable nor function symbol.
     For this, it is ground. The same holds for the fact $\aspfact{q(5, True)}$
@@ -278,7 +278,7 @@ of the logic program.
     \end{equation*}
 \end{example}
 
-The Example~\ref{exp:grounding} also illustrates the need for the logic programs
+The \cref{exp:grounding} also illustrates the need for the logic programs
 to be well written. As was shown in this example, due to a single flawed rule,
 the size of the ground instantiation of the logic program is quadratic
 given the highest number in the first parameter of atoms of the predicate $q$.
@@ -512,7 +512,7 @@ it is an answer set.
     Let $\Pi = \{\asprule{}{\aspnot \varphi}\}$, $S = \{\}$ for some atom $\varphi$.
     The reduct $\Pi^S$ contains
     a single rule with both head and body empty.
-    Based on the Definition~\ref{consistent_interpretation},
+    Based on the \cref{consistent_interpretation},
     no partial interpretation can be consistent
     with such rule as no partial interpretation can be consistent with an empty head
     and every partial interpretation is consistent with an empty body.
@@ -527,7 +527,7 @@ it is an answer set.
     if $S$ is an answer set for $\Pi^S$.
 \end{definition}
 
-Definition~\ref{answer_set_general} gives a direct way of computing answer sets
+\cref{answer_set_general} gives a direct way of computing answer sets
 of any logic programs. For every possible subset $S$ of grounded atoms in program $\Pi$,
 the reduct $\Pi^S$ can be constructed and evaluated for its answer set.
 If the found answer set is equal to the subset of grounded atoms $S$, it is said
@@ -556,7 +556,7 @@ Let's illustrate the computation of an answer set of general logic program on tw
         \end{tabular}
     \end{center}
     There is only a single answer set of $(\Sigma, \Pi)$, that is $\{\psi\}$.
-    Similiar to Example~\ref{example:cycle}, in the reduct $\Pi^{\{\varphi\}}$
+    Similiar to \cref{example:cycle}, in the reduct $\Pi^{\{\varphi\}}$
     partial interpretation $\{\varphi\}$ is not an answer set as it is
     not minimal.
 \end{example}
@@ -584,13 +584,13 @@ Let's illustrate the computation of an answer set of general logic program on tw
 % \subsection{Disjunctive heads of rules}
 % 
 % Until now only rules with single or none literal in the head were discussed.
-% In the Definition~\ref{def:rule}, the rule has been defined with
+% In the \cref{def:rule}, the rule has been defined with
 % possibly multiple literals in the head. However when we were computing
 % the answer sets of logic programs, we assumed the heads to be limited.
-% While the Definition~\ref{def:as_basic} does remain unchanged,
+% While the \cref{def:as_basic} does remain unchanged,
 % computing 
 % 
-% The logic program of the Example~\ref{example:xor} introduced a useful property.
+% The logic program of the \cref{example:xor} introduced a useful property.
 % Its two rules assert that at least a single of $\varphi, \psi$
 % is always included into the answer set of this logic program.
 % This property can be used to rewrite each rule with multiple literals in head

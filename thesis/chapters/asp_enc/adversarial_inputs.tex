@@ -1,0 +1,45 @@
+\subsection{Encoding of robustness}
+
+As already discussed in~\cref{sec:clasp}, for the inference on a logic program,
+Clasp uses model enumeration. This means that it needs to enter every leaf node
+of a tree of partial solutions that is a model (answer set) of this logic program.
+On the other hand, if part of this tree does not contain any model, it may prune
+this whole branch.
+
+The robustness as defined in the~\cref{def:quantitative_robustness}
+does not depend on inputs that yield output values for which the evaluation function
+$h_p$ does yield 0. By the previous observation it is good to remove all such inputs
+from the models of the logic program.
+
+Clingo itself can not directly compute the quantitative robustness of the binarised
+neural network. It can however still count the number of its models.
+By forbidding the desired output value in the logic program,
+only the partial solution that do not output this desired value
+(thus break the robustness) are left as models of the logic program.
+When using the evaluation function $h$ that assigns $0$ to forbidden output values
+and $1$ to all other values and weight function $w(x) = 1$,
+the quantitative robustness can be easily computed from the number of found models
+and the size of the input region. The size of the input region can in turn
+be found out using~\cref{lemma:size_of_hamming,lemma:size_of_fixed}.
+
+\[Q(I) = \frac{\sum_{i\in I} w(i)\cdot \overline{h_p}(F(i))}{\sum_{i\in I} w(i)}
+    = \frac{\sum_{i\in I} 1\cdot \overline{h_p}(F(i))}{\sum_{i\in I} 1}\]
+As only the models of such logic program yield $\overline{h_p}(F(i)) = 1$,
+the upper part can be substitued for the number of models. The lower part corresponds
+to the size of the input region.
+\[Q(I) = \frac{\#models}{||input\_region||}\]
+
+Forbidden outputs can be specified using constraints on literals
+with predicate symbol \texttt{output}.
+In case of an evaluation function $\overline{h_p}$ from~\cref{def:strict_robustness}
+that assigns $0$ to output value $k$, the constraint would be:
+\begin{lstlisting}[language=Prolog, numbers=none, escapeinside={|}{|}]
+:- output(|$k$|).
+\end{lstlisting}
+as the value $k$ does lead to the desired output and is thus forbidden. On the other hand,
+to encode $t$-target robustness (see end of~\Cref{sec:t-target_robustness})
+following constraint could be used:
+\begin{lstlisting}[language=Prolog, numbers=none, escapeinside={|}{|}]
+:- not output(|$t$|).
+\end{lstlisting}
+as only the output value $t$ is not desired.

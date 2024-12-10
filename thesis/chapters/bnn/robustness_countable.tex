@@ -11,10 +11,10 @@ Further I provide formal definition of robustness on functions in general.
 \subsection{Definition of robustness}
 
 % TODO: Maybe add something like diferentiability?
-\begin{definition}{Quantitative robustness of function.}
+\begin{definition}{Quantitative robustness of function.}\label{def:quantitative_robustness}
     Let $F$ be a function, $F: P \to Q$.
     Let $I$ be an input region of $F$, that is $I \subseteq P$.
-    Let $w$ be a function, $w: P\to \RR$, $\forall x\in P: w(x) > 0$.
+    Let $w$ be a function, $w: P\to \RR$, $\forall x\in I: w(x) > 0$.
     Let $h_p$ be a function for some base input $p\in P$, $h_p: Q\to \RR$, that satisfies
     \begin{equation*}
         h_p(F(p)) = 0
@@ -277,11 +277,12 @@ An extreme example of such function is the Dirichlet function $D: \RR\to \RR$.
 \end{lemma}
 
 \noindent\textbf{%
-Since this thesis focuses on robustness of the discrete input regions,
+Since this thesis focuses on robustness of discrete input regions,
 I will further assume only discrete version of the robustness problem.%
 }
 
-\begin{definition}{Strict qualitative robustness of function $F$ on input region $I$.}
+\begin{definition}{Strict qualitative robustness of function $F$ on input region $I$.}%
+    \label{def:strict_robustness}
     Function $F: P\to Q$ is strictly (qualitatively) robust on input region $I\subseteq P$
     if and only if for some $p\in P$ it is robust on this region with respect
     to evaluation function $\overline{h_p}$ defined as follows:
@@ -306,7 +307,7 @@ I will further assume only discrete version of the robustness problem.%
         First the left-to-right implication.
         Let function $F$ be strictly robust on input region $I$,
         $\overline{h_p}$ being the evaluation function.
-        As shown in the proof of Lemma~\ref{lemma:robustness_independence_of_weight},
+        As shown in the proof of \cref{lemma:robustness_independence_of_weight},
         for all instances from input region $i\in I$ holds
         \begin{equation*}
             \overline{h_p}(F(i)) = 0
@@ -328,6 +329,7 @@ I will further assume only discrete version of the robustness problem.%
     \end{proof}
 \end{lemma}
 
+\label{sec:t-target_robustness}%
 The strict robustness is equivalent to the robustness as defined in~\cite{10.1145/3563212}.
 The $t$-target robustness from this article is equivalent to my definition
 of robustness with respect to evaluation function $h_t: Q\to \RR$
@@ -422,7 +424,7 @@ Examples of such input regions are:
 \end{lemma}
 
 \begin{remark}
-    Lemmas~\ref{lemma:size_of_hamming} and~\ref{lemma:size_of_fixed}
+    \cref{lemma:size_of_hamming,lemma:size_of_fixed}
     allow for fast computation of the size of the input region.
 \end{remark}
 

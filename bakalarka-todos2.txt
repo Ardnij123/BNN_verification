@@ -1,0 +1,18 @@
+High priority:
+    Dokončit práci a odevzdat
+    Zkontrolovat chyby
+    Přeformulovat a vysvětlit 4.2.2 -- Encoding of Argmax layer
+    Dopsat 4.3.3 Parameters of the Evaluator
+
+Medium priority:
+    Přidělat příklad na konci `chapters/bnn/bnn_def.tex`
+    Upravit citace aby si TeX nestěžoval
+    DNN inner potential není "weighted sum", ale spíš "linear model"
+    Split ASP encoding of BNN --- robustness
+    Spravit Definice a věty, použít pro název [], ne {}
+    Opravit clingo_file -- počítání outpre (OutBlk.args)
+    Zkontrolovat zdroje
+
+Low priority:
+    Přidat seznam definic, lemmat, příkladů
+    Vytvořit k BP package do Dockeru

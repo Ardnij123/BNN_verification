@@ -1,4 +1,4 @@
-\section{Clingo}
+\section{Clingo}\label{sec:clingo}
 
 Clingo is an integrated ASP system, consisting of a grounder Gringo and solver
 Clasp~\cite{aspEasy2016}. In the following section I will show basics of the
@@ -12,7 +12,7 @@ The Clingo language does allow for facts, rules and constraints just like
 the logic programs defined in this thesis.
 
 \begin{example}
-    Transcription of a logic program from the Example~\ref{exp:long_program} to Clingo language.
+    Transcription of a logic program from the \cref{exp:long_program} to Clingo language.
     On the left side is a set of rules from this example,
     on the right is equivalent program in the Clingo language.
 
@@ -135,7 +135,7 @@ and commas in bodies of rules for better readability.
 Where this is not possible (see Conditional literals), I will always point it out.
 
 \begin{example}\label{exp:transcription_clingo}%
-    Transcription of terms and atoms of Example~\ref{Sigma1}.
+    Transcription of terms and atoms of \cref{Sigma1}.
 
     In the example, signature $\Sigma_1$ had sorts
     \begin{equation*}
@@ -233,7 +233,7 @@ q(123, 0) :- 42 != 42.
     \end{minipage}
 \end{example}
 
-When transcripting rules of Example~\ref{exp:transcription_clingo},
+When transcripting rules of \cref{exp:transcription_clingo},
 we have made some facts into rules by introducing new comparison predicates into the rule.
 In the section about grounding, we will however see, that these predicates will be
 removed during the grounding process.
@@ -488,7 +488,7 @@ Both \texttt{$s_1$ $<_1$} and \texttt{$<_2$ $s_2$} can be omitted.
 If only $<_1$ or $<_2$ is omitted, comparison predicates defaults to \texttt{<=}.
 
 \begin{example}
-    In this example we will work with expressions from Example~\ref{exp:aggregate_expressions}.
+    In this example we will work with expressions from \cref{exp:aggregate_expressions}.
     Let $S$ be a partial solution s.t.\ literals \texttt{p(1)}, \texttt{p(4)},
     \texttt{p(5)} and \texttt{p(7)} are consistent with $S$.
 
@@ -582,7 +582,7 @@ where all $t_i$ are distinct.
     the solution.
 \end{example}
 
-The statement in the Example~\ref{exp:input_space} allows us to easily define the input space
+The statement in the \cref{exp:input_space} allows us to easily define the input space
 of logic program.
 
 \subsubsection{Show statements}

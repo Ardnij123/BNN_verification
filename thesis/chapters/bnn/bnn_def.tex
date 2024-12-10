@@ -20,8 +20,7 @@ Multiple of these perceptrons are then assorted into layers. The input layer is 
 consisting of perceptrons but is straight composed of the inputs. The output layer is
 often represented by perceptrons with activation function from other layers, such as
 \textit{argmax} for single-choice classification and
-\textit{TODO} % TODO: some function
-for the classification using the probability.
+\textit{softmax} for the classification using the probability.
 
 Further follows a more formal definition of the deep neural network
 corresponding to the one from~\cite{Bishop1995NeuralNF}.
@@ -51,6 +50,29 @@ The activation function $\sigma$ can be instantized by any real-valued function.
 \end{equation*}
 \end{definition}
 
+\begin{figure}[h]
+    \begin{center}
+    \begin{tikzpicture}
+        \setupnodes{(0,0)}
+        \valuenode{1}
+        \valuenode{x_1}
+        \valuenode{x_2}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \valuenode{x_n}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (x_2) -- (x_n);
+
+        \setupnodes{($(x_2) + (4,0)$)}
+        \percnode{/}{1/b,x_1/w_1,x_2/w_2,x_n/w_n}
+        
+        \setupnodes{($(p{/}) + (3.5,0)$)}
+        \valuenode{y}
+        
+        \draw (p{/}.east) -- (y.west);
+    \end{tikzpicture}
+        \caption{Schema of a perceptron}
+    \end{center}
+\end{figure}
+
 % This is usually referred to simply as the perceptron
 % Thus maybe use single layer of perceptron?
 \begin{definition}[Single-layer perceptron]
@@ -66,6 +88,39 @@ by a signle perceptron.
 \end{equation*}
 \end{definition}
 
+\begin{figure}[h]
+    \begin{center}
+    \begin{tikzpicture}
+        \setupnodes{(0,0)}
+        \valuenode{1}
+        \valuenode{x_1}
+        \valuenode{x_2}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \valuenode{x_m}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (x_2) -- (x_m);
+        
+        \setupnodes{($(4,-0.5)$)}
+        \percnode{/1}{1/,x_1/,x_2/,x_m/}
+        \percnode{/2}{1/,x_1/,x_2/,x_m/}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \percnode{/n}{1/,x_1/,x_2/,x_m/}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (p{/2}) -- (p{/n});
+
+        \setupnodes{($(p{/1}) + (3.5,0)$)}
+        \valuenode{y_1}
+        \setupnodes{($(p{/2}) + (3.5,0)$)}
+        \valuenode{y_2}
+        \setupnodes{($(p{/n}) + (3.5,0)$)}
+        \valuenode{y_n}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (y_2) -- (y_n);
+        
+        \foreach \x in {1,2,n}{ \draw (p{/\x}.east) -- (y_\x.west); }
+    \end{tikzpicture}
+        \caption{Schema of a single-layer perceptron}
+    \end{center}
+\end{figure}
+
+% This is usually referred to simply as the perceptron
 \begin{definition}[Multi-layer perceptron]
 Multi-layer perceptron (also called deep neural network)
 is a convolution of Single-layer perceptrons.
@@ -82,6 +137,60 @@ layers. The input of a multi-layer perceptron is called the input layer.
     \DNN = t_{d+1} \circ t_d \circ \ldots \circ t_1
 \end{equation*}
 \end{definition}
+
+\begin{figure}[h]
+    \begin{center}
+    \begin{tikzpicture}
+        \setupnodes{(0,0)}
+        \valuenode{1}
+        \valuenode{x_1}
+        \valuenode{x_2}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \valuenode{x_{n_0}}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (x_2) -- (x_{n_0});
+        
+        \setupnodes{($(1.east) + (3,0)$)}
+        \valuenode{1{}}
+        \percnode{1/1}{1/,x_1/,x_2/,x_{n_0}/}
+        \percnode{1/2}{1/,x_1/,x_2/,x_{n_0}/}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \percnode{1/n_1}{1/,x_1/,x_2/,x_{n_0}/}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (p{1/2}) -- (p{1/n_1});
+        \setupnodes{(1{}.east)}
+        \valuenode{1}
+
+        \setupnodes{($(1.east) + (3,0)$)}
+        \valuenode{1{}}
+        \percnode{2/1}{1/,p{1/1}/,p{1/2}/,p{1/n_1}/}
+        \percnode{2/2}{1/,p{1/1}/,p{1/2}/,p{1/n_1}/}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \percnode{2/n_2}{1/,p{1/1}/,p{1/2}/,p{1/n_1}/}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (p{2/2}) -- (p{2/n_2});
+        \setupnodes{(1{}.east)}
+        \valuenode{1}
+
+        \setupnodes{($(p{2/1}.east) + (3.5,0)$)}
+        \percnode[dotted]{d+1/1}{1/,p{2/1}/,p{2/2}/,p{2/n_2}/}
+        \percnode[dotted]{d+1/2}{1/,p{2/1}/,p{2/2}/,p{2/n_2}/}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \percnode[dotted]{d+1/n_{d+1}}{1/,p{2/1}/,p{2/2}/,p{2/n_2}/}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (p{d+1/2}) -- (p{d+1/n_{d+1}});
+
+        \setupnodes{($(p{d+1/1}.east) + (2,0)$)}
+        \valuenode{y_1}
+        \setupnodes{($(p{d+1/2}.east) + (2,0)$)}
+        \valuenode{y_2}
+        \setupnodes{($(p{d+1/n_{d+1}}.east) + (2,0)$)}
+        \valuenode{y_{n_{d+1}}}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (y_2) -- (y_{n_{d+1}});
+
+        \draw (p{d+1/1}.east) -- (y_1.west);
+        \draw (p{d+1/2}.east) -- (y_2.west);
+        \draw (p{d+1/n_{d+1}}.east) -- (y_{n_{d+1}}.west);
+    \end{tikzpicture}
+        \caption{Schema of a multi-layer perceptron}
+    \end{center}
+\end{figure}
 
 \sectionsep{}
 
@@ -121,7 +230,7 @@ of my definition to that of~\cite{zhang2021bdd4bnn}.
 
 \sectionsep{}
 
-\begin{definition}[Binarised perceptron]
+\begin{definition}[Binarised perceptron]\label{def:binarised_perceptron}
 Binarised perceptron $p^\BB$ is a function from vector of $m$ $\pm 1$-binarised values
 to a single $\pm 1$-binarised value.
 The function $p^\BB$ is a composition of an inner potential $\xi$
@@ -144,7 +253,7 @@ $\vec w$ of size $k$, and real bias $b$.
 \end{equation*}
 \end{definition}
 
-\begin{definition}[Binarised perceptron with batch normalization]
+\begin{definition}[Binarised perceptron with batch normalization]\label{def:perceptron_bn}
 Binarised perceptron with batch normalization $\hat{p}^\BB$
 is a function from vector of $m$ $\pm 1$-binarised values
 to a single $\pm 1$-binarised value.
@@ -185,7 +294,7 @@ With parameters of inner potential $\xi$ unchanged, the following holds
 \end{proof}
 \end{lemma}
 
-\begin{lemma}{For every Binarised perceptron with batch normalization there is equivalent Binarised perceptron.}
+\begin{lemma}For every Binarised perceptron with batch normalization there is equivalent Binarised perceptron.\label{lem:batch_perceptron}
 \begin{proof}
 The idea behind this construction comes from~\cite{zhang2021bdd4bnn}.
 
@@ -267,7 +376,7 @@ by a signle perceptron.
 \end{definition}
 
 % TODO: this does not read well
-\begin{definition}[Argmax layer]
+\begin{definition}[Argmax layer]\label{def:argmax}
 Argmax layer is a function $t^{am}$ which returns the mask of maximal value after
 the weighted sum. This mask has form of a one-hot vector, where only the first
 position with the maximal value after the weighted sum is assigned value $1$,
@@ -298,9 +407,10 @@ layers. The input of a binarised multi-layer perceptron is called the input laye
 \end{equation*}
 \end{definition}
 
-\subsection{Examples of Binarised neural network}
+% \subsection{Examples of Binarised neural network}
 
-% TODO
+% TODO: Examples of binarised neural networks
+% Maybe some logic functions?
 
 \sectionsep{}
 
