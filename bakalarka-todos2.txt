@@ -9,10 +9,9 @@ Medium priority:
     Upravit citace aby si TeX nestěžoval
     DNN inner potential není "weighted sum", ale spíš "linear model"
     Split ASP encoding of BNN --- robustness
-    Spravit Definice a věty, použít pro název [], ne {}
-    Opravit clingo_file -- počítání outpre (OutBlk.args)
     Zkontrolovat zdroje
+    Přesunout LoD a Thesis assignment před začátek číslování
 
 Low priority:
-    Přidat seznam definic, lemmat, příkladů
+    Zformátovat List of definitions, aby každý řádek nebyl "Definition (...)"
     Vytvořit k BP package do Dockeru

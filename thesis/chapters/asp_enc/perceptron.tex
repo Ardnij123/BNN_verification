@@ -246,7 +246,7 @@ potential(D+1, N, S+B) :-
         -W,M : not on(D, M), weight(D+1, M, N, W) },
     bias(D+1, N, B), output_layer(D+1).
 
-1 { output(0..N-1) } 1 :- output_layer(D+1), layer(D+1, N).
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
 
 :- output(N),
     potential(D+1, N, S), potential(D+1, M, T),
@@ -266,10 +266,10 @@ calculated from the new bias after elimination.%
 
 \begin{lstlisting}[language=Prolog, numbers=none]
 potential(D+1, N, S+B) :-
-    S = #sum{ W,M : on(D, M), weight(D+1, M, N, W) }
+    S = #sum{ W,M : on(D, M), weight(D+1, M, N, W) },
     bias(D+1, N, B), output_layer(D+1).
 
-1 { output(0..N-1) } 1 :- output_layer(D+1), layer(D+1, N).
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
 
 :- output(N),
     potential(D+1, N, S), potential(D+1, M, T),
@@ -282,23 +282,81 @@ potential(D+1, N, S+B) :-
     N != M, S = T, P > Q.
 \end{lstlisting}
 
-At last, literals with predicate symbol \texttt{potential} can now be also eliminated
+Literals with predicate symbol \texttt{potential} can now be also eliminated
 by using \texttt{sum} aggregate directly in the comparison of inner potential values.
 
 \begin{lstlisting}[language=Prolog, numbers=none]
-1 { output(0..N-1) } 1 :- output_layer(D+1), layer(D+1, N).
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
 
 :- output(N),
-    S = #sum{ W,O : on(D, O), weight(D+1, N, O, W) },
-    T = #sum{ W,O : on(D, O), weight(D+1, M, O, W) },
+    S = #sum{ W,O : on(D, O), weight(D+1, O, N, W) },
+    T = #sum{ W,O : on(D, O), weight(D+1, O, M, W) },
     bias(D+1, N, B), bias(D+1, M, C),
     output_layer(D+1),
     N != M, S + B < T + C.
 :- output(N),
-    S = #sum{ W,O : on(D, O), weight(D+1, N, O, W) },
-    T = #sum{ W,O : on(D, O), weight(D+1, M, O, W) },
+    S = #sum{ W,O : on(D, O), weight(D+1, O, N, W) },
+    T = #sum{ W,O : on(D, O), weight(D+1, O, M, W) },
     bias(D+1, N, B), bias(D+1, M, C),
     outpre(N, P), outpre(M, Q),
     output_layer(D+1),
     N != M, S + B = T + C, P > Q.
 \end{lstlisting}
+
+While grounding, the value of an aggregate may be only compared to an integer value.
+It may not be compared with value of another aggregate directrly. This results in
+a grounding of this logic program being more or less the same as of the last logic program
+using potential (in fact, the grounded program is even bigger than before).
+To avert this, both aggregates have to be merged into a single one.
+\[S + B < T + C\]
+\[S - T < C - B\]
+The expression is easily transformed for variables representing values of aggregates to be
+on one side. As both aggregates are \texttt{sum} aggregates, values of aggregate with variable
+\texttt{T} may be multiplied by -1. As the computation of aggregate expression uses
+representation as sets, additional value must be added to tuples for summation to distinguish
+between values of weights for node \texttt{N} and \texttt{M}.
+The same transformation may be done also with the second constraint of the logic program.
+
+\begin{lstlisting}[language=Prolog, numbers=none]
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
+
+:- output(N),
+    C - B < #sum{  W,O, 1 : on(D, O), weight(D+1, O, N, W) ;
+                  -W,O,-1 : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    output_layer(D+1),
+    N != M.
+:- output(N),
+    C - B = #sum{  W,O, 1 : on(D, O), weight(D+1, O, N, W) ;
+                  -W,O,-1 : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    outpre(N, P), outpre(M, Q),
+    output_layer(D+1),
+    N != M, P > Q.
+\end{lstlisting}
+
+Finally, as described in~\cref{exp:gringo_grounding}, when an equality symbol is used
+in an aggregate, while grounding it is transformed into two inequalities.
+To further simplify (and shorten) the grounded logic program, symbol \texttt{<=}
+may be used instead of \texttt{=} in the second constraint.
+If $C-B < S-T$, then the output is not the right one by the first constraint already,
+thus it is equivalent to the previous logic program.
+
+\begin{lstlisting}[language=Prolog, numbers=none]
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
+
+:- output(N),
+    C - B < #sum{  W,O, 1 : on(D, O), weight(D+1, O, N, W) ;
+                  -W,O,-1 : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    output_layer(D+1),
+    N != M.
+:- output(N),
+    C - B <= #sum{  W,O, 1 : on(D, O), weight(D+1, O, N, W) ;
+                   -W,O,-1 : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    outpre(N, P), outpre(M, Q),
+    output_layer(D+1),
+    N != M, P > Q.
+\end{lstlisting}
+

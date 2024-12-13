@@ -42,18 +42,18 @@ class Block:
         return len(self.bias)
 
     def weights(self) -> Generator[Tuple[int, int, int], None, None]:
-        for rown, row in enumerate(self.weight):
-            for coln, weight in enumerate(row):
+        for rown, row in enumerate(self.weight, start=1):
+            for coln, weight in enumerate(row, start=1):
                 yield (coln, rown, weight)
 
     def biases(self) -> Generator[Tuple[int, int], None, None]:
-        for node, bias in enumerate(self.bias):
+        for node, bias in enumerate(self.bias, start=1):
             yield (node, floor(bias[0]))
 
 
 class InterBlk(Block):
 
-    def __init__(self, folder: str):
+    def __init__(self, folder: str, binarised_01=True):
         self.folder = folder
         bn_bias = getarray(folder+"bn_bias.csv", trans=True)
         bn_mean = getarray(folder+"bn_mean.csv", trans=True)
@@ -62,27 +62,20 @@ class InterBlk(Block):
         lin_bias = getarray(folder+"lin_bias.csv", trans=True)
         lin_weight = getarray(folder+"lin_weight.csv", dtype=np.int8)
 
-        # const nodes
-        const = np.multiply(
-                (bn_weight == 0),
-                bn_bias
-                )
-
-        sum_axis = np.sum(lin_weight, axis=1, keepdims=True)
-
-        # TODO: will this break if bn_stddev=0?
         divided = np.divide(bn_weight, bn_stddev)
         sgn = -1 * (divided < 0) + 1 * (divided > 0)
 
-        # add to divided where is equal to zero
-        # to be able to divide by it
-        divided += np.multiply(divided == 0, np.ones(divided.shape))
-
-        self.bias = (1/2) * sgn * \
-            (- sum_axis - bn_mean + lin_bias + np.divide(bn_bias, divided)) \
-            + const
+        # Lemma 2.1.2 - encoding of bnn using weight matrix and bias vector
+        self.bias = np.where(divided == 0,
+                bn_bias,
+                sgn * (lin_bias - bn_mean + np.divide(bn_bias, divided)))
 
         self.weight = np.dot(np.diag(sgn.flatten()), lin_weight)
+
+        # Section 4.2.1 - mapping input to values {0, 1}
+        if binarised_01:
+            sum_axis = np.sum(lin_weight, axis=1, keepdims=True)
+            self.bias = (self.bias - sum_axis) / 2
 
     def comp(self, vector: array_bin):
         return (np.dot(self.weight, vector) + self.bias) >= 0
@@ -90,62 +83,79 @@ class InterBlk(Block):
 
 class OutputBlk(Block):
 
-    def __init__(self, folder: str):
+    def __init__(self, folder: str, binarised_01=True):
         self.folder = folder
         self.bias = getarray(folder+"lin_bias.csv", trans=True)
         self.weight = getarray(folder+"lin_weight.csv", dtype=np.int8)
-        self.bias -= np.sum(self.weight, axis=1, keepdims=True)
-        self.bias /= 2
+
+        # Section 4.2.2 - mapping input to values {0, 1}
+        if binarised_01:
+            sum_axis = np.sum(self.weight, axis=1, keepdims=True)
+            self.bias = (self.bias - sum_axis) / 2
+
+        bs = self.bias % 1
+        self.precedence = np.argsort(-bs.flatten(), kind='stable')
 
     def args(self):
-        bs = (self.bias % 1).flatten()
-        ord_nodes = np.argsort(bs, kind='stable')
-        # ord_nodes is sorted from the small to big precedence
-        yield from ord_nodes
+        return self.precedence
 
     def comp(self, vector: array_bin):
-        bnn = np.argmax(np.dot(self.weight, vector) + self.bias)
-        return bnn
+        output = np.argmax(np.dot(self.weight, vector) + self.bias)
+        return output + 1
 
 
 class NeuralNetw:
-    def __init__(self, folder: str):
+    def __init__(self, folder: str, binarised_01 = True):
         inners = len(glob.glob(folder+"blk*"))
         self.network: List[InterBlk] = []
         for i in range(1, inners+1):
-            self.network.append(InterBlk(f"{folder}blk{i}/"))
-        self.output = OutputBlk(f"{folder}out_blk/")
+            self.network.append(InterBlk(f"{folder}blk{i}/", binarised_01))
+        self.output = OutputBlk(f"{folder}out_blk/", binarised_01)
 
     def layers(self):
         yield (0, len(self.network[0].weight[0]))
-        for layer, net in enumerate(self.network + [self.output]):
-            yield (layer + 1, net.layer())
+        for layer, net in enumerate(self.network + [self.output], start=1):
+            yield (layer, net.layer())
 
     def weights(self):
-        for layer, net in enumerate(self.network + [self.output]):
+        for layer, net in enumerate(self.network + [self.output], start=1):
             for weight in net.weights():
-                yield (layer+1,) + weight
+                yield (layer,) + weight
 
     def biases(self):
-        for layer, net in enumerate(self.network + [self.output]):
+        for layer, net in enumerate(self.network + [self.output], start=1):
             for bias in net.biases():
-                yield (layer+1,) + bias
+                yield (layer,) + bias
 
     def args(self):
-        for order, node in enumerate(self.output.args()):
-            yield (node, order)
+        for order, node in enumerate(self.output.args(), start=1):
+            yield (node+1, order)
 
     def comp(self, vector: array_bin):
         for block in self.network:
             vector = block.comp(vector)
         return self.output.comp(vector)
 
+    def comp_all(self, vector: array_bin):
+        activity = [vector]
+        for block in self.network:
+            vector = block.comp(vector)
+            activity.append(vector.astype(np.uint8))
+
+        output = np.zeros(self.output.bias.shape, dtype=np.uint8)
+        output
+        output_val = self.output.comp(vector)
+        output[output_val-1] = 1
+
+        activity.append(output)
+        return activity, output_val
+
 
 class Constraint:
     inpbits: Iterable[int]
 
     def inpbits_gen(self):
-        for idx, inpbit in enumerate(self.inpbits):
+        for idx, inpbit in enumerate(self.inpbits, start=1):
             if inpbit >= 0.5:
                 yield f"input({idx})."
             else:
@@ -157,21 +167,21 @@ class Constraint:
 
 
 class Hamming(Constraint):
-    def __init__(self, inpbits: Iterable[int], maxdist: int):
-        self.inpbits = inpbits
+    def __init__(self, input_base: str, maxdist: int):
+        self.inpbits = getarray(input_base, dtype=int, shape=[-1], delimiter=' ')
         self.hamdist = maxdist
 
     def hamdist_gen(self):
-        return f"hamdist({self.hamdist})."
+        return f"hammdist({self.hamdist})."
 
     def get(self):
         return "\n".join(self.inpbits_gen()) + '\n' + self.hamdist_gen()
 
 
 class Inpbits(Constraint):
-    def __init__(self, inpbits: Iterable[int], fixed_idx: Iterable[int]):
-        self.inpbits = inpbits
-        self.fixed_idx = fixed_idx
+    def __init__(self, input_base: str, input_fixed: str):
+        self.inpbits = getarray(input_base, dtype=int, shape=[-1], delimiter=' ')
+        self.fixed_idx = getarray(input_fixed, dtype=int, shape=[-1])
 
     def fixed_gen(self):
         for fix in self.fixed_idx:

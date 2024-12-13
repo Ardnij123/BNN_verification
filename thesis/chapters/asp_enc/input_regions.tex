@@ -2,11 +2,11 @@
 
 Similiarly to the final encoding of the argrmax layer, I will encode input region
 by first allowing for any input vector using an head aggregate with unspecified boundaries
-over literals \texttt{on(0, 0..N-1)}, on top of this I will then build constraints % chktex 36
+over literals \texttt{on(0, 1..N)}, on top of this I will then build constraints % chktex 36
 defined by the desired input region.
 
 \begin{lstlisting}[language=Prolog, numbers=none]
-{ on(0, 0..N-1) } :- layer(0, N).
+{ on(0, 1..N) } :- layer(0, N).
 \end{lstlisting}
 
 \subsubsection{Input region based on the Hamming distance}
@@ -47,5 +47,5 @@ that are not fixed. This may allow for further optimizations in the grounding pr
 
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(0, N) :- input(N), inpfix(N).
-{ on(0, K) } :- not inpfix(K), layer(0, N), K = 1..N-1.
+{ on(0, K) } :- not inpfix(K), layer(0, N), K = 1..N.
 \end{lstlisting}

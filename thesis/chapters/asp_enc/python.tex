@@ -101,6 +101,10 @@ bias and a matrix of weights.
 	-\vec{w_i} & {\alpha_i \over \sigma_i} < 0\\
 \end{cases}\]
 \[t^\BB(\vec x) \equiv \vec b' + \mathbf{w}'\cdot \vec x \geq 0\]
+In the encoding of weight, there is now a possibility for some rows to be vectors of zeros.
+That is not a problem as they can still be encoded into the Clingo language.
+In aggregate expressions any whole numbers may be used.
+
 To further simplify the encoding into logic program, the $\pm 1$-binarised
 input vector $\vec x$ may be mapped to vector $\vec x_b$
 of values $\{1, 0\}$~(\Cref{sec:01-mapping}).
