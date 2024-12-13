@@ -218,16 +218,16 @@ with open(args.intermediate_bnn, 'w') as model_bnn:
     netw = NeuralNetw(args.model, args.binarisation=='01')
 
     for layer in netw.layers():
-        model_bnn.write(f"layer{layer}.\n")
+        model_bnn.write("layer(%d, %d).\n" % layer)
 
     for weight in netw.weights():
-        model_bnn.write(f"weight{weight}.\n")
+        model_bnn.write(f"weight(%d, %d, %d, %d).\n" % weight)
 
     for bias in netw.biases():
-        model_bnn.write(f"bias{bias}.\n")
+        model_bnn.write(f"bias(%d, %d, %d).\n" % bias)
 
     for outpre in netw.args():
-        model_bnn.write(f"outpre{outpre}.\n")
+        model_bnn.write(f"outpre(%d, %d).\n" % outpre)
 
 
 # Create encoding of problem instance

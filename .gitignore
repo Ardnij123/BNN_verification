@@ -11,6 +11,7 @@ BNNQuanalyst/**
 examples
 **/temp/**
 .testing_old/**
+testing/clingo-based/outputs/**
 
 # TeX files
 **.log
