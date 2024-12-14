@@ -105,12 +105,12 @@ class OutputBlk(Block):
 
 
 class NeuralNetw:
-    def __init__(self, folder: str, binarised_01 = True):
+    def __init__(self, folder: str, inner_01=True, argmax_01=True):
         inners = len(glob.glob(folder+"blk*"))
         self.network: List[InterBlk] = []
         for i in range(1, inners+1):
-            self.network.append(InterBlk(f"{folder}blk{i}/", binarised_01))
-        self.output = OutputBlk(f"{folder}out_blk/", binarised_01)
+            self.network.append(InterBlk(f"{folder}blk{i}/", inner_01))
+        self.output = OutputBlk(f"{folder}out_blk/", argmax_01)
 
     def layers(self):
         yield (0, len(self.network[0].weight[0]))
