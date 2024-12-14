@@ -26,7 +26,7 @@ TESTS = {
 
 'correct-argmax': [
     ('--hamming-distance', ['2']),
-    ('--perceptron', [
+    ('--argmax', [
         'bnn_encoding/argmax/max_agg.lp',
         'bnn_encoding/argmax/output_direct_01.lp',
         'bnn_encoding/argmax/output_direct_eqconst_01.lp',
