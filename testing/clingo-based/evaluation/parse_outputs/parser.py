@@ -6,6 +6,10 @@ from itertools import batched
 import re
 
 
+columns=[
+    'Parameters', 'Models', 'Time', 'Solving', 'Model_1', 'Unsat', 'CPUTime', 'WC'
+]
+
 def parse_file(file):
     parsed = []
     skipping = True
@@ -16,7 +20,7 @@ def parse_file(file):
                 head = parts[0].strip()
                 body = (':'.join(parts[1:]))[:-1]
                 if head == 'Parameters':
-                    parsed.append({'Parameters': ast.literal_eval(body)})
+                    parsed.append({'Parameters': body.strip()})
                     skipping=False
                 elif skipping:
                     continue
@@ -34,8 +38,6 @@ def parse_file(file):
                 elif head == 'Word count':
                     parsed[-1]['WC'] = body
             except Exception as e:
-                print(e)
-                print(head, body)
                 parsed.pop()
                 skipping = True
 
@@ -54,7 +56,7 @@ if __name__ == '__main__':
                         action='extend', default=[],
                         help='Filters entries to only contain those with specified values.')
     parser.add_argument('-G', '--get', nargs='*',
-                        action='extend', default=[])
+                        action='extend', default=[], choices=columns)
 
     args = parser.parse_args()
     entries = parse_file(args.filename)
@@ -67,5 +69,8 @@ if __name__ == '__main__':
 
     if args.get:
         entries = [[entry[key] for key in args.get] for entry in entries]
+    else:
+        args.get = columns
 
+    print('\n'.join(args.get))
     print('\n'.join(map(lambda x: ' '.join(map(str, x)), entries)))
