@@ -57,15 +57,6 @@ parser.add_argument(
         help='''Directory of the BNN model
         '''
         )
-parser.add_argument(
-        '-b', '--binarisation', action='store', default='01',
-        help='''Sets the wanted binarisation of the network
-
-Allowed values:
-    01  - (0, 1)-binarisation (default)
-    pm1 - (-1, +1)-binarisation
-        '''
-        )
 
 # Encoding of computation
 parser.add_argument(
@@ -205,17 +196,17 @@ def get_headers(file):
                 break
     return headers
 
-def include(model, file, binarised='01'):
-    # check correctness of binarisation
-    headers = get_headers(file)
-    if 'binarised' in headers and headers['binarised'] != binarised:
-        raise Exception(f"Evaluator: File {file} should have header binarised={binarised}, but has binarised={headers['binarised']}.")
+def include(model, file):
+    # headers = get_headers(file)
     model.write(f"#include \"{file}\".\n")
 
 
 # Create encoding of BNN structure
 with open(args.intermediate_bnn, 'w') as model_bnn:
-    netw = NeuralNetw(args.model, args.binarisation=='01')
+    argmax_bin = get_headers(args.argmax)['binarised']
+    inner_bin = get_headers(args.perceptron)['binarised']
+
+    netw = NeuralNetw(args.model, inner_bin=='01', argmax_bin=='01')
 
     for layer in netw.layers():
         model_bnn.write("layer(%d, %d).\n" % layer)
@@ -257,10 +248,10 @@ for constraint in args.constraint:
 
 with open(args.intermediate_instance, 'w') as instance:
     if args.hamming_distance:
-        include(instance, args.hamming_encoding, args.binarisation)
+        include(instance, args.hamming_encoding)
         instance.write(Hamming(args.input_base, args.hamming_distance).get())
     elif args.fixed_bits:
-        include(instance, args.fixed_bits_encoding, args.binarisation)
+        include(instance, args.fixed_bits_encoding)
         instance.write(Inpbits(args.input_base, args.fixed_bits).get())
     else:
         raise Exception("Evaluator.py: Problem with input of problem instance.")
@@ -272,15 +263,15 @@ with open(args.intermediate_instance, 'w') as instance:
 # Create encoding of problem
 with open(args.intermediate_problem, 'w') as model:
     # BNN computation
-    include(model, args.base, args.binarisation)
-    include(model, args.perceptron, args.binarisation)
-    include(model, args.argmax, args.binarisation)
+    include(model, args.base)
+    include(model, args.perceptron)
+    include(model, args.argmax)
 
     # BNN structure
-    include(model, args.intermediate_bnn, args.binarisation)
+    include(model, args.intermediate_bnn)
 
     # Input of problem instance
-    include(model, args.intermediate_instance, args.binarisation)
+    include(model, args.intermediate_instance)
 
     # Print
     model.write('#show.')
