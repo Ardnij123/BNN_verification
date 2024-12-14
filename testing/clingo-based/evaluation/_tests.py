@@ -18,21 +18,21 @@ TESTS = {
 'correct-perceptron': [
     ('--hamming-distance', ['2']),
     ('--perceptron', [
-        'bnn_encoding/perceptron/direct.lp'
-        'bnn_encoding/perceptron/direct_pm1.lp'
-        'bnn_encoding/perceptron/potential.lp'
+        'bnn_encoding/perceptron/direct.lp',
+        'bnn_encoding/perceptron/direct_pm1.lp',
+        'bnn_encoding/perceptron/potential.lp',
         ]),
     ],
 
 'correct-argmax': [
     ('--hamming-distance', ['2']),
     ('--perceptron', [
-        'bnn_encoding/argmax/max_agg.lp'
-        'bnn_encoding/argmax/output_direct_01.lp'
-        'bnn_encoding/argmax/output_direct_eqconst_01.lp'
-        'bnn_encoding/argmax/output_potential_01.lp'
-        'bnn_encoding/argmax/output_potential_pm1.lp'
-        'bnn_encoding/argmax/output_variable_01.lp'
+        'bnn_encoding/argmax/max_agg.lp',
+        'bnn_encoding/argmax/output_direct_01.lp',
+        'bnn_encoding/argmax/output_direct_eqconst_01.lp',
+        'bnn_encoding/argmax/output_potential_01.lp',
+        'bnn_encoding/argmax/output_potential_pm1.lp',
+        'bnn_encoding/argmax/output_variable_01.lp',
         ]),
     ],
 }
