@@ -17,6 +17,7 @@ TESTS = {
 
 'correct-perceptron': [
     ('--hamming-distance', ['2']),
+    ('-t', ['4']),
     ('--perceptron', [
         'bnn_encoding/perceptron/direct.lp',
         'bnn_encoding/perceptron/direct_pm1.lp',
@@ -26,6 +27,7 @@ TESTS = {
 
 'correct-argmax': [
     ('--hamming-distance', ['2']),
+    ('-t', ['4']),
     ('--argmax', [
         'bnn_encoding/argmax/max_agg.lp',
         'bnn_encoding/argmax/output_direct_01.lp',
