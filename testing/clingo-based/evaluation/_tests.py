@@ -37,4 +37,9 @@ TESTS = {
         'bnn_encoding/argmax/output_variable_01.lp',
         ]),
     ],
+
+'multiple-short': [
+    ('-t', ['4']*200),
+    ('--hamming-distance', ['2']),
+    ],
 }
