@@ -46,10 +46,7 @@ cat $params | while read line; do
 	error=$?
 	break="True"
 	case "$error" in
-		65)
-			echo "Syntax error on parameters $line of $folder, skipping remaining"
-			;;
-		1|11|75)
+		1|11|75|65)
 			break="False"
 			echo "Interruption on $line of $folder. Countdown before next parameter."
 			trap '' INT

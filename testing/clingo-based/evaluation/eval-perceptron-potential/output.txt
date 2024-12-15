@@ -1,0 +1,574 @@
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 34.467s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 34.424s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 11.321s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 11.309s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.013s (Solving: 287.53s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2305.460s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 34.769s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 34.720s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 11.256s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 11.244s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 108.595s (Solving: 95.95s 1st Model: 0.00s Unsat: 95.95s)
+CPU Time     : 777.714s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 34.470s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 34.426s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 11.331s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 11.318s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.015s (Solving: 287.53s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2305.500s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 34.637s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 34.591s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 11.301s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 11.287s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 143.815s (Solving: 131.44s 1st Model: 0.00s Unsat: 131.44s)
+CPU Time     : 1060.473s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 34.408s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 34.364s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 11.282s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 11.271s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.007s (Solving: 287.52s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2305.657s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 34.712s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 34.659s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 11.232s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 11.220s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 172.888s (Solving: 160.43s 1st Model: 0.00s Unsat: 160.43s)
+CPU Time     : 1291.841s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 34.408s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 34.363s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 11.308s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 11.297s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.014s (Solving: 287.38s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2304.632s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 34.802s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 34.750s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 11.416s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 11.403s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 0 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 97.397s (Solving: 84.98s 1st Model: 0.00s Unsat: 84.98s)
+CPU Time     : 690.008s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 421.924s (Solving: 388.94s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2750.230s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 287.647s (Solving: 273.97s 1st Model: 0.00s Unsat: 273.97s)
+CPU Time     : 2173.830s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.862s (Solving: 286.09s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2290.085s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+TIME LIMIT   : 1
+Models       : 3+
+Calls        : 1
+Time         : 435.206s (Solving: 401.99s 1st Model: 11.75s Unsat: 0.00s)
+CPU Time     : 2721.037s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+TIME LIMIT   : 1
+Models       : 1+
+Calls        : 1
+Time         : 300.033s (Solving: 286.33s 1st Model: 4.81s Unsat: 0.00s)
+CPU Time     : 2058.843s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.721s (Solving: 286.02s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2290.246s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 375.495s (Solving: 342.21s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2577.683s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 288.851s (Solving: 275.11s 1st Model: 0.00s Unsat: 275.11s)
+CPU Time     : 2190.514s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 301.045s (Solving: 286.10s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2289.541s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+TIME LIMIT   : 1
+Models       : 1+
+Calls        : 1
+Time         : 481.801s (Solving: 448.53s 1st Model: 12.25s Unsat: 0.00s)
+CPU Time     : 2926.764s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1
+Calls        : 1
+Time         : 185.268s (Solving: 171.53s 1st Model: 4.81s Unsat: 166.72s)
+CPU Time     : 1341.666s
+Threads      : 8        (Winner: 2)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.972s (Solving: 286.23s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2290.792s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 387.974s (Solving: 354.92s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2663.068s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+TIME LIMIT   : 1
+Models       : 0
+Calls        : 1
+Time         : 300.532s (Solving: 286.79s 1st Model: 0.00s Unsat: 286.79s)
+CPU Time     : 2271.084s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.607s (Solving: 285.89s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2289.211s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+TIME LIMIT   : 1
+Models       : 3+
+Calls        : 1
+Time         : 497.961s (Solving: 464.96s 1st Model: 12.39s Unsat: 0.00s)
+CPU Time     : 3234.765s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1
+Calls        : 1
+Time         : 212.048s (Solving: 198.33s 1st Model: 4.78s Unsat: 193.56s)
+CPU Time     : 1580.106s
+Threads      : 8        (Winner: 2)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 300.821s (Solving: 286.05s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2288.821s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 495.162s (Solving: 461.92s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 3372.135s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 297.504s (Solving: 283.73s 1st Model: 0.00s Unsat: 283.73s)
+CPU Time     : 2246.520s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 301.019s (Solving: 286.18s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2290.933s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+TIME LIMIT   : 1
+Models       : 2+
+Calls        : 1
+Time         : 455.939s (Solving: 422.86s 1st Model: 12.86s Unsat: 0.00s)
+CPU Time     : 2880.390s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1
+Calls        : 1
+Time         : 178.137s (Solving: 164.41s 1st Model: 4.73s Unsat: 159.68s)
+CPU Time     : 1275.778s
+Threads      : 8        (Winner: 2)
+Parameters : --hamming-distance 1 -t 8 -T 300 --input-base inputs/instance_7_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNKNOWN
+
+TIME LIMIT   : 1
+Models       : 0+
+Calls        : 1
+Time         : 301.052s (Solving: 286.30s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 2291.340s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 2 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+TIME LIMIT   : 1
+Models       : 19+
+Calls        : 1
+Time         : 304.925s (Solving: 271.69s 1st Model: 20.30s Unsat: 0.00s)
+CPU Time     : 2136.622s
+Threads      : 8        (Winner: 8)
+Parameters : --hamming-distance 2 -t 8 -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/potential.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+TIME LIMIT   : 1
+Models       : 32+
+Calls        : 1
+Time         : 300.374s (Solving: 286.66s 1st Model: 70.79s Unsat: 0.00s)
+CPU Time     : 2291.635s
+Threads      : 8        (Winner: 8)

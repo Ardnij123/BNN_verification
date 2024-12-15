@@ -38,6 +38,46 @@ TESTS = {
         ]),
     ],
 
+'eval-perceptron': [
+    ('-t', ['8']*4),
+    ('--hamming-distance', ['3', '2', '1', '0']),
+    ('-T', ['300']),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        'inputs/instance_7_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_100_100_10/',
+        'models/mnist_bnn_1_blk_100_50_10/',
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--perceptron', [
+        'bnn_encoding/perceptron/direct.lp',
+        'bnn_encoding/perceptron/direct_pm1.lp',
+        #'bnn_encoding/perceptron/potential.lp',
+        ]),
+    ],
+
+'eval-perceptron-potential': [
+    ('--hamming-distance', ['0', '1', '2', '3']),
+    ('-t', ['8']*4),
+    ('-T', ['300']),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        'inputs/instance_7_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_100_100_10/',
+        'models/mnist_bnn_1_blk_100_50_10/',
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--perceptron', [
+        #'bnn_encoding/perceptron/direct.lp',
+        #'bnn_encoding/perceptron/direct_pm1.lp',
+        'bnn_encoding/perceptron/potential.lp',
+        ]),
+    ],
+
 'multiple-short': [
     ('-t', ['4']*1000),
     ('-T', ['5']),
