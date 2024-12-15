@@ -72,5 +72,5 @@ if __name__ == '__main__':
     else:
         args.get = columns
 
-    print('\n'.join(args.get))
+    print(' '.join(args.get))
     print('\n'.join(map(lambda x: ' '.join(map(str, x)), entries)))
