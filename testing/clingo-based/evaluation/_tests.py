@@ -43,4 +43,12 @@ TESTS = {
     ('-T', ['5']),
     ('--hamming-distance', ['2']),
     ],
+
+'multiple-long': [
+    ('--model', ['models/mnist_bnn_3_blk_25_25_25_20_10/']),
+    ('--input-base', ['inputs/instance_0_25.txt']),
+    ('-t', ['8']*150),
+    ('-T', ['600']),
+    ('--hamming-distance', ['8']),
+    ],
 }
