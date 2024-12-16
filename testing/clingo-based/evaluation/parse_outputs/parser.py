@@ -105,21 +105,21 @@ if __name__ == '__main__':
     args = parser.parse_args()
     entries = parse_file(args.filename)
 
-    if not args.filter:
+    if args.filter:
         args.filter = batched(args.filter, 2)
 
     args.aggregate = list(map(int, args.aggregate))
-
-    for key, value in args.filter:
-        entries = filter(lambda x: x[key] == value, entries)
 
     for par in entries:
         for key, value in batched(par['Parameters'].split(' '), 2):
             key = key.strip('-')
             par[key] = value
 
+    for key, value in args.filter:
+        entries = filter(lambda x: x[key] == value, entries)
+
     if args.get:
-        entries = [[entry[key] for key in args.get] for entry in entries]
+        entries = [[entry.get(key, 1e10) for key in args.get] for entry in entries]
     else:
         args.get = columns
 

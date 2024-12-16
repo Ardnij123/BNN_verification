@@ -119,6 +119,114 @@ TESTS = {
         ]),
     ],
 
+'eval-perceptron-inpbits': [
+    ('-t', ['8']*4),
+    ('-T', ['300']),
+    ('--fixed-bits', [
+        'fixed_bits/fixed_22.txt',
+        'fixed_bits/fixed_16.txt',
+        'fixed_bits/fixed_8.txt',
+        'fixed_bits/fixed_all.txt',
+        ]),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        'inputs/instance_7_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_100_100_10/',
+        'models/mnist_bnn_1_blk_100_50_10/',
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--perceptron', [
+        'bnn_encoding/perceptron/direct.lp',
+        'bnn_encoding/perceptron/direct_pm1.lp',
+        #'bnn_encoding/perceptron/potential.lp',
+        ]),
+    ],
+
+'eval-perceptron-inpbits-potential': [
+    ('--fixed-bits', [
+        'fixed_bits/fixed_all.txt',
+        'fixed_bits/fixed_8.txt',
+        'fixed_bits/fixed_16.txt',
+        'fixed_bits/fixed_22.txt',
+        ]),
+    ('-t', ['8']*4),
+    ('-T', ['300']),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        'inputs/instance_7_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_100_100_10/',
+        'models/mnist_bnn_1_blk_100_50_10/',
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--perceptron', [
+        'bnn_encoding/perceptron/potential.lp',
+        ]),
+    ],
+
+'eval-perceptron-inpbits-pm1': [
+        # TODO: This throws segfault
+    ('-t', ['8']*4),
+    ('-T', ['300']),
+    ('--fixed-bits', [
+        'fixed_bits/fixed_16.txt',
+        'fixed_bits/fixed_8.txt',
+        'fixed_bits/fixed_all.txt',
+        ]),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        'inputs/instance_7_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--perceptron', [
+        'bnn_encoding/perceptron/direct_pm1.lp',
+        ]),
+    ],
+
+'eval-argmax-inpbits': [
+    ('-t', ['8']*4),
+    ('-T', ['300']),
+    ('--fixed-bits', [
+        'fixed_bits/fixed_16.txt',
+        'fixed_bits/fixed_8.txt',
+        'fixed_bits/fixed_all.txt',
+        ]),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        'inputs/instance_7_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_100_100_10/',
+        'models/mnist_bnn_1_blk_100_50_10/',
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--argmax', [
+        'bnn_encoding/argmax/max_agg.lp',
+        'bnn_encoding/argmax/output_direct_01.lp',
+        'bnn_encoding/argmax/output_direct_eqconst_01.lp',
+        'bnn_encoding/argmax/output_potential_01.lp',
+        'bnn_encoding/argmax/output_potential_pm1.lp',
+        'bnn_encoding/argmax/output_variable_01.lp',
+        ]),
+    ],
+
+'correct-inpbits': [
+    ('-t', ['8']),
+    ('--model', ['models/mnist_bnn_3_blk_25_25_25_20_10/']),
+    ('--input-base', ['inputs/instance_0_25.txt']),
+    ('--fixed-bits', [
+        'fixed_bits/fixed_all.txt',
+        'fixed_bits/fixed_8.txt',
+        'fixed_bits/fixed_16.txt',
+        'fixed_bits/fixed_24.txt',
+        ]),
+    ],
+
 'multiple-short': [
     ('-t', ['4']*1000),
     ('-T', ['5']),
