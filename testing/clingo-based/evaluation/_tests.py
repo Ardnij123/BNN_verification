@@ -227,6 +227,75 @@ TESTS = {
         ]),
     ],
 
+'eval-input/m7': [
+    ('-t', ['8']*4),
+    ('-T', ['300']),
+    ('--fixed-bits', [
+        'fixed_bits/fixed_20.txt',
+        'fixed_bits/fixed_16.txt',
+        'fixed_bits/fixed_8.txt',
+        'fixed_bits/fixed_all.txt',
+        ]),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        'inputs/instance_7_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--fixed-bits-encoding', [
+        'bnn_encoding/input_region/fixed_bits.lp',
+        'bnn_encoding/input_region/fixed_direct.lp',
+        'bnn_encoding/input_region/fixed_input.lp',
+        ]),
+    ],
+
+'eval-input/m4': [
+    ('-t', ['8']*4),
+    ('-T', ['300']),
+    ('--fixed-bits', [
+        'fixed_bits/fixed_20_64.txt',
+        'fixed_bits/fixed_16_64.txt',
+        'fixed_bits/fixed_8_64.txt',
+        'fixed_bits/fixed_all_64.txt',
+        ]),
+    ('--input-base', [
+        'inputs/instance_0_64.txt',
+        'inputs/instance_7_64.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_64_10_10/',
+        ]),
+    ('--fixed-bits-encoding', [
+        'bnn_encoding/input_region/fixed_bits.lp',
+        'bnn_encoding/input_region/fixed_direct.lp',
+        'bnn_encoding/input_region/fixed_input.lp',
+        ]),
+    ],
+
+'eval-input/m5': [
+    ('-t', ['8']*4),
+    ('-T', ['300']),
+    ('--fixed-bits', [
+        'fixed_bits/fixed_20_784.txt',
+        'fixed_bits/fixed_16_784.txt',
+        'fixed_bits/fixed_8_784.txt',
+        'fixed_bits/fixed_all_784.txt',
+        ]),
+    ('--input-base', [
+        'inputs/instance_0_784.txt',
+        'inputs/instance_7_784.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_784_100_10/',
+        ]),
+    ('--fixed-bits-encoding', [
+        'bnn_encoding/input_region/fixed_bits.lp',
+        'bnn_encoding/input_region/fixed_direct.lp',
+        'bnn_encoding/input_region/fixed_input.lp',
+        ]),
+    ],
+
 'multiple-short': [
     ('-t', ['4']*1000),
     ('-T', ['5']),
