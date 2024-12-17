@@ -1,0 +1,13 @@
+input-base model fixed_bits Time Models
+inputs/instance_0_100.txt models/mnist_bnn_1_blk_100_100_10/ 10000000000.0 0.832 0.000
+inputs/instance_0_100.txt models/mnist_bnn_1_blk_100_50_10/ 10000000000.0 0.222 0.000
+inputs/instance_0_100.txt models/mnist_bnn_2_blk_100_100_50_10/ 10000000000.0 0.410 0.000
+inputs/instance_0_100.txt models/mnist_bnn_2_blk_100_50_20_10/ 10000000000.0 0.089 0.000
+inputs/instance_0_16.txt models/mnist_bnn_2_blk_16_25_20_10/ 10000000000.0 0.043 0.000
+inputs/instance_0_16.txt models/mnist_bnn_3_blk_16_64_32_20_10/ 10000000000.0 0.130 0.000
+inputs/instance_0_25.txt models/mnist_bnn_3_blk_25_25_25_20_10/ 10000000000.0 0.051 0.000
+inputs/instance_0_36.txt models/mnist_bnn_2_blk_36_15_10_10/ 10000000000.0 0.017 0.000
+inputs/instance_0_400.txt models/mnist_bnn_1_blk_400_100_10/ 10000000000.0 1.153 0.000
+inputs/instance_0_64.txt models/mnist_bnn_1_blk_64_10_10/ 10000000000.0 0.016 0.000
+inputs/instance_0_784.txt models/mnist_bnn_1_blk_784_100_10/ 10000000000.0 1.448 0.000
+inputs/instance_0_784.txt models/mnist_bnn_4_blk_784_50_50_50_50_10/ 10000000000.0 0.872 0.000

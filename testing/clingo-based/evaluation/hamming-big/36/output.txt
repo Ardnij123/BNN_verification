@@ -1,0 +1,220 @@
+Parameters : --hamming-distance 4 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 19261
+Calls        : 1
+Time         : 0.780s (Solving: 0.76s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 5.340s
+Threads      : 8        (Winner: 2)
+Parameters : --hamming-distance 4 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 19261
+Calls        : 1
+Time         : 0.729s (Solving: 0.71s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 5.514s
+Threads      : 8        (Winner: 3)
+Parameters : --hamming-distance 4 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 19261
+Calls        : 1
+Time         : 0.743s (Solving: 0.73s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 5.512s
+Threads      : 8        (Winner: 1)
+Parameters : --hamming-distance 4 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 19261
+Calls        : 1
+Time         : 0.896s (Solving: 0.88s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 7.019s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 3 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1891
+Calls        : 1
+Time         : 0.128s (Solving: 0.11s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.833s
+Threads      : 8        (Winner: 6)
+Parameters : --hamming-distance 3 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1891
+Calls        : 1
+Time         : 0.130s (Solving: 0.11s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.846s
+Threads      : 8        (Winner: 3)
+Parameters : --hamming-distance 3 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1891
+Calls        : 1
+Time         : 0.147s (Solving: 0.13s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.994s
+Threads      : 8        (Winner: 1)
+Parameters : --hamming-distance 3 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1891
+Calls        : 1
+Time         : 0.202s (Solving: 0.18s 1st Model: 0.00s Unsat: 0.02s)
+CPU Time     : 1.291s
+Threads      : 8        (Winner: 5)
+Parameters : --hamming-distance 2 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 21
+Calls        : 1
+Time         : 0.043s (Solving: 0.03s 1st Model: 0.00s Unsat: 0.01s)
+CPU Time     : 0.191s
+Threads      : 8        (Winner: 1)
+Parameters : --hamming-distance 2 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 21
+Calls        : 1
+Time         : 0.052s (Solving: 0.03s 1st Model: 0.00s Unsat: 0.01s)
+CPU Time     : 0.259s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 2 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 21
+Calls        : 1
+Time         : 0.048s (Solving: 0.03s 1st Model: 0.00s Unsat: 0.01s)
+CPU Time     : 0.232s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 2 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 21
+Calls        : 1
+Time         : 0.054s (Solving: 0.04s 1st Model: 0.01s Unsat: 0.01s)
+CPU Time     : 0.225s
+Threads      : 8        (Winner: 2)
+Parameters : --hamming-distance 1 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.024s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.01s)
+CPU Time     : 0.054s
+Threads      : 8        (Winner: 4)
+Parameters : --hamming-distance 1 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.025s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.01s)
+CPU Time     : 0.059s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 1 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.024s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.01s)
+CPU Time     : 0.049s
+Threads      : 8        (Winner: 0)
+Parameters : --hamming-distance 1 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.024s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.01s)
+CPU Time     : 0.068s
+Threads      : 8        (Winner: 1)
+Parameters : --hamming-distance 0 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.018s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.020s
+Threads      : 8        (Winner: 3)
+Parameters : --hamming-distance 0 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.018s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.020s
+Threads      : 8        (Winner: 3)
+Parameters : --hamming-distance 0 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.018s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.020s
+Threads      : 8        (Winner: 5)
+Parameters : --hamming-distance 0 -t 8 -T 600 --input-base inputs/instance_0_36.txt --model models/mnist_bnn_2_blk_36_15_10_10/ --argmax bnn_encoding/argmax/output_variable_01.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.018s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.019s
+Threads      : 8        (Winner: 0)

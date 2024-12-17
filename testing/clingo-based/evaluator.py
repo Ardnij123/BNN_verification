@@ -30,6 +30,7 @@ argmax = "bnn_encoding/argmax/output_direct_01.lp"
 input_base = "inputs/instance_9_100.txt"
 input_hamming = "bnn_encoding/input_region/hamming.lp"
 input_fixed_bits = "bnn_encoding/input_region/fixed_bits.lp"
+# TODO: change to better /fixed_direct.lp
 
 # constraints on output
 output_constraint = None
