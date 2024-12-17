@@ -7,6 +7,8 @@
 \usepackage{mathtools}
 \usepackage{listings}
 \usepackage[utf8]{inputenc}
+\usepackage[toc]{appendix}
+\usepackage{float}
 
 % Landscape fullpage tables
 \usepackage{pdflscape}
@@ -21,9 +23,29 @@
 \usepackage{blindtext}
 \newcommand\void[1]{}
 
+% Plotting data
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\input{plotting/scatter.tex}
+
 % Clever references
 \usepackage{hyperref}
-\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage[nameinlink,noabbrev,capitalize,sort]{cleveref}
+
+\Crefname{appsec}{Appendix}{Appendices}
+\AtBeginEnvironment{appendices}{\crefalias{chapter}{appsec}}
+
+\newenvironment{code}
+{
+    \let\outerlabel\label
+    \begin{figure}[h]
+        \renewcommand{\figurename}{Encoding}
+        \renewcommand{\label}[1]{\outerlabel[encoding]{##1}}
+}{
+    \end{figure}
+}
+\Crefname{encoding}{Encoding}{Encodings}
+\AtBeginEnvironment{encoding}{\crefalias{figure}{encoding}}
 
 % BNN representation
 \newcommand{\BB}{\mathbb{B}}       % {-1, 1}

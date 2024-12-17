@@ -1,0 +1,115 @@
+\section{Evaluation of encodings}
+
+Throughout this thesis I came up with multiple implementations of
+computation on perceptron, argmax layer and of encoding of fixed bits.
+In this section I provide comparison of these
+implementations using the methodology specified in~\Cref{sec:consistency}.
+
+Objective of this section is to demonstrate the size of difference between
+individual encodings. In stands as an argument for choosing an encoding
+for further analysis.
+
+I have used following parameters unless specified otherwise:
+\begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item Perceptron encoding: \Cref{enc:perc_direct_01}
+    \item Output layer encoding: \Cref{enc:argmax_direct}
+    \item Hamming encoding: \Cref{enc:fixed_bits}
+    \item Fixed bit encoding: first $k$ bits fixed
+    \item Time limit: 300\,s
+    \item Parallel threads: 8
+\end{itemize}
+
+\subsection{Evaluation of perceptron computation}
+
+For the perceptron, I have constructed 3 encodings,%
+~\Cref{enc:perc_potential,enc:perc_direct,enc:perc_direct_01}.
+
+\subsubsection{Over hamming distance}
+
+I have meassured the time to evaluate robustness over input regions
+based of hamming distance $HD(\text{I0}, d)$ and $HD(\text{I7}, d)$
+for $d\in\{0,1,2,3\}$ on models M1, M2 and M7. Results are in%
+~\Cref{tab:eval_perc_hamming}.
+
+\begin{table}
+    \Crefname{encoding}{Enc.}{}
+    \begin{center}
+        \makebox[\textwidth][c]{
+\begin{tabular}{ l l | r r | r r | r r }  % chktex 44
+    \toprule{}%
+    & & \multicolumn{2}{c |}{M1} & \multicolumn{2}{c |}{M2} & \multicolumn{2}{c}{M7}\\
+    & & I0 & I7 & I0 & I7 & I0 & I7 \\ \midrule
+    $d=0$ & \Cref{enc:perc_potential} & 34.428 & 34.706 & 11.304 & 11.263 & --- & 116.602 \\
+     & \Cref{enc:perc_direct}         & 0.111 & 0.110 & 0.057 & 0.056 & 0.063 & 0.062 \\
+     & \Cref{enc:perc_direct_01}      & 0.124 & 0.123 & 0.063 & 0.062 & 0.071 & 0.069 \\ \midrule
+    $d=1$ & \Cref{enc:perc_potential} & --- & --- & 116.602 & 191.818 & --- & --- \\
+     & \Cref{enc:perc_direct}         & 0.292 & 0.552 & 0.117 & 0.180 & 0.373 & 0.645 \\
+     & \Cref{enc:perc_direct_01}      & 0.321 & 0.373 & 0.128 & 0.152 & 0.474 & 0.396 \\ \midrule
+    $d=2$ & \Cref{enc:perc_potential} & --- & --- & --- & --- & --- & --- \\
+     & \Cref{enc:perc_direct}         & 3.114 & 2.604 & 1.472 & 1.130 & 1.974 & 1.935 \\
+     & \Cref{enc:perc_direct_01}      & 2.535 & 3.125 & 1.175 & 1.188 & 3.031 & 2.288 \\ \midrule
+    $d=3$ & \Cref{enc:perc_potential} & --- & --- & --- & --- & --- & --- \\
+     & \Cref{enc:perc_direct}         & 65.365 & 54.281 & 33.758 & 27.033 & 41.378 & 40.131 \\
+     & \Cref{enc:perc_direct_01}      & 54.734 & 47.627 & 34.122 & 22.653 & 55.003 & 45.514 \\ \bottomrule
+\end{tabular}}
+    \end{center}
+    \caption{Computation time for models M1, M2 and M7 on $HD(\text{I0}, d)$ and $HD(\text{I7}, d)$
+    for $d\in \{0, 1, 2, 3\}$ and different implementations of perceptron.\\
+    Values in the table were obtained using methodology described in~\Cref{sec:consistency}
+    (avg.\ of 3 best of 4). Symbols --- in the table mean that less than 3 of 4 evaluations finished
+    before timeout. Timeout was set to 300\,s.
+    }\label{tab:eval_perc_hamming}%
+\end{table}
+
+There is a large difference between the time of evaluation logic programs storing
+value of inner potential (\Cref{enc:perc_potential}) to those which are using the value of
+inner potential directly (\Cref{enc:perc_direct,enc:perc_direct_01}). As already discussed
+in~\Cref{sec:perc_potential_removal}, this is due to the encoding resulting in large
+ground program and thus inherently slower evaluation.
+
+Difference between \Cref{enc:perc_direct} using $(+1,-1)$-binarization of inputs
+and \Cref{enc:perc_direct_01} using $(0,1)$-binarization is miniscule.
+
+\subsubsection{Over fixed bits}
+
+I have meassured the time to evaluate robustness of models M1, M2 and M7
+over input regions based on fixed bits $R(\text{I0}, \{F+1,\ldots,100\})$, $R(\text{I7}, \{F+1,\ldots,100\})$,
+where $F\in\{0, 8, 16, 22\}$,
+that is 0, 8, 16 and 22 free bits at the begining of the input vector.
+Results are in~\Cref{tab:eval_perc_fixed_bits}.
+
+\begin{table}
+    \Crefname{encoding}{Enc.}{}
+    \begin{center}
+        \makebox[\textwidth][c]{
+\begin{tabular}{ l l | r r | r r | r r }  % chktex 44
+    \toprule{}%
+    & & \multicolumn{2}{c |}{M1} & \multicolumn{2}{c |}{M2} & \multicolumn{2}{c}{M7}\\
+    & & I0 & I7 & I0 & I7 & I0 & I7 \\ \midrule
+    $F=0$ & \Cref{enc:perc_potential} &   8.765 &   7.366 &   3.723 &   3.239 &     --- & 123.503 \\
+          & \Cref{enc:perc_direct}    &   0.117 &   0.116 &   0.060 &   0.059 &       ? &   0.065 \\
+          & \Cref{enc:perc_direct_01} &   0.105 &   0.104 &   0.054 &   0.053 &   0.059 &   0.058 \\ \midrule
+    $F=8$ & \Cref{enc:perc_potential} &  33.032 &  25.277 &   9.153 &   7.932 &     --- &     --- \\
+          & \Cref{enc:perc_direct}    &   0.150 &   0.136 &   0.070 &   0.073 &       ? &       ? \\
+          & \Cref{enc:perc_direct_01} &   0.120 &   0.119 &   0.063 &   0.069 &   0.093 &   0.098 \\ \midrule
+    $F=16$& \Cref{enc:perc_potential} &     --- &     --- & 256.537 &     --- &     --- &     --- \\
+          & \Cref{enc:perc_direct}    &   1.910 &   1.594 &   0.762 &   0.853 &   1.850 &       ? \\
+          & \Cref{enc:perc_direct_01} &   1.318 &   1.661 &   0.482 &   0.775 &   1.534 &   1.654 \\ \midrule
+    $F=22$& \Cref{enc:perc_potential} &     --- &     --- &     --- &     --- &     --- &     --- \\
+          & \Cref{enc:perc_direct}    & 152.552 &     --- &  63.089 &  65.880 & 124.291 & 126.506 \\
+          & \Cref{enc:perc_direct_01} & 102.996 &     --- &  50.311 &  71.003 & 101.660 & 111.104 \\ \bottomrule
+\end{tabular}}
+    \end{center}
+    \caption{Computation time for models M1, M2 and M7 on $R(\text{I0}, \{F,\ldots,100\})$ and $HD(\text{I7}, \{F,\ldots,100\})$
+    for $F\in \{0, 8, 16, 22\}$ and different implementations of perceptron.\\
+    Values in the table were obtained using methodology described in~\Cref{sec:consistency}
+    (avg.\ of 3 best of 4). Symbols --- in the table mean that less than 3 of 4 evaluations finished
+    before timeout. Timeout was set to 300\,s.
+    }\label{tab:eval_perc_fixed_bits}%
+\end{table}
+
+Similiarly to evaluation over hamming distance, there are large differences between
+\Cref{enc:perc_potential} and \Cref{enc:perc_direct,enc:perc_direct_01}.
+Additionally, \Cref{enc:perc_direct_01} slightly outperforms \Cref{enc:perc_direct}.
+% TODO: See if it is still true after computation of missing values.

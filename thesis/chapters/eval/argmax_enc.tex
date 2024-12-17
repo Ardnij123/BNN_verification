@@ -1,0 +1,137 @@
+\subsection{Evaluation of argmax computation}
+
+For the argmax layer, I have constructed 6 encodings,%
+~\Cref{enc:argmax_max,enc:argmax_potential_pm1,enc:argmax_potential_01,enc:argmax_variable,enc:argmax_direct_eq,enc:argmax_direct}.
+
+\begin{table}[p]
+    \Crefname{encoding}{Enc.}{}
+    \begin{center}
+        \makebox[\textwidth][c]{
+\begin{tabular}{ l l | r r | r r | r r }  % chktex 44
+    \toprule{}%
+    & & \multicolumn{2}{c |}{M1} & \multicolumn{2}{c |}{M2} & \multicolumn{2}{c}{M7}\\
+    & & I0 & I7 & I0 & I7 & I0 & I7 \\ \midrule
+$d=0$ & \Cref{enc:argmax_max}           &   3.216 &   3.126 &   0.758 &   0.779 &   0.201 &   0.194 \\
+      & \Cref{enc:argmax_potential_pm1} &   3.226 &   3.197 &   0.828 &   0.804 &   0.185 &   0.176 \\
+      & \Cref{enc:argmax_potential_01}  &   0.766 &   0.749 &   0.202 &   0.196 &   0.087 &   0.082 \\
+      & \Cref{enc:argmax_variable}      &   0.857 &   0.864 &   0.235 &   0.229 &   0.095 &   0.091 \\
+      & \Cref{enc:argmax_direct_eq}     &   0.112 &   0.111 &   0.057 &   0.057 &   0.065 &   0.062 \\
+      & \Cref{enc:argmax_direct}        &   0.111 &   0.110 &   0.056 &   0.056 &   0.064 &   0.062 \\\midrule
+$d=1$ & \Cref{enc:argmax_max}           &   5.050 &   7.751 &   0.965 &   1.510 &   0.556 &   0.982 \\
+      & \Cref{enc:argmax_potential_pm1} &   5.005 &   5.977 &   1.115 &   1.303 &   0.548 &   0.833 \\
+      & \Cref{enc:argmax_potential_01}  &   1.463 &   2.064 &   0.340 &   0.452 &   0.419 &   0.738 \\
+      & \Cref{enc:argmax_variable}      &   1.568 &   2.164 &   0.369 &   0.495 &   0.475 &   0.724 \\
+      & \Cref{enc:argmax_direct_eq}     &   0.294 &   0.549 &   0.117 &   0.181 &   0.375 &   0.619 \\
+      & \Cref{enc:argmax_direct}        &   0.294 &   0.544 &   0.117 &   0.184 &   0.344 &   0.634 \\\midrule
+$d=2$ & \Cref{enc:argmax_max}           &  51.059 &  18.823 &  12.264 &   8.789 &   3.285 &   2.899 \\
+      & \Cref{enc:argmax_potential_pm1} &  18.904 &  16.342 &   5.806 &   4.794 &   2.436 &   2.308 \\
+      & \Cref{enc:argmax_potential_01}  &  11.547 &   7.927 &   3.873 &   2.713 &   2.499 &   2.151 \\
+      & \Cref{enc:argmax_variable}      &  11.007 &   7.408 &   3.712 &   2.931 &   2.186 &   2.068 \\
+      & \Cref{enc:argmax_direct_eq}     &   2.991 &   2.640 &   1.380 &   1.117 &   2.030 &   2.044 \\
+      & \Cref{enc:argmax_direct}        &   3.346 &   2.659 &   1.390 &   1.065 &   2.259 &   1.755 \\\midrule
+$d=3$ & \Cref{enc:argmax_max}           &     --- &     --- & 199.465 & 133.432 &  75.185 &  74.186 \\
+      & \Cref{enc:argmax_potential_pm1} &     --- &     --- & 163.086 & 104.734 &  57.775 &  51.720 \\
+      & \Cref{enc:argmax_potential_01}  & 191.495 & 184.556 & 118.226 &  80.181 &  47.022 &  50.710 \\
+      & \Cref{enc:argmax_variable}      & 185.261 & 175.619 & 110.676 &  79.620 &  47.209 &  45.417 \\
+      & \Cref{enc:argmax_direct_eq}     &  73.132 &  53.837 &  33.121 &  27.664 &  45.230 &  41.119 \\
+      & \Cref{enc:argmax_direct}        &  70.076 &  55.665 &  34.035 &  25.567 &  43.001 &  40.295 \\\bottomrule
+\end{tabular}}
+    \end{center}
+    \caption{Computation time for models M1, M2 and M7 on $HD(\text{I0}, d)$ and $HD(\text{I7}, d)$
+    for $d\in \{0, 1, 2, 3\}$ and different implementations of argmax layer.\\
+    Values in the table were obtained using methodology described in~\Cref{sec:consistency}
+    (avg.\ of 3 best of 4). Symbols --- in the table mean that less than 3 of 4 evaluations finished
+    before timeout. Timeout was set to 300\,s.
+    }\label{tab:eval_argmax_hamming}%
+\end{table}
+
+\subsubsection{Over hamming distance}
+
+I have meassured the time to evaluate robustness over input regions
+based of hamming distance $HD(\text{I0}, d)$ and $HD(\text{I7}, d)$
+for $d\in\{0,1,2,3\}$ on models M1, M2 and M7. Results are in%
+~\Cref{tab:eval_argmax_hamming}.
+
+Encodings may be split into 3 groups by the computation time.
+\Cref{enc:argmax_max,enc:argmax_potential_pm1}, \Cref{enc:argmax_potential_01,enc:argmax_variable}
+and \Cref{enc:argmax_direct_eq,enc:argmax_direct}.
+
+\Cref{enc:argmax_max,enc:argmax_potential_pm1} result in a slow grounded program.
+These encodings use predicate symbol \texttt{potential}, with inner potential
+computed by sum aggregate over both positive and negative literals of symbol
+\texttt{on} according to the default negation. Grounder Gringo does not see
+that either a positive or negative version of literal must be true at a time.
+The grounded program contains for each perceptron atoms of symbol \texttt{potential}
+with values $b-m$ to $b+m$ where $b$ is bias of the perceptron and $m$ lenght of
+input of the perceptron, while only values that give the same remainder after division
+by 2 as $b+m$ are feasible.
+
+In~\Cref{enc:argmax_max}, atoms of symbol \texttt{potential} are then used in
+max aggregate. When grounding this type of aggregate, Gringo generally orders
+its terms and for each of them adds a rule that asserts the aggregate to be
+equal to the largest term of those whose condition is consistent with the answer set.
+As there are many different atoms of symbol \texttt{potential}, this then results
+in a large set of rules.
+
+In case of~\Cref{enc:argmax_potential_pm1}, the part dependent on atoms of symbol
+\texttt{potential} is the constraint on \texttt{output}. The constraint ground into
+constant number of rules for each pair of \texttt{potential} atoms of different outputs.
+
+Moving to~\Cref{enc:argmax_potential_01}, the number of atoms of symbol
+\texttt{potential} halves. This results in quartering of the number of rules
+and a significant speedup. \Cref{enc:argmax_variable} is similiar.
+Resulting logic program still has atoms for individual values of inner potential,
+however now it has them for each pair of distinct outputs individually.
+
+Finally, \Cref{enc:argmax_direct_eq,enc:argmax_direct} hold only a single
+constraint based of aggregate for every pair of outputs. This largely
+decreases the size of the grounded program as all but these have been storing
+some form of all possible inner potential values. These two are grounding into a rule
+directly computing the inner potential.
+
+\begin{table}[h!]
+    \Crefname{encoding}{Enc.}{}
+    \begin{center}
+        \makebox[\textwidth][c]{
+\begin{tabular}{ l l | r r | r r | r r }  % chktex 44
+    \toprule{}%
+    & & \multicolumn{2}{c |}{M1} & \multicolumn{2}{c |}{M2} & \multicolumn{2}{c}{M7}\\
+    & & I0 & I7 & I0 & I7 & I0 & I7 \\ \midrule
+$F=0$ & \Cref{enc:argmax_max}           &   3.147 &   3.030 &   0.752 &   0.762 &   0.193 &   0.183 \\
+      & \Cref{enc:argmax_potential_pm1} &   3.012 &   2.913 &   0.785 &   0.760 &   0.173 &   0.164 \\
+      & \Cref{enc:argmax_potential_01}  &   0.689 &   0.667 &   0.183 &   0.177 &   0.082 &   0.076 \\
+      & \Cref{enc:argmax_variable}      &   0.787 &   0.766 &   0.214 &   0.209 &   0.091 &   0.085 \\
+      & \Cref{enc:argmax_direct_eq}     &   0.106 &   0.105 &   0.054 &   0.054 &   0.060 &   0.058 \\
+      & \Cref{enc:argmax_direct}        &   0.105 &   0.104 &   0.054 &   0.053 &   0.060 &   0.058 \\\midrule
+$F=8$ & \Cref{enc:argmax_max}           &   3.928 &   4.220 &   0.932 &   0.931 &   0.332 &   0.302 \\
+      & \Cref{enc:argmax_potential_pm1} &  11.557 &  12.393 &   1.772 &   1.777 &   0.256 &   0.246 \\
+      & \Cref{enc:argmax_potential_01}  &   1.320 &   1.399 &   0.281 &   0.288 &   0.130 &   0.139 \\
+      & \Cref{enc:argmax_variable}      &   1.422 &   1.502 &   0.316 &   0.326 &   0.136 &   0.173 \\
+      & \Cref{enc:argmax_direct_eq}     &   0.120 &   0.119 &   0.063 &   0.070 &   0.118 &   0.114 \\
+      & \Cref{enc:argmax_direct}        &   0.119 &   0.118 &   0.062 &   0.066 &   0.108 &   0.095 \\\midrule
+$F=16$& \Cref{enc:argmax_max}           &  29.282 &  30.253 &   5.244 &   6.693 &   4.212 &   4.926 \\
+      & \Cref{enc:argmax_potential_pm1} &  30.858 &  26.547 &   7.852 &   6.070 &   3.497 &   3.960 \\
+      & \Cref{enc:argmax_potential_01}  &   9.125 &   7.092 &   2.766 &   2.151 &   1.895 &   2.125 \\
+      & \Cref{enc:argmax_variable}      &   8.877 &   7.003 &   3.022 &   2.305 &   1.947 &   2.224 \\
+      & \Cref{enc:argmax_direct_eq}     &   1.316 &   1.589 &   0.464 &   0.746 &   1.627 &   1.663 \\
+      & \Cref{enc:argmax_direct}        &   1.321 &   1.560 &   0.477 &   0.714 &   1.533 &   1.633 \\\bottomrule
+\end{tabular}}
+    \end{center}
+    \caption{Computation time for models M1, M2 and M7 on $R(\text{I0}, \{F,\ldots,100\})$ and $HD(\text{I7}, \{F,\ldots,100\})$
+    for $F\in \{0, 8, 16\}$ and different implementations of perceptron.
+    Values in the table were obtained using methodology described in~\Cref{sec:consistency}
+    (avg.\ of 3 best of 4).
+    }\label{tab:eval_argmax_fixed_bits}%
+\end{table}
+
+\subsubsection{Over fixed bits}
+
+I have meassured the time to evaluate robustness of models M1, M2 and M7
+over input regions based on fixed bits $R(\text{I0}, \{F+1,\ldots,100\})$, $R(\text{I7}, \{F+1,\ldots,100\})$,
+where $F\in\{0, 8, 16\}$,
+that is 0, 8 and 16 free bits at the begining of the input vector.
+Results are in~\Cref{tab:eval_argmax_fixed_bits}.
+
+As in the~\Cref{tab:eval_argmax_hamming}, the encodings were separated to 3--4 groups
+by the computation time. The differences are similliar. In this evaluation,
+\Cref{enc:argmax_direct} is marginally better than \Cref{enc:argmax_direct}.
