@@ -1,0 +1,44 @@
+Parameters : -t 8 --model models/mnist_bnn_3_blk_25_25_25_20_10/ --input-base inputs/instance_0_25.txt --fixed-bits fixed_bits/fixed_all.txt
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.031s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.01s)
+CPU Time     : 0.079s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --model models/mnist_bnn_3_blk_25_25_25_20_10/ --input-base inputs/instance_0_25.txt --fixed-bits fixed_bits/fixed_8.txt
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 226
+Calls        : 1
+Time         : 0.084s (Solving: 0.06s 1st Model: 0.03s Unsat: 0.00s)
+CPU Time     : 0.487s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 --model models/mnist_bnn_3_blk_25_25_25_20_10/ --input-base inputs/instance_0_25.txt --fixed-bits fixed_bits/fixed_16.txt
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 60144
+Calls        : 1
+Time         : 2.487s (Solving: 2.46s 1st Model: 0.07s Unsat: 0.00s)
+CPU Time     : 14.933s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 --model models/mnist_bnn_3_blk_25_25_25_20_10/ --input-base inputs/instance_0_25.txt --fixed-bits fixed_bits/fixed_24.txt
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 14838805
+Calls        : 1
+Time         : 941.582s (Solving: 941.56s 1st Model: 0.06s Unsat: 0.00s)
+CPU Time     : 6762.061s
+Threads      : 8        (Winner: 2)

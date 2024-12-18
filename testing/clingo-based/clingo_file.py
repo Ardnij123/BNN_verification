@@ -181,7 +181,7 @@ class Hamming(Constraint):
 class Inpbits(Constraint):
     def __init__(self, input_base: str, input_fixed: str):
         self.inpbits = getarray(input_base, dtype=int, shape=[-1], delimiter=' ')
-        self.fixed_idx = getarray(input_fixed, dtype=int, shape=[-1])
+        self.fixed_idx = getarray(input_fixed, dtype=int, shape=[-1], delimiter=' ')
 
     def fixed_gen(self):
         for fix in self.fixed_idx:

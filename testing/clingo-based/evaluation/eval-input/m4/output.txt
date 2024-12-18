@@ -1,0 +1,1056 @@
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.808s (Solving: 2.80s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 19.435s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.647s (Solving: 2.64s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 18.410s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.630s (Solving: 2.62s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 19.757s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 4.489s (Solving: 4.48s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 30.363s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 3.421s (Solving: 3.41s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 23.894s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 3.884s (Solving: 3.87s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 22.910s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.191s (Solving: 0.18s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.095s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.134s (Solving: 0.12s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.962s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.138s (Solving: 0.13s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.897s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.230s (Solving: 0.22s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.548s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.202s (Solving: 0.19s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.350s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.211s (Solving: 0.20s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.402s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.013s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.022s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.011s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.013s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.019s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.013s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.021s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.015s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.012s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.018s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.988s (Solving: 2.98s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 20.808s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.783s (Solving: 2.77s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 19.312s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.964s (Solving: 2.95s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 17.839s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 4.523s (Solving: 4.51s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 31.415s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 3.586s (Solving: 3.58s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 25.058s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 3.638s (Solving: 3.63s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 28.239s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.160s (Solving: 0.15s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.181s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.138s (Solving: 0.13s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.886s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.149s (Solving: 0.14s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.839s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.229s (Solving: 0.22s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.523s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.205s (Solving: 0.20s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.179s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.203s (Solving: 0.19s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.532s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.013s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.022s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.011s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.014s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.019s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.013s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.022s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.011s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.015s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.012s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.018s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.855s (Solving: 2.84s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 21.542s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.781s (Solving: 2.77s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 19.375s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.797s (Solving: 2.79s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 19.504s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 4.714s (Solving: 4.70s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 31.697s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 3.507s (Solving: 3.50s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 24.424s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 3.924s (Solving: 3.91s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 29.328s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.165s (Solving: 0.15s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.088s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.138s (Solving: 0.13s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.903s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.131s (Solving: 0.12s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.967s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.256s (Solving: 0.25s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.479s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.204s (Solving: 0.19s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.351s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.208s (Solving: 0.20s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.345s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.013s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.022s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.015s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.012s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.018s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.012s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.021s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.011s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.012s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.019s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.739s (Solving: 2.73s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 18.984s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.887s (Solving: 2.88s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 17.206s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 738619
+Calls        : 1
+Time         : 2.661s (Solving: 2.65s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 18.763s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 4.858s (Solving: 4.85s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 36.078s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 3.660s (Solving: 3.65s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 25.480s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_20_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1031745
+Calls        : 1
+Time         : 3.931s (Solving: 3.92s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 28.083s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.159s (Solving: 0.15s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.146s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.136s (Solving: 0.13s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.908s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 40119
+Calls        : 1
+Time         : 0.150s (Solving: 0.14s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.840s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.245s (Solving: 0.23s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.407s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.192s (Solving: 0.18s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.438s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_16_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 64957
+Calls        : 1
+Time         : 0.206s (Solving: 0.20s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.368s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.015s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.025s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.015s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 198
+Calls        : 1
+Time         : 0.012s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.018s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.013s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.021s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.011s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_8_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 254
+Calls        : 1
+Time         : 0.012s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.019s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_0_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_bits.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_direct.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.008s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 -T 300 --fixed-bits fixed_bits/fixed_all_64.txt --input-base inputs/instance_7_64.txt --model models/mnist_bnn_1_blk_64_10_10/ --fixed-bits-encoding bnn_encoding/input_region/fixed_input.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+Threads      : 8        (Winner: 0)
