@@ -7,6 +7,12 @@ on the other hand determines the part of this input region, which has
 the same output as some chosen input of this region.
 
 Further I provide formal definition of robustness on functions in general.
+While I provide multiple types of robustness, in the implementation,
+I will be using only the quantitative robustness for discrete input region
+(\Cref{def:quantitative_robustness}) with constant weight $w(i) = 1$
+and strict evaluation function $\overline{h_p}$ (\Cref{def:strict_robustness})
+due to limitations of Clingo framework.
+% TODO: Is this still true?
 
 \subsection{Definition of robustness}
 
@@ -15,7 +21,8 @@ Further I provide formal definition of robustness on functions in general.
     Let $F$ be a function, $F: P \to Q$.
     Let $I$ be an input region of $F$, that is $I \subseteq P$.
     Let $w$ be a function, $w: P\to \RR$, $\forall x\in I: w(x) > 0$.
-    Let $h_p$ be a function for some base input $p\in P$, $h_p: Q\to \RR$, that satisfies
+    Let $h_p$ be a function for some base input $p\in P$, $h_p: Q\to \RR$, called evaluation
+    function, that satisfies
     \begin{equation*}
         h_p(F(p)) = 0
     \end{equation*}

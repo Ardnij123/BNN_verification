@@ -9,6 +9,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[toc]{appendix}
 \usepackage{float}
+\usepackage{xcolor}
 
 % Landscape fullpage tables
 \usepackage{pdflscape}
@@ -19,7 +20,7 @@
 \usepackage{import}
 
 % Drawing graphs
-\usepackage{tikz}
+% \usepackage{tikz}
 \usepackage{blindtext}
 \newcommand\void[1]{}
 
@@ -27,6 +28,9 @@
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \input{plotting/scatter.tex}
+\usetikzlibrary{math}
+\input{plotting/inputs.tex}
+\usepackage{xstring}
 
 % Clever references
 \usepackage{hyperref}

@@ -1,0 +1,17 @@
+\tikzmath{
+    function choice(\n, \k) {
+        return factorial(\n) / (factorial(\n - \k) * factorial(\k));
+    };
+    function hamming(\s, \d) {
+        \k = 0;
+        for \i in {0,1,2,3,4,5,6,7,8}{
+            if \d >= \i then {
+                \k = \k + choice(\s, \i);
+            };
+        };
+        return \k;
+    };
+    function fixedbits(\f) {
+        return 2^\f;
+    };
+}
