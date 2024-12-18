@@ -1,0 +1,437 @@
+\section{Definition of Binarised neural network}
+
+\subsection{Deep neural network}
+
+General neural network is a multilayer perceptron. It consists of perceptrons (neurons) in layers.
+Layers are further split into the input layer, which does not contain any perceptrons,
+the output layer and possibly multiple hidden inner layers.
+Using this structure, general neural network implements a function $\RR^m\to\RR^n$,
+such that $m$ entities in the input layer hold input values,
+and $n$ perceptrons of the output layer create output values.
+Input layer does not consist of perceptrons, it only holds input values.
+Each perceptron computes its inner potential $\xi$ based on the outputs of
+the previous layer, its output is then determined by an activation function $\sigma$.
+
+% Is it only the weighted sum? Strictly for perceptron it is i guess.
+In case of dense deep neural networks which are discussed in this thesis,
+the inner potential $\xi$ is computed as a weighted sum of outputs of all entities
+(input values or perceptrons outputs) of the previous layer.
+Many different activation functions $\sigma$ are used in practice, such as
+\textit{unit step function}, \textit{logistic sigmoid},
+\textit{hyperbolic tangens} or \textit{ReLU}.
+
+Multiple of these perceptrons are then assorted into layers. The input layer does not
+consist of perceptrons but is directly composed of inputs. The output layer is
+often represented by perceptrons with activation function different from other layers, such as
+\textit{argmax} for singe-choice classification and
+\textit{softmax} for classification using probability.
+
+Further follows a more formal definition of a deep neural network
+corresponding to the one from~\cite{Bishop1995NeuralNF}.
+
+\sectionsep{}
+
+\begin{figure}[h]
+    \begin{center}
+    \begin{tikzpicture}
+        \setupnodes{(0,0)}
+        \valuenode{1}
+        \valuenode{x_1}
+        \valuenode{x_2}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \valuenode{x_m}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (x_2) -- (x_m);
+
+        \setupnodes{($(x_2) + (4,0)$)}
+        \percnode{/}{1/b,x_1/w_1,x_2/w_2,x_m/w_m}
+        
+        \setupnodes{($(p{/}) + (3.5,0)$)}
+        \valuenode{y}
+        
+        \draw (p{/}.east) -- (y.west);
+    \end{tikzpicture}
+        \caption{Schema of a perceptron}\label{fig:perceptron_schema}
+    \end{center}
+\end{figure}
+
+\begin{definition}[Perceptron]
+Perceptron $p$ is a function from vector of $m$ real numbers to a real number.
+The function $p$ is a composition of an inner potential $\xi$
+and an activation function $\sigma$. The inner potential $\xi$ is a weighted sum
+parametrized by static vector of real numbers
+$\vec w$ of size $m$ and real bias $b$.
+The activation function $\sigma$ can be instantized by any real-valued function.
+
+To describe a perceptron, it is common to use a schema such as on~\Cref{fig:perceptron_schema}.
+
+\begin{equation*}
+	p: \RR^m \to \RR
+\end{equation*}
+\begin{equation*}
+	\xi: \RR^m \to \RR, \,
+	\sigma: \RR \to \RR
+\end{equation*}
+\begin{equation*}
+	\xi(\vec x) = b + \sum_{i=1}^m w_i\cdot x_i
+\end{equation*}
+\begin{equation*}
+	p = \sigma \circ \xi
+\end{equation*}
+\end{definition}
+
+% This is usually referred to simply as the perceptron
+% Thus maybe use single layer of perceptron?
+\begin{definition}[Single-layer perceptron]
+Single-layer perceptron $t$ is a function from vector of $m$ real numbers
+to vector of $n$ real numbers where each value in the resulted vector is computed
+by a signle perceptron.
+
+\begin{equation*}
+    t: \, \RR^{m} \to \RR^{n}
+\end{equation*}
+\begin{equation*}
+    t(\vec x) = (p_{1}(\vec x), p_{2}(\vec x), \ldots, p_{n}(\vec x))
+\end{equation*}
+\end{definition}
+
+\begin{figure}[h]
+    \begin{center}
+    \begin{tikzpicture}
+        \setupnodes{(0,0)}
+        \valuenode{1}
+        \valuenode{x_1}
+        \valuenode{x_2}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \valuenode{x_m}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (x_2) -- (x_m);
+        
+        \setupnodes{($(4,-0.5)$)}
+        \percnode{/1}{1/,x_1/,x_2/,x_m/}
+        \percnode{/2}{1/,x_1/,x_2/,x_m/}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \percnode{/n}{1/,x_1/,x_2/,x_m/}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (p{/2}) -- (p{/n});
+
+        \setupnodes{($(p{/1}) + (3.5,0)$)}
+        \valuenode{y_1}
+        \setupnodes{($(p{/2}) + (3.5,0)$)}
+        \valuenode{y_2}
+        \setupnodes{($(p{/n}) + (3.5,0)$)}
+        \valuenode{y_n}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (y_2) -- (y_n);
+        
+        \foreach \x in {1,2,n}{ \draw (p{/\x}.east) -- (y_\x.west); }
+    \end{tikzpicture}
+        \caption{Schema of a single-layer perceptron}\label{fig:slp_schema}
+    \end{center}
+\end{figure}
+
+% This is usually referred to simply as the perceptron
+\begin{definition}[Multi-layer perceptron]
+Multi-layer perceptron (also called deep neural network)
+is a convolution of Single-layer perceptrons.
+The last applied layer $t_{d+1}$ is the called output layer,
+all other layers are called hidden
+layers. The input of a multi-layer perceptron is called input layer,
+it does not consist of neurons as other layers, only holds the input vector.
+
+A multi-layer perceptron is often symbolised as a graph of nodes composed
+into layers such as on~\Cref{fig:mlp_schema}. Commonly, values $1$
+are removed from the schema.
+
+% Is it obvious or should I denote that each layer is funciton
+    % t_i: \RR^{n_{i-1}} \to \RR^{n_i}?
+\begin{equation*}
+    \DNN: \, \RR^{n_0} \to \RR^{n_{d+1}}
+\end{equation*}
+\begin{equation*}
+    \DNN = t_{d+1} \circ t_d \circ \ldots \circ t_1
+\end{equation*}
+\end{definition}
+
+\begin{figure}[h]
+    \begin{center}
+    \begin{tikzpicture}
+        \setupnodes{(0,0)}
+        \valuenode{1}
+        \valuenode{x_1}
+        \valuenode{x_2}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \valuenode{x_{n_0}}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (x_2) -- (x_{n_0});
+        
+        \setupnodes{($(1.east) + (3,0)$)}
+        \valuenode{1{}}
+        \percnode{1/1}{1/,x_1/,x_2/,x_{n_0}/}
+        \percnode{1/2}{1/,x_1/,x_2/,x_{n_0}/}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \percnode{1/n_1}{1/,x_1/,x_2/,x_{n_0}/}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (p{1/2}) -- (p{1/n_1});
+        \setupnodes{(1{}.east)}
+        \valuenode{1}
+
+        \setupnodes{($(1.east) + (3,0)$)}
+        \valuenode{1{}}
+        \percnode{2/1}{1/,p{1/1}/,p{1/2}/,p{1/n_1}/}
+        \percnode{2/2}{1/,p{1/1}/,p{1/2}/,p{1/n_1}/}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \percnode{2/n_2}{1/,p{1/1}/,p{1/2}/,p{1/n_1}/}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (p{2/2}) -- (p{2/n_2});
+        \setupnodes{(1{}.east)}
+        \valuenode{1}
+
+        \setupnodes{($(p{2/1}.east) + (3.5,0)$)}
+        \percnode[dotted]{d+1/1}{1/,p{2/1}/,p{2/2}/,p{2/n_2}/}
+        \percnode[dotted]{d+1/2}{1/,p{2/1}/,p{2/2}/,p{2/n_2}/}
+        \node (lastNode) at ($(lastNode.south) + (0,-1)$) {};
+        \percnode[dotted]{d+1/n_{d+1}}{1/,p{2/1}/,p{2/2}/,p{2/n_2}/}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (p{d+1/2}) -- (p{d+1/n_{d+1}});
+
+        \setupnodes{($(p{d+1/1}.east) + (2,0)$)}
+        \valuenode{y_1}
+        \setupnodes{($(p{d+1/2}.east) + (2,0)$)}
+        \valuenode{y_2}
+        \setupnodes{($(p{d+1/n_{d+1}}.east) + (2,0)$)}
+        \valuenode{y_{n_{d+1}}}
+        \draw[thick,dotted,shorten <= 1em,shorten >= 1em] (y_2) -- (y_{n_{d+1}});
+
+        \draw (p{d+1/1}.east) -- (y_1.west);
+        \draw (p{d+1/2}.east) -- (y_2.west);
+        \draw (p{d+1/n_{d+1}}.east) -- (y_{n_{d+1}}.west);
+    \end{tikzpicture}
+        \caption{Schema of a multi-layer perceptron}\label{fig:mlp_schema}
+    \end{center}
+\end{figure}
+
+\sectionsep{}
+
+\subsection{Binarised neural network}
+
+The computation of general multi-layer perceptron depends on slow multiplication of
+floating-point numbers. This motivated the idea of a binarized perceptron%
+~\cite{courbariaux2016}.
+Such perceptron constrains both the input space $\vec x$ and vector of weights $\vec w$
+to vectors of binary values $-1$ and $1$. The activation function is usually
+a heavyside step function $H$.
+\begin{equation*}
+	H(x) = \left\{\begin{array}{ll}
+			1 & x \geq 0\\
+			-1 & x < 0
+		\end{array}\right.
+\end{equation*}
+Computation of this constrained perceptron is faster than of a general perceptron
+as multiplication of two $\pm 1$-binarized values can be done with a single \textit{XNOR}
+gate~\cite{courbariaux2016}.
+
+From binarized perceptrons, multi-layer perceptron can be built similiarly
+to the general perceptron. In case of the single-choice classification problem,
+the output layer consists of weighted sums and \textit{argmax} operator
+to classify the largest sum as the output of the multi-layer perceptron.
+Such layer is often called after its operator the argmax layer.
+% TODO: maybe add some things about the equivalence to normal MLP
+
+Further I provide a formal definition of binarised neural network
+using two definition of binarised perceptron.
+The first one is useful for the verification task, while the other
+(binarised perceptron with batch normalization~\cite{zhang2021bdd4bnn})
+is commonly used for training of deep neural networks. I show that
+every binarised perceptron with batch normalization
+can be transformed into binarised perceptron without batch normalization
+vice versa. This shows the equivalence of this definition
+to that of~\cite{zhang2021bdd4bnn}.
+
+\sectionsep{}
+
+\begin{definition}[Binarised perceptron]\label{def:binarised_perceptron}
+Binarised perceptron $p^\BB$ is a function from vector of $m$ $\pm 1$-binarised values
+to a single $\pm 1$-binarised value.
+The function $p^\BB$ is a composition of an inner potential $\xi$
+and a heavyside step function $H$. The inner potential $\xi$ is weighted sum
+parametrized by static vector of $\pm 1$-binarised values
+$\vec w$ of size $m$, and real bias $b$.
+
+\begin{equation*}
+	p^\BB: \BB^m \to \BB
+\end{equation*}
+\begin{equation*}
+	\xi: \BB^m \to \RR, \,
+	H: \RR \to \BB
+\end{equation*}
+\begin{equation*}
+	\xi(\vec x) = b + \sum_{i=1}^m w_i\cdot x_i
+\end{equation*}
+\begin{equation*}
+	p^\BB = H \circ \xi
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Binarised perceptron with batch normalization]\label{def:perceptron_bn}
+Binarised perceptron with batch normalization $\hat{p}^\BB$
+is a function from vector of $m$ $\pm 1$-binarised values
+to a single $\pm 1$-binarised value.
+The function $\hat p^\BB$ is a composition of an inner potential $\xi$,
+batch normalization function $\rho$ and a heavyside step function $H$.
+The inner potential $\xi$ is weighted sum parametrized by static vector
+of $\pm 1$-binarised values $\vec w$ of size $m$, and real bias $b$.
+The batch normalization function $\rho$ is a function on real numbers
+parametrized by real values $\alpha$, $\gamma$, $\mu$, $\sigma$.
+
+\begin{equation*}
+	\hat{p}^\BB: \BB^m \to \BB
+\end{equation*}
+\begin{equation*}
+	\xi: \BB^m \to \RR, \,
+	\rho: \RR \to \RR, \,
+	H: \RR \to \BB
+\end{equation*}
+\begin{equation*}
+	\xi(\vec x) = b + \sum_{i=1}^m w_i\cdot x_i
+\end{equation*}
+\begin{equation*}
+	\rho(x) = \alpha\cdot \left(\frac{x-\mu}{\sigma}\right) + \gamma
+\end{equation*}
+\begin{equation*}
+	\hat{p}^\BB = H \circ \rho \circ \xi
+\end{equation*}
+\end{definition}
+
+\begin{lemma}{For every Binarised perceptron $p^\BB$ there is equivalent Binarised perceptron with batch normalization $\hat p^\BB$.}
+\begin{proof}
+If the parameters of batch normalization function $\rho$ are set to be
+$\alpha=\sigma=1$, $\gamma=\mu=0$, function $\rho$ is identity function.
+With parameters of inner potential $\xi$ unchanged, the following holds
+\begin{equation*}
+	p^\BB = H \circ \xi = H \circ \text{id} \circ \xi = H\circ\rho\circ\xi = \hat{p}^\BB
+\end{equation*}
+\end{proof}
+\end{lemma}
+
+\begin{lemma}For every Binarised perceptron with batch normalization $\hat p^\BB$ there is equivalent Binarised perceptron $p^\BB$.\label{lem:batch_perceptron}
+\begin{proof}
+The idea behind this construction comes from~\cite{zhang2021bdd4bnn}.
+
+The value of $\hat{p}^\BB(\vec x)$ is only determined by the sign of expression
+$(\rho \circ \xi)(\vec x)$. Lets thus analyse the inequality
+$(\rho\circ\xi)(\vec x) \geq 0$.
+\begin{equation*}
+	(\rho \circ \xi)(\vec x) = \alpha\cdot \left(\frac{
+		b + \sum_{i=1}^k w_i\cdot x_i
+	-\mu}{\sigma}\right) + \gamma
+\end{equation*}
+
+If $\alpha = 0$, then the expression $\rho\circ\xi$ is a constant function. In that case
+the perceptron is equivalent to the one with the value of its bias higher than the length
+of input vector for positive constant perceptron or with negative bias with its absolute
+value lower than the length of input vector for negative constant perceptron.
+
+By relaxation of the rules for binarised perceptron to allow for value zero in weights,
+both of these constant perceptrons may be replaced by a perceptron with zero-valued
+weights and nonnegative resp.\ negative bias for positive and negative case.
+
+If $\alpha \neq 0$, the expression can be divided by the term $\frac{\alpha}{\sigma}$.
+In the case of this term being negative, the inequality switches and has to be corrected
+by further multiplying by $-1$.
+\begin{equation*}
+	(\rho \circ \xi)(\vec x) \cdot \frac{\sigma}{\alpha} =
+	b + \sum_{i=1}^m w_i\cdot x_i -\mu + \frac{\sigma\cdot \gamma}{\alpha}
+\end{equation*}
+\begin{equation*}
+	(\rho \circ \xi)(\vec x) \cdot \frac{\sigma}{\alpha} =
+	(b -\mu + \frac{\sigma\cdot \gamma}{\alpha}) + \sum_{i=1}^m w_i\cdot x_i
+\end{equation*}
+\begin{equation*}
+	\frac{\alpha}{\sigma} > 0 :
+		(\rho\circ\xi)(\vec x)\geq 0 \iff 
+		(b -\mu + \frac{\sigma\cdot \gamma}{\alpha}) + \sum_{i=1}^m w_i\cdot x_i \geq 0
+\end{equation*}
+\begin{equation*}
+    b' = (b -\mu + \frac{\sigma\cdot \gamma}{\alpha}), \vec w' = \vec w
+\end{equation*}
+\begin{equation*}
+	\frac{\alpha}{\sigma} < 0 :
+		(\rho\circ\xi)(\vec x)\geq 0 \iff 
+		(b -\mu + \frac{\sigma\cdot \gamma}{\alpha}) + \sum_{i=1}^m w_i\cdot x_i \leq 0
+\end{equation*}
+\begin{equation*}
+	\iff (-b +\mu - \frac{\sigma\cdot \gamma}{\alpha}) + \sum_{i=1}^m -w_i\cdot x_i \geq 0
+\end{equation*}
+\begin{equation*}
+    b' = (-b +\mu - \frac{\sigma\cdot \gamma}{\alpha}), \vec w' = -\vec w
+\end{equation*}
+
+As can be seen, both cases of $\alpha\over\sigma$ being positive or negative
+result in new real bias value $b'$ and vector of weights $\vec w'$.
+These values may then be used as a bias and weights of a binarized perceptron.
+    \begin{equation*}
+        (\rho \circ \xi)(\vec x) = \xi'(\vec x) = b' + \sum_{i=1}^m w'_i \cdot x_i
+    \end{equation*}
+\end{proof}
+\end{lemma}
+
+\begin{remark}
+The proof of~\Cref{lem:batch_perceptron} is constructive and is used for encoding
+of the quantitative verification problem as ASP problem.
+\end{remark}
+
+\begin{remark}
+As $\sum_{i=1}^m w_i\cdot x_i$ is always a whole number, bottom whole part of bias
+$\lfloor b \rfloor$ can be used in place of bias in inner layers of BNN.\@
+In the output layer however the fractional part can make difference when choosing the
+maximal input.
+\end{remark}
+
+% This is usually referred to simply as the perceptron
+\begin{definition}[Binarised single-layer perceptron]
+Binarised single-layer perceptron is a function $t^\BB$ from vector of $m$ $\pm 1$-binarised numbers
+to vector of $n$ $\pm 1$-binarised numbers where each value in the result vector is computed
+by a signle perceptron.
+
+\begin{equation*}
+    t^\BB: \, \BB^{m} \to \BB^{n}
+\end{equation*}
+\begin{equation*}
+    t^\BB(\vec x) = (p^\BB_{1}(\vec x), p^\BB_{2}(\vec x), \ldots, p^\BB_{n}(\vec x))
+\end{equation*}
+\end{definition}
+
+% TODO: this does not read well
+\begin{definition}[Argmax layer]\label{def:argmax}
+Argmax layer is a function $t^{am}$ which returns the mask of maximal value after
+the weighted sum. This mask has form of a one-hot vector, where only the first
+position with the maximal value after the weighted sum is assigned value $1$,
+all the other positions are assigned value $0$.
+
+\begin{equation*}
+	t^{am}: \, \BB^{m} \to {\{0,1\}}^{n}
+\end{equation*}
+\begin{equation*}
+	t^{am}(\vec x) = y,\, y_k = 1 \iff k = \argmax_{i=1}^n(\xi_i(\vec x))
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Binarised multi-layer perceptron]
+Binarised multi-layer perceptron (also called binarised neural network)
+is a convolution of binarised single-layer perceptrons.
+The last applied layer $t^{am}$ is called the output layer and takes form of argmax layer,
+all other layers are called hidden (or inner)
+layers. The input of a binarised multi-layer perceptron is called the input layer.
+
+% Is it obvious or should I denote that each layer is funciton
+    % t_i: \RR^{n_{i-1}} \to \RR^{n_i}?
+\begin{equation*}
+    \BNN: \, \BB^{n_0} \to {\{0, 1\}}^{n_{d+1}}
+\end{equation*}
+\begin{equation*}
+    \BNN = t^{am} \circ t_d^\BB \circ \ldots \circ t_1^\BB
+\end{equation*}
+\end{definition}
+
+% \subsection{Examples of Binarised neural network}
+
+% TODO: Examples of binarised neural networks
+% Maybe some logic functions?
+
+\sectionsep{}
+
+% Notes on training of BNNs?
+    % Training using binarization following the training of normal NN?

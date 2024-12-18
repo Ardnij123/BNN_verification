@@ -1,0 +1,77 @@
+\subsection{Consistency of evaluation}\label{sec:consistency}
+
+\begin{figure}[p]%
+    \begin{tikzpicture}[scale=0.8]
+        \begin{axis}[ymin=0]
+            \histogram{y=Time}{Time.csv}
+            \drawVLine{2.065}
+        \end{axis}
+    \end{tikzpicture}%
+    \hfill
+    \begin{tikzpicture}[scale=0.8]
+        \begin{axis}[clip mode=individual]
+            \scatterSplit{y<=2.771}{x expr=\coordindex}{y=Time}{Time.csv}
+            \drawHLine{2.065}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Scatter plot and histogram of short inputs.\\
+    Histogram on the left shows distribution of the computation time.
+    Scatter plot on the right shows dependency of computation time on the order of computation.
+    Red dotted lines are average of low 90\,\% lowest times (blue marks of graphs on the right).
+    }%
+    \label{fig:multiple_small}
+    \vspace{2em}
+
+    \begin{tikzpicture}[scale=0.8]
+        \begin{axis}[ymin=0]
+            \histogram{y=Time}{multiple-long.csv}
+            \drawVLine{139.211}
+        \end{axis}
+    \end{tikzpicture}%
+    \hfill
+    \begin{tikzpicture}[scale=0.8]
+        \begin{axis}[clip mode=individual]
+            \scatterSplit{y<=181.390}{x expr=\coordindex}{y=Time}{multiple-long.csv}
+            \drawHLine{139.211}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Scatter plot and histogram of long inputs.\\
+    Histogram on the left shows distribution of the computation time.
+    Scatter plot on the right shows dependency of computation time on the order of computation.
+    Red dotted lines are average of 90 \% lowest times (blue marks of graphs on the right).
+    }%
+    \label{fig:multiple_long}
+\end{figure}
+
+To meassure consistency of speed of the evaluator itself,
+first I have measured the time to compute robustness of model M7
+and input region $HD(\text{I9}, 2)$. I have evaluated this
+using 4 CPU cores. Resulting times of this evaluation are shown in~\Cref{fig:multiple_small}.
+
+I have also meassured time to compute robustness of model M11
+and input region $HD(\text{I0}, 8)$ using 8 CPU cores.
+Resulting times of this evaluation are shown in~\Cref{fig:multiple_long}.
+
+The plots of~\Cref{fig:multiple_small,fig:multiple_long} show that the time
+of computation is not consistent. It is however mostly consistent on 90 \% lowest times.
+For this, I will always run the evaluation 4 times and take average of the 3 best evaluations.
+
+% TODO: probability of not chosing any long evaluation?
+
+% Scatter plot of value/next value
+% Does not show anything, but is kinda nice excersise in pgfplots lol
+% \begin{figure}
+%     \begin{tikzpicture}
+%         \begin{axis}
+%             \pgfplotstableread{CPUTime.csv}\loadedtable
+%             \pgfplotstablecreatecol[
+%                 create col/assign/.code={%
+%                     \getnextrow{CPUTime}\nextentry
+%                     \edef\entry{\nextentry}%
+%                     \pgfkeyslet{/pgfplots/table/create col/next content}\entry
+%                 }]
+%                 {CPUNext}\loadedtable
+%             \scatterPlot{x=CPUTime}{y=CPUNext}{\loadedtable}
+%         \end{axis}
+%     \end{tikzpicture}
+% \end{figure}

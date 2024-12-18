@@ -1,0 +1,28 @@
+\chapter{Binarised neural networks}
+
+% Introduction to BNNs
+Binary neural networks are a type of Deep neural networks where instead of floating
+point numbers, binary values are used as inputs and outputs of layers.
+This reduction of available values can lead to high reduction in the computation
+time and energy consumption while achieving near state-of-the-art results~\cite{Hubara2016BinarizedNN}.
+
+\subsection*{Notation}
+
+\begin{table}[h]
+    {%
+    \makebox[\textwidth]{%
+\begin{tabular}{ll}
+    \toprule{}%
+    \text{Symbol} & Definition\\
+	\midrule{}%
+	$\RR$ & set of real numbers\\
+	$\ZZ$ & set of whole numbers\\
+	$\BB$ & set of $\pm 1$-binarised values, $\BB = \{-1, 1\}$\\
+	\midrule{}%
+	$K^m$ & set of vectors on $K$ of lenght $m$\\
+	\bottomrule{}
+\end{tabular}%
+	}}%
+    \caption{Used notation}%
+    \label{table:mat_notation}
+\end{table}

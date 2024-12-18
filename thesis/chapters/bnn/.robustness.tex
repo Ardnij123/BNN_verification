@@ -1,0 +1,262 @@
+\section{Robustness of Binarised neural network}
+
+There are two types of robustness problems. The qualitative robustness
+is a problem to determine wether the neural network gives the same (true)
+output for all inputs in some input region. The quantitative rubustness
+on the other hand determines the part of this input region, which has
+the same output as some chosen input of this region.
+
+Further I provide formal definition of robustness on functions in general.
+
+\subsection{Definition of robustness}
+
+% TODO: Maybe add something like diferentiability?
+\begin{definition}[Quantitative robustness of function]
+    Let $F$ be a function, $F: P \to Q$.
+    Let $I$ be an input region of $F$, that is $I \subseteq P$.
+    Let $w$ be a function, $w: P\to \RR$, $\forall x\in P: w(x) > 0$.
+    Let $h_p$ be a function for some base input $p\in P$, $h_p: Q\to \RR$, that satisfies
+    \begin{equation*}\begin{split}
+        & h_p(F(p)) = 0 \\
+        \forall x\in Q .\, 0 \leq \, & h_p(x) \leq 1 
+    \end{split}\end{equation*}
+
+    \noindent
+    Let $Q_{d, h_p}(I)$ be equal to
+    \begin{equation*}
+        Q_{w, h_p}(I) = \frac{\int_I w(i)\cdot h_p(F(i)) \, di}{\int_I w(i) \, di}
+        \hspace{1em} \text{or} \hspace{1em}
+        Q_{w, h_p}(I) = \frac{\sum_{i\in I} w(i)\cdot h_p(F(i))}{\sum_{i\in I} w(i)}
+    \end{equation*}
+    if the function $F$ is observed as continuous or discrete respectively.
+    Specially for $I=\{p\}$
+    Then $Q_{w, h_p}(I)$ is called the quantitative robustness of function $F$
+    with a weight function $w$ and evaluation function $h_p$ on input region $I$.
+
+    For empty input region $I = \emptyset$,
+    and for input regions $I$ such that $\int_I w(i) di = 0$ if observed as continuous,
+    % TODO: Inspect this a little more under the measure theory
+    quantitative robustness is equal to $0$.
+\end{definition}
+
+The quantitative robustness is an average of values aquired by
+aplying the evaluation function $h_p$ on the input region
+weighted by the weight function $w$. The lower the value of robustness is,
+the more the function is robust on input region.
+
+The weight function can be used to make part of the inputs more prominent.
+For instance, by the use of weight function such as $w(x) = \frac{1}{1+||p-x||}$,
+inputs closer to the base input will have higher weight.
+
+The evaluation function can be used to encode dissimiliarity of an input
+from the base input $p$. That could prove useful in case of external metric.
+
+\begin{lemma}{For input region consisting only of the base input $I=\{p\}$,
+    the quantitative rubustness is equal to 0}
+    \begin{proof}
+        \begin{equation*}
+            Q_{w, h_p}(\{p\}) = \frac{w(p)\cdot h_p(p)}{w(p)} = \frac{w(p)}{w(p)}\cdot 0 = 0
+        \end{equation*}
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}{Quantitative robustness is between 0 and 1 for every possible combination
+    of functions and input regions.}
+    \begin{proof}
+        Let me first show that the quantitative robustness is nonnegative.
+        Both $w$ and $h_p$ are nonnegative on $P$ and $Q$ respectively,
+        thus $w(x)\cdot h_p(y)$ is nonnegative for all $(x, y)\in P\times Q$.
+        For that also values of integrals and summations over both $w(x)$
+        and $w(x)\cdot h_p(y)$ are nonnegative.
+        The fraction of two nonnegative values is nonnegative
+        and the quantitative robustness is nonnegative.
+
+        By definition holds $0 \leq h_p(x) \leq 1$, thus also $0 \leq h_p(F(x)) \leq 1$.
+        As $w(x) \geq 0$, 
+        \begin{equation*}
+            0 = w(x) \cdot 0 \leq w(x) \cdot h_p(F(x)) \leq w(x)\cdot 1
+        \end{equation*}
+        Again, integration or summation over any subset $I \subseteq P$
+        can be applied onto the latter two expressions.
+        \begin{equation*}
+            0 \leq \int_{I} w(i) \cdot h_p(F(i))\, di \leq \int_{I} w(i)\, di
+        \end{equation*}
+        \begin{equation*}
+            0 \leq \sum_{i\in I} w(i) \cdot h_p(F(i)) \leq \sum_{i\in I} w(i)
+        \end{equation*}
+        Now by division by the right-hand side term (nonnegative), following holds
+        \begin{equation*}
+            0 \leq \frac{\int_{I} w(i) \cdot h_p(F(i))\, di}{\int_{I} w(i)\, di} \leq 1
+        \end{equation*}
+        \begin{equation*}
+            0 \leq \frac{\sum_{i\in I} w(i) \cdot h_p(F(i))}{\sum_{i\in I} w(i)} \leq 1
+        \end{equation*}
+    \end{proof}
+\end{lemma}
+
+\hrule{}\vspace{1em}
+
+While the quantitative robustness does tell us something about how much
+of the input region is evaluated wrong (or even how much is it wrong),
+the qualitative robustness does only say if there is any wrong output.
+This may seem less useful, however it can lead to lower computational expenses.
+
+\begin{definition}[Qualitative robustness of function $F$ on input region $I$]
+    Function $F : P\to Q$ is (qualitatively) robust on input region $I\subseteq P$
+    with respect to evaluation function $h_p$
+    if and only if $Q_{w, h_p}(I) = 0$.
+\end{definition}
+
+\begin{lemma}{The property of qualitative robustness is independent of the function $w$}%
+    \label{lemma:robustness_independence_of_weight}
+    \begin{proof}
+        For empty input region and regions such that $\int_I w(i) di = 0$
+        when the function is being observed as a continuous,
+        the lemma holds trivially by definition.
+
+        % TODO: again, see measure theory if this really holds
+        As weight function $w$ is by definition positive,
+        all statements of the following chain are equivalent.
+        \begin{equation*}
+            Q_{w, h_p}(I) = \frac{\sum_{i\in I} w(i)\cdot h_p(F(i))}{\sum_{i\in I} w(i) \, di} = 0
+        \end{equation*}
+        Since $\sum_{i\in I} w(i) > 0$:
+        \begin{equation*}
+            \sum_{i\in I} w(i)\cdot h_p(F(i)) = 0
+        \end{equation*}
+        As both $w$ and $h_p$ are non-negative
+        \begin{equation*}
+            \forall i\in I. \, w(i)\cdot h_p(F(i)) = 0
+        \end{equation*}
+        \begin{equation*}
+            \forall i\in I. \, w(i) = 0 \vee h_p(F(i)) = 0
+        \end{equation*}
+        From the definition $\forall x\in P.\, w(x) > 0$
+        \begin{equation*}
+            \forall i\in I. \, h_p(F(i)) = 0
+        \end{equation*}
+        This statement is independent of the function $w$,
+        thus the lemma holds for the discrete variation.
+
+        % TODO: Is this true?
+        % Can it be proven similiarly?
+        The continuous variation can be proven similarly.
+    \end{proof}
+\end{lemma}
+
+%\begin{definition}[Qualitative robustness of function $F$ on input region $I$]
+%Function $f : P\to Q$ is (qualitatively) robust on input region $I\subseteq P$
+%if and only if the function assigns the same element of $Q$
+%to every input element of the region $I$.
+%
+%\begin{equation*}
+%f \text{ is robust on } I \iff \forall i, j\in I.\, f(i) = f(j)
+%\end{equation*}
+%\end{definition}
+%
+%\begin{definition}[Quantitative robustness of function $f$ on input region $I$
+%with the respect to base input $\overline{i}$]
+%Function $f : P \to Q$ is quantitatively robust on input region $I\subseteq P$
+%and base input $\overline i\in I$ with a threshold $\epsilon \geq 0$
+%if the probability of choosing input from $I$,
+%following the uniform distribution,
+%to which the function $f$ assigns the same element of $Q$ as to the input $\overline i$
+%is at least $\epsilon$.
+%
+%\begin{equation*}
+%f \text{ is robust on } (I, \overline i) \text{ with threshold } \epsilon \iff
+%	\frac{\|i \mid i\in I.\, f(i) = f(\overline i)\|}{\|I\|} \geq \epsilon
+%\end{equation*}
+%\end{definition}
+
+% Example
+
+The simplest example of the weight function $w$ is a constant function.
+With constant function, every input is assigned the same weight,
+which leads to the quantitative robustness being an average
+of evaluation function $h_p$ applied over all inputs from the input region.
+
+More complex weight functions can be used to give some areas of the input region
+higher priority. Such weight function may reflect requirement for the robustness
+closer to the base input $p$.
+
+\begin{definition}[Strict qualitative robustness of function $F$ on input region $I$]
+    Function $F: P\to Q$ is strictly (qualitatively) robust on input region $I\subseteq P$
+    if and only if for some $p\in P$ it is robust on this region with respect
+    to evaluation function $\overline{h_p}$ defined as follows:
+
+    \begin{equation*}
+        \overline{h_p}(q) = \left\{\begin{matrix}
+            0 & F(p) = q\\
+            1 & F(p) \neq q
+        \end{matrix}\right.
+    \end{equation*}
+\end{definition}
+
+\begin{lemma}{Function $F$ is strictly robust on input region $I$
+    if and only if for each two inputs $i, j\in I$, the function $F$ assigns the same value to them.}
+    \begin{proof}
+        Proof of equivalence in this lemma is done
+        by prooving corresponding implications.
+
+        For empty input region $I=\emptyset$, the statement holds trivially.
+        Further in the proof I will always assume nonempty input region.
+
+        First the left-to-right implication.
+        Let function $F$ be strictly robust on input region $I$,
+        $\overline{h_p}$ being the evaluation function.
+        As shown in the proof of \cref{lemma:robustness_independence_of_weight},
+        for all instances from input region $i\in I$ holds
+        \begin{equation*}
+            \overline{h_p}(F(i)) = 0
+        \end{equation*}
+        By definition of evaluation function $\overline{h_p}$ it also holds
+        \begin{equation*}
+            F(p) = F(i)
+        \end{equation*}
+        As this holds for every input $i\in I$, for every two inputs $i, j\in I$:
+        \begin{equation*}
+            F(i) = F(p) = F(j)
+        \end{equation*}
+
+        Now for the opposite implication: Let for every $i, j\in I$, $F(i) = F(j)$.
+        Let $p\in I$. As $\overline{h_p}(F(p)) = 0$
+        and for every input $i\in I$ it holds that $F(i) = F(p)$,
+        $\overline{h_p}(F(i)) = 0$ for every input from the input region $I$.
+        The $F$ is thus strictly robust on input region $I$.
+    \end{proof}
+\end{lemma}
+
+% TODO: Can this (especially the weight and evaluation function)
+%       be implemented using the Clingo?
+%       Maybe via the python interface with custom incremental counter?
+
+% TODO: With constant both weight and evaluation functions,
+%       the robustness is equivalent to that in BNNQuanlayst
+
+\subsection{Definition of input regions}
+
+As both the qualitative and quantitative robustness rely on subsets
+of feasible inputs, definition of these is needed.
+
+I provide definition of two input regions, input region based
+on the Hamming distance and input region with fixed indices.
+The input region based on the Hamming distance $R(\vec u, r)$ contains
+all input vectors that have at most $r$ bits changed.
+The input region with fixed indices $R(\vec u, I)$ specifies set of indices $I$
+on which the input vector may differ form $I$.
+Definition are taken from~\cite{zhang2021bdd4bnn}.
+
+\begin{definition}[Input region based on the Hamming distance]
+For an input $\vec u\in \BB^{n_1}_{\pm 1}$ and an integer $r \geq 0$,
+let $R(\vec u, r) := \{\vec x\in \BB^{n_1}_{\pm 1} \mid HD(\vec x, \vec u) \leq r \}$, where $HD(\vec x, \vec u)$ denotes the Hamming distance
+between $\vec x$ and $\vec u$.
+\end{definition}
+
+Intuitively, $R(\vec u, r)$ includes input vectors that differ from $\vec u$ by at most
+$r$ positions.
+
+
+% Definition of the robustness problem
+    % Input region variants (hamming, fixed bits)
+    % Examples of input regions

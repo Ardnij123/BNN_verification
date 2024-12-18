@@ -1,0 +1,62 @@
+\subsection{Encoding of input regions}
+
+Similiarly to the final encoding of the argrmax layer, I will encode input region
+by first allowing for any input vector using an head aggregate with unspecified boundaries
+over literals \texttt{on(0, 1..N)}, on top of this I will then build constraints % chktex 36
+defined by the desired input region.
+
+\subsubsection{Input region based on the Hamming distance}
+
+To constrain input such that only inputs with hamming distance at most $r$ are allowed,
+a simple aggregate rule can be added into the set of rules.
+The rule denies any partial solution with input that contains more than $r$ possitions
+differing from the base input to be an answer set.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+{ on(0, 1..N) } :- layer(0, N).
+:- #count{ N :     on(0, N), not input(N);
+           N : not on(0, N),     input(N) } > R,
+    hammdist(R).
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of input region based on Hamming distance}\label{enc:hamming}
+\end{code}
+
+\subsubsection{Input region based on the fixed bits}
+
+Constraining the input on some fixed bits is trivial. To make such constraint,
+for each fixed position, one can forbid the base input position having value 1
+and real input position not having 1 and vice versa.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+{ on(0, 1..N) } :- layer(0, N).
+:-     on(0, N), not input(N), inpfix(N).
+:- not on(0, N),     input(N), inpfix(N).
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of input region based on fixed bits using constraints on input}\label{enc:fixed_bits}
+\end{code}
+
+The second constraint can be substitued for a rule with \texttt{on(0,N)} % chktex 36
+in its head and not in its body.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+{ on(0, 1..N) } :- layer(0, N).
+:- on(0, N), not input(N), inpfix(N).
+on(0, N) :- input(N), inpfix(N).
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of input region based on fixed bits using rule and constraint}\label{enc:fixed_input}
+\end{code}
+
+Finally, instead of allowing for any input to have either value in the start,
+one can encode the possibility for another value only for the input positions
+that are not fixed. This may allow for further optimizations in the grounding process.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+on(0, N) :- input(N), inpfix(N).
+{ on(0, K) } :- not inpfix(K), layer(0, N), K = 1..N.
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of input region based on fixed bits using rule for fixed bits and choice for unfixed bits}\label{enc:fixed_direct}
+\end{code}

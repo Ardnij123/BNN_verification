@@ -1,0 +1,390 @@
+\section{ASP encoding of BNN}
+
+In the encoding of binarised neural network in Clingo language I use
+predicate symbols with meaning described in~\Cref{table:encoding_semantics}.
+This table contains atoms with their meaning categorised into ones that
+encode the binarised neural network, ones that specify the input region
+and ones that are computed while grounding.
+Both atoms that define the binarised neural network and that specify the input
+region are given to the logic program as facts by the Python encoder.
+% TODO: document the usage of classical negation if used
+
+{
+\begin{table}[h!]
+    \makebox[\textwidth]{%
+\begin{tabular}{lLl}
+    \toprule{}%
+    Symbol & \multicolumn{2}{l}{Semantics}\\
+    \midrule{}%
+    Encoding of BNN & & \\
+    \midrule
+    \atom{layer}{L, N} & L & Layer number\\
+    & & Input layer has number 0\\
+    & & Output layer has the highest number\\
+    & N & Number of perceptrons in layer $L$\\
+    \atom{weight}{L, M, N, W} & L & Layer\\
+    & M & Position of perceptron of layer $L-1$\\
+    & N & Position of perceptron in layer $L$\\
+    & W & Weight of input $M$ to perceptron $N$ in layer $L$\\
+    \atom{bias}{L, N, B} & L & Layer\\
+    & N & Position of perceptron in layer $L$\\
+    & B & Bias of perceptron $N$ in layer $L$\\
+    \atom{outpre}{N, P} & N & Position of output\\
+    & P & $N$ has precedence $P$\\
+    & & lower precedence mean higher priority\\
+    \midrule
+    Encoding of input space & & \\
+    \midrule
+    \atom{input}{N} & & Specification of the base input\\
+    & N & Input on the position $N$ of input layer has value 1\\
+    \atom{hammdist}{R} & & The input space is based on the hamming distance\\
+    & R & Maximal hamming distance from base input is $R$\\
+    \atom{inpfix}{N} & & The input space is based on fixed bits\\
+    & N & Position $N$ of input is fixed to the value of base input\\
+    \midrule
+    Computation & & \\
+    \midrule
+    \atom{output\_layer}{L} & L & Layer number $L$ is the output layer\\
+    \atom{potential}{L, N, P} & L & Layer number\\
+    & N & Position of perceptron in layer $L$\\
+    & P & Perceptron $N$ of layer $L$ has inner potential $P$\\
+    \atom{on}{L, N} & L & Layer number\\
+    & N & Perceptron on position $N$ of layer $L$ outputs 1\\
+    \atom{output}{N} & N & Output on position $N$ of output layer has value 1\\
+    \bottomrule
+\end{tabular}
+    }%
+    \caption{Semantics of encoding BNN into Clingo-readable file}%
+    \label{table:encoding_semantics}
+\end{table}
+}
+
+\newgeometry{
+    margin=1em,
+    noheadfoot, nomarginpar,
+}
+\begin{landscape}
+  \thispagestyle{empty}
+  \begin{figure}[]
+    \begin{center}
+      \scalebox{.8}{
+        \begin{tikzpicture}
+          \setupnodes{(0,0)}
+          \constnode{weight/{1,n_0,n_1,W}}
+          \constnode{bias/{1,n_1,B}}
+          \constnode{on/{0,n_0}}
+
+          \setupnodes{($(const{on/{0,n_0}}) + (5,0)$)}
+          \compnode{potential/{1,n_1,P}}{weight/{1,n_0,n_1,W},bias/{1,n_1,B},on/{0,n_0}}{}
+
+          \setupnodes{($(const{weight/{1,n_0,n_1,W}}) + (10,0)$)}
+          \constnode{weight/{2,n_1,n_2,W}}
+          \constnode{bias/{2,n_2,B}}
+          \compnode{on/{1,n_1}}{}{potential/{1,n_1,P}}
+
+          \setupnodes{($(comp{on/{1,n_1}}) + (5,0)$)}
+          \compnode{potential/{2,n_2,P}}{weight/{2,n_1,n_2,W},bias/{2,n_2,B}}{on/{1,n_1}}
+
+          \setupnodes{($(const{weight/{2,n_1,n_2,W}}) + (10,0)$)}
+          \constnode{weight/{3,n_2,n_3,W}}
+          \constnode{bias/{3,n_3,B}}
+          \compnode{on/{2,n_2}}{}{potential/{2,n_2,P}}
+
+          \setupnodes{($(comp{on/{2,n_2}}) + (5,0)$)}
+          \compnode{potential/{3,n_3,P}}{weight/{3,n_2,n_3,W},bias/{3,n_3,B}}{on/{2,n_2}}
+
+          \node (end) at ($(comp{potential/{3,n_3,P}}.east) + (3,0)$) {};
+          \draw[dotted] (comp{potential/{3,n_3,P}}) -- (end);
+
+          \node (begin) at ($(comp{potential/{2,n_2,P}}) + (-6,-5)$) {};
+          \setupnodes{(begin)}
+          \constnode{weight/{{d+1},n_d,n_{d+1},W}}
+          \constnode{bias/{{d+1},n_{d+1},B}}
+          \compnode{on/{d,n_d}}{}{}
+
+          \setupnodes{($(const{bias/{{d+1},n_{d+1},B}}) + (6,0)$)}
+          \constnode{outpre/{n_{d+1},N}}
+          \compnode{potential/{{d+1},n_{d+1},P}}{weight/{{d+1},n_d,n_{d+1},W},bias/{{d+1},n_{d+1},B}}{on/{d,n_d}}
+          \node (continue) at ($(comp{on/{d,n_d}}.west) + (-3,0)$) {};
+          \draw[dotted] (continue) -- (comp{on/{d,n_d}});
+
+          \setupnodes{($(comp{potential/{{d+1},n_{d+1},P}}) + (6,0)$)}
+          \compnode{output/{N}}{outpre/{n_{d+1},N}}{potential/{{d+1},n_{d+1},P}}
+        \end{tikzpicture}
+      }
+      \caption{Schema of a multi-layer perceptron encoding}%
+      \label{fig:encoding_architecture}
+    \end{center}
+  \end{figure}
+\end{landscape}
+\restoregeometry{}
+
+The encoding of BNN into Clingo language will be a composition of layers.
+Output of each layer is dependent only on the output values, weights and biases
+of the previous layer. Schema of inference for this architecture is shown
+in~\Cref{fig:encoding_architecture}. The schema contains two types of nodes,
+rectangular nodes do contain data that can be seen as an input of the inference
+and nodes with rounded corners that are computed in the runtime of the inference.
+As can be seen from the schema, the inference is linear, meaning the value of each
+layer is dependent only on the input data or data computed in the previous layer.
+
+\subsection{Encoding of a perceptron}
+
+As shown in~\cref{lem:integer_perceptron}, each binarised perceptron can be encoded
+using only bias with value from whole numbers. The encoding in Clingo language is
+straightforward.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+potential(L, N, S+B) :-
+    S = #sum{
+         W,M :     on(L-1, M), weight(L, M, N, W);
+        -W,M : not on(L-1, M), weight(L, M, N, W) },
+    bias(L, N, B).
+
+on(L,N) :- potential(L, N, P), P >= 0.
+\end{lstlisting}%
+    \nobreak\captionof{Encoding}{Encoding of perceptron using potential}\label{enc:perc_potential}
+\end{code}
+
+This implementation is a direct encoding of a binarised perceptron.
+It follows the formula of perceptron as described in the~\cref{lem:integer_perceptron}.
+The implementation is however weak as it relies on the use of intermediate
+symbol \texttt{potential}. While grounding, this would require to build a literal
+for every possible value of inner potential of each perceptron in the network
+and consequently in a large ground program as shown in the~\cref{exp:gringo_grounding}.
+To fight that, literals of symbol \texttt{on} may be built directly.\label{sec:perc_potential_removal}
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+on(L, N) :-
+    -B <= #sum{
+         W,M :     on(L-1, M), weight(L, M, N, W);
+        -W,M : not on(L-1, M), weight(L, M, N, W) },
+    bias(L, N, B).
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of perceptron}\label{enc:perc_direct}
+\end{code}
+
+% TODO: Proove that this is correct
+
+The last implementation still has a single flaw. It uses both the positive
+and negative variant of the literal \texttt{on(L-1, M)} in sense of the default
+negation. We can however make a transformation of the BNN such that it eliminates
+use of the negative variant.%
+\label{sec:01-mapping}
+
+Starting with the expression from~\ref{lem:integer_perceptron}, the $\pm 1$-binarised
+input vector $\vec x$ can be substituted by a $\{1,0\}$-binarised input vector
+$\vec x_b$:
+\[x_{b,i} = \begin{cases}
+    1 & x_i = 1\\
+    0 & x_i = -1
+\end{cases}\]
+\[x_i = 2\cdot x_{b,i} - 1\]
+\[\xi(\vec x) = b + \sum_{i=1}^k w_i\cdot (2\cdot x_{b,i} - 1)\]
+This expression can be further transformed by splitting the sum and eliminating
+the multiplication by 2.
+\[\xi(\vec x) = b + \sum_{i=1}^k w_i\cdot 2 \cdot x_{b,i} - \sum_{i=1}^k w_i\cdot 1\]
+\[\xi(\vec x) = b - \sum_{i=1}^k w_i + 2\sum_{i=1}^k w_i \cdot x_{b,i}\]
+\[p^\BB(\vec x) = H \circ \xi (\vec x) = \begin{cases}
+    1 & b - \sum_{i=1}^k w_i + 2\sum_{i=1}^k w_i \cdot x_{b,i} \geq 0\\
+    -1 & b - \sum_{i=1}^k w_i + 2\sum_{i=1}^k w_i \cdot x_{b,i} < 0
+\end{cases}\]
+Finally, both cases can be divided by 2. The expression $b-\sum_{i=1}^k w_i\over 2$
+in the final form of equality is independent of the input vector.
+It can be seen as the new bias, thus integer part of this expression can take its
+place similiarly to~\cref{lem:integer_perceptron}.
+\[p^\BB(\vec x) = H \circ \xi (\vec x) = \begin{cases}
+    1 & \floor{{b - \sum_{i=1}^k w_i \over 2}} + \sum_{i=1}^k w_i \cdot x_{b,i} \geq 0\\
+    {} & {}\\
+    -1 & \floor{{b - \sum_{i=1}^k w_i \over 2}} + \sum_{i=1}^k w_i \cdot x_{b,i} < 0
+\end{cases}\]
+
+With weights and biases adjusted in the way described above, the perceptron can be
+encoded without the use of default negation:
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+on(L, N) :-
+    -B <= #sum{ W,M : on(L-1, M), weight(L, M, N, W) },
+    bias(L, N, B).
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of perceptron using (0,1)-binarised values}\label{enc:perc_direct_01}
+\end{code}
+
+\subsection{Encoding of an Argmax layer}
+
+As shown in~\cref{lem:integer_argmax} and remark that follows it, Argmax layer can
+be encoded using the vector of weights, biases and the precedence of individual outputs.
+First, literals of predicate symbol \texttt{potential} can be constructed similiarly
+to the perceptron, on these \texttt{max} aggregate can be used.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+potential(D+1, N, S+B) :-
+    S = #sum{
+         W,M :     on(D, M), weight(D, M, N, W);
+        -W,M : not on(D, M), weight(D, M, N, W) },
+    bias(D, N, B), output_layer(D+1).
+
+output(N) :-
+    (Sum, Precedence, Node) = #max{
+        (S, -P, N) : potential(D+1, N, S), outpre(N, P) },
+    output_layer(D+1).
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and max aggregate}\label{enc:argmax_max}
+\end{code}
+
+While this may work, in the grounding process it will expand into a large ruleset.
+The ruleset will contain a rule with \texttt{potential} in head for every
+possible value of sum of inputs and bias, for each of these multiple rules
+to implement the \texttt{max} aggregate will be created.
+
+The \texttt{potential} can however not be directly substituted for a comparison
+in the body of \texttt{output} like in the implementation of perceptron
+as the value of inner potential is needed for the comparison of different output values.
+
+To overcome this problem, it can be observed from the other side.
+Instead of asking wether the particular output position has the largest inner potential,
+all output position with inner potential less than some other can be forbidden from being
+the final output. An \texttt{output} literal can then be introduced into the solution
+using a rule with count aggregate in its head.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+potential(D+1, N, S+B) :-
+    S = #sum{
+         W,M :     on(D, M), weight(D+1, M, N, W);
+        -W,M : not on(D, M), weight(D+1, M, N, W) },
+    bias(D+1, N, B), output_layer(D+1).
+
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
+
+:- output(N),
+    potential(D+1, N, S), potential(D+1, M, T),
+    output_layer(D+1),
+    N != M, S < T.
+:- output(N),
+    potential(D+1, N, S), potential(D+1, M, T),
+    outpre(N, P), outpre(M, Q),
+    output_layer(D+1),
+    N != M, S = T, P > Q.
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and constraints on output}\label{enc:argmax_potential_pm1}
+\end{code}
+
+Negated literals with predicate symbol \texttt{on} can be eliminated similiarly
+to the elimination in the encoding of perceptron (see~\Cref{sec:01-mapping}). The precedence must be however
+calculated from the new bias after elimination.
+(For the implementation see~\Cref{sec:pyt_argmax}.)%
+\label{sec:01-argmax}
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+potential(D+1, N, S+B) :-
+    S = #sum{ W,M : on(D, M), weight(D+1, M, N, W) },
+    bias(D+1, N, B), output_layer(D+1).
+
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
+
+:- output(N),
+    potential(D+1, N, S), potential(D+1, M, T),
+    output_layer(D+1),
+    N != M, S < T.
+:- output(N),
+    potential(D+1, N, S), potential(D+1, M, T),
+    outpre(N, P), outpre(M, Q),
+    output_layer(D+1),
+    N != M, S = T, P > Q.
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and constraints on output with $(0,1)$-binarization}\label{enc:argmax_potential_01}
+\end{code}
+
+Literals with predicate symbol \texttt{potential} can now be also eliminated
+by using \texttt{sum} aggregate directly in the comparison of inner potential values.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
+
+:- output(N),
+    S = #sum{ W,O : on(D, O), weight(D+1, O, N, W) },
+    T = #sum{ W,O : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    output_layer(D+1),
+    N != M, S + B < T + C.
+:- output(N),
+    S = #sum{ W,O : on(D, O), weight(D+1, O, N, W) },
+    T = #sum{ W,O : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    outpre(N, P), outpre(M, Q),
+    output_layer(D+1),
+    N != M, S + B = T + C, P > Q.
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and equality}\label{enc:argmax_variable}
+\end{code}
+
+While grounding, the value of an aggregate may be only compared to an integer value.
+It may not be compared with value of another aggregate directrly. This results in
+a grounding of this logic program being more or less the same as of the last logic program
+using potential (in fact, the grounded program is even bigger than before).
+To avert this, both aggregates have to be merged into a single one.
+\[S + B < T + C\]
+\[S - T < C - B\]
+The expression is easily transformed for variables representing values of aggregates to be
+on one side. As both aggregates are \texttt{sum} aggregates, values of aggregate with variable
+\texttt{T} may be multiplied by -1. As the computation of aggregate expression uses
+representation as sets, additional value must be added to tuples for summation to distinguish
+between values of weights for node \texttt{N} and \texttt{M}.
+The same transformation may be done also with the second constraint of the logic program.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
+
+:- output(N),
+    C - B < #sum{  W,O, 1 : on(D, O), weight(D+1, O, N, W) ;
+                  -W,O,-1 : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    output_layer(D+1),
+    N != M.
+:- output(N),
+    C - B = #sum{  W,O, 1 : on(D, O), weight(D+1, O, N, W) ;
+                  -W,O,-1 : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    outpre(N, P), outpre(M, Q),
+    output_layer(D+1),
+    N != M, P > Q.
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and and equality}\label{enc:argmax_direct_eq}
+\end{code}
+
+Finally, as described in~\cref{exp:gringo_grounding}, when an equality symbol is used
+in an aggregate, while grounding it is transformed into two inequalities.
+To further simplify (and shorten) the grounded logic program, symbol \texttt{<=}
+may be used instead of \texttt{=} in the second constraint.
+If $C-B < S-T$, then the output is not the right one by the first constraint already,
+thus it is equivalent to the previous logic program.
+
+\begin{code}
+\begin{lstlisting}[language=Prolog, numbers=none]
+1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
+
+:- output(N),
+    C - B < #sum{  W,O, 1 : on(D, O), weight(D+1, O, N, W) ;
+                  -W,O,-1 : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    output_layer(D+1),
+    N != M.
+:- output(N),
+    C - B <= #sum{  W,O, 1 : on(D, O), weight(D+1, O, N, W) ;
+                   -W,O,-1 : on(D, O), weight(D+1, O, M, W) },
+    bias(D+1, N, B), bias(D+1, M, C),
+    outpre(N, P), outpre(M, Q),
+    output_layer(D+1),
+    N != M, P > Q.
+\end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and inequality}\label{enc:argmax_direct}
+\end{code}
+

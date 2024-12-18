@@ -1,0 +1,29 @@
+\subsection{Gringo}
+
+Gringo~\cite{GebserKKS17} is software that grounds logic program in Clingo language
+and translates it into the Aspif format that is readable by logic program solver Clasp.
+Gringo first resolves every rule with variables
+into (possibly multiple) variable-free rules and then changes format of
+the program into Clasp-readable Aspif. Gringo thus can introduce new atoms
+that were not obvious from the Clingo program.
+\newcommand{\ms}{\texttt{ }}
+
+\subsection{Clasp}\label{sec:clasp}
+
+Clasp is the solver of the Clingo framework. It takes logic program in the Aspif
+format to search for answer sets of a grounded logic program.
+The solver approaches the inference using the unit propagation
+of nogoods~\cite{DBLP:journals/ai/GebserKS12}.
+
+For the inference of answer sets of some logic program,
+Clasp uses backpropagation over a tree of partial solutions.
+Each time it sees a partial solution that is not an answer set
+of the program, it derives new constraints on the solution which it
+propagates up the tree of partial solutions. This allows Clasp
+to efficiently prune large branches of partial solutions.
+
+For model (answer sets) counting, Clasp uses a method
+called model enumeration. To determine that a set is an answer set,
+it needs to evaluate the exact set.
+This means, that the time complexity
+of finding all answer sets is always at least linear with respect to the number of answer sets.

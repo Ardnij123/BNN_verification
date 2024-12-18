@@ -1,0 +1,20 @@
+\chapter{Answer set programming}
+
+Answer set programming (ASP) is a form of declarative
+programming oriented towards difficult, primarily NP-hard,
+search problems~\cite{lifschitz2008answer}.
+ASP is particularly suited for solving difficult combinatorial search problems%
+~\cite{anger2005glimpse}.
+ASP is somewhat closely related to propositional
+satisfability checking (SAT)
+in sense that the problem is represented as logic program. Difference is in
+computational mechanism of finding solution.
+
+I will be using framework Clingo~\cite{gebser2019potassco},
+an integrated framework for solving ASP programs, for the implementation
+part of this thesis. As ASP is significantly different from commonly used
+programming languages, this section should introduce the readers to this paradigm
+and familiarize them with this different representation of knowledge.
+Each concept is first defined and then shown on examples.
+
+Should there be ambiguity, please refer to~\cite{KRHandbook} for more examples.
