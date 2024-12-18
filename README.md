@@ -19,7 +19,7 @@ Installed packages
 1) Switch to directory with implementation
 
 ```bash
-cd testing/clingo-based
+cd testing/
 ```
 
 2) Run the evaluator
