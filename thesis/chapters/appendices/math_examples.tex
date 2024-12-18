@@ -1,0 +1,91 @@
+\chapter{Proofs and examples}
+
+\section{Proofs}
+
+\begin{lemma}{The Dirichlet function $D$ is robust on any interval $\langle k, l\rangle$
+    where $k, l$ are rational numbers, $k\neq l$.}\label{proof:dirichlet}
+    \begin{proof}
+        As shown in the Example 3.1.1 of~\cite{HONG200565},
+        the Dirichlet function has Lebesgue integral
+        on interval $[0, 1]$ with a value equal to $0$.
+
+% Commented lines are proving b in Q <=> ab in Q
+%        Lets prove that for every rational number $a\in \QQ\setminus \{0\}$
+        Lets prove that for every rational number $a\in \QQ$
+        and real number $b\in \RR$
+        following statements are equivalent:
+        \begin{enumerate}\setlength{\itemsep}{0pt}
+            \item $b$ is rational
+            \item $a+b$ is rational
+%            \item $a\cdot b$ is rational
+        \end{enumerate}
+
+%        1. $\implies$ 2., 1. $\implies$ 3.:\\
+        1. $\implies$ 2.:\\
+        Since both $a$ and $b$ are rational,
+        by definition they can be written as a fraction of integers
+        \begin{equation*}
+            a = \frac{p}{q}, b = \frac{p'}{q'}
+        \end{equation*}
+%        The sum and product then can be expressed as a fraction of integers,
+        The sum can be expressed as a fraction of integers,
+%        thus are also rational.
+        thus is also rational.
+        \begin{equation*}
+%            a+b = \frac{pq'+p'q}{qq'}, a\cdot b = \frac{pp'}{qq'}
+            a+b = \frac{pq'+p'q}{qq'}
+        \end{equation*}
+
+%        2. $\implies$ 1., 3. $\implies$ 1.:\\
+        2. $\implies$ 1.:\\
+        The $b$ can be written using the rational $a$
+%        and the sum or product of $a$ and $b$.
+        and the sum of $a$ and $b$.
+        \begin{equation*}
+%            b = (a+b) + (-a), b = (a\cdot b)\cdot \frac{1}{a}
+            b = (a+b) + (-a)
+        \end{equation*}
+%        Now since both $-a$, $\frac{1}{a}$ and $(a+b)$ or $(a\cdot b)$ are rational,
+        Now since both $(-a)$ and $(a+b)$ are rational,
+        $b$ was already proven to be rational in the opposite side implication.
+
+%        For $a=0$ also the first and second statements are equivalent trivially.
+
+        Lets show that the integral of Dirichlet function $D$ is equal
+        to $0$ on any interval bounded by rational numbers.
+        The limits of the definite integral can be transformed by removing $k$
+        and adding it to the argument of $D$. As was proven previously,
+        for rational number $k$, $D(x+k) = D(x)$.
+        \begin{equation*}
+            \int_{k}^{l} D(x) dx = \int_{0}^{l-k} D(x+k) dx = \int_{0}^{l-k} D(x) dx
+        \end{equation*}
+        As the dirichlet function is nonnegative, following is true.
+        \begin{equation*}
+            0 \leq \int_0^{l-k} D(x) dx \leq \int_0^{\lceil l-k \rceil} D(x) dx
+        \end{equation*}
+        The right-hand side integral can be split into unit-long parts.
+        \begin{equation*}
+            \int_0^{\lceil l-k\rceil} D(x) dx
+            = \int_0^1 D(x) dx + \int_1^2 D(x) dx + \ldots
+                + \int_{\lceil l-k \rceil-1}^{\lceil l-k \rceil} D(x) dx
+        \end{equation*}
+        Finally, as every unit integral has rational bounds,
+        it can be transformed to integral with 0 as lower bound like already shown.
+        \begin{equation*}
+            \int_u^{u+1} D(x) dx = \int_0^1 D(x+u) dx = \int_0^1 D(x) dx = 0
+        \end{equation*}
+        \begin{equation*}
+            0 \leq \int_{k}^{l} D(x) dx \leq \int_0^{\lceil l-k \rceil} D(x) dx = 0
+        \end{equation*}
+
+        To show the robustness of Dirichlet function, the quantitative robustness
+        with respect to constant weight function $w_1$
+        and identity as the evaluation function can be used.
+
+        \begin{equation*}
+            Q_{w_1, id}(\langle k, l\rangle)
+            = \frac{\int_{k}^{l} 1\cdot D(x) dx}{\int_{k}^{l} 1} = \frac{0}{l-k} = 0
+        \end{equation*}
+    \end{proof}
+\end{lemma}
+

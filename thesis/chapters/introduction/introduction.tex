@@ -1,0 +1,64 @@
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+
+Deep neural networks (DNN) are state-of-the-art technology. They are used in many
+real-world applications e.g.\ medicine, self-driving cars, autonomous systems,
+many of which are critical.
+Deep neural networks used in natural language processing have up to hundreds of
+billions of parameters~\cite{2021arXiv210901652W}.
+That is too many for people to comprehend. Tools for the automation
+of DNN verification are needed.
+
+%For the qualitative disproving of the verity of general DNNs,
+%many algorithms for finding adversarial
+%inputs have already been developed~\cite{7958570, chen2020real, 8578273}.
+%The DNN can be qualitatively disproven by finding any adversarial input.
+%On the other hand, proving the nonexistence of adversarial input is usually made by generating constraints
+%on adversarial inputs and then showing there can be no such
+%input~\cite{Isac2022NeuralNV}. This is computationally much more difficult
+%and prone to errors emerging from inaccuracies of floating point numbers operations.
+%It is often made with the use of a simplex algorithm combined with 
+%the satisfiability modulo theories (SMT) paradigm~\cite{Isac2022NeuralNV, marabou2019, reluplex2017}.
+%As far as I am aware, there is no reasonably quick quantitative
+%validator of general DNNs yet.
+
+While DNNs generally base their computation on floating point numbers,
+another branch of DNN development, quantized neural networks
+use for their computation low-bit-width values.
+This can lower both the size of neural network and power consumption
+while increasing speed of tnhe network~\cite{jacob2017,han2016}.
+An extreme example of quantization are Binarised neural networks (BNN)~\cite{nips2016},
+which use binary parameters for their computations, resulting in much
+cheaper computational price, both when learning and in production,
+while maintaining near state-of-the-art results~\cite{Agrawal2023}.
+
+Verification of neural networks is split into two categories. First,
+qualitative verification, searches through input space looking for any
+adversarial input, that is an input which results in a wrong output.
+Second, quantitative verification, searches through input space
+determining the portion of the input space giving adversarial outputs.
+While both qualitative and quantitative verificators for BNNs do exist,
+they scale only up to millions of parameters for qualitative verification~\cite{10.1007/978-3-030-03592-1_16}
+and tens of thousands of parameters for quantitative verification~\cite{10.1145/3563212}.
+\vspace{1em}
+
+In this thesis, I provide definition of binarised neural network and the problems
+of both qualitative and quantitative robustness over arbitrary function.
+Further I provide a definition of an input region based on hamming distance from
+base input and based on fixed bits.
+
+The third chapter focusses on Answer set programming (ASP)~\cite{lifschitz2008answer,anger2005glimpse}.
+In it I provide a definition of a logic program and semantics of ASP using
+the reduct of a program~\cite{gelfond1991}.
+I also show the syntax and semantics of Clingo~\cite{gebser2019potassco},
+an integrated ASP solver.
+
+I then implement a framework for quantitative robustness verification of BNNs
+using Clingo. This implementation allows for verification of input regions
+based on hamming distance and fixed bits as in~\cite{zhang2021bdd4bnn}.
+As far as I am concerned, this is the first such implementation using
+the ASP paradigm.
+
+Finally, I evaluate the speed of this verificator on BNN models of various
+architectures based of PyTorch deep learning platform provided by NPAQ~\cite{baluta2019quantitative}
+trained in~\cite{10.1145/3563212} on MNIST~\cite{mnist2017} dataset.

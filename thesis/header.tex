@@ -1,178 +1,178 @@
-\usepackage{makecell}
-\usepackage{amsmath}
-\usepackage{setspace}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{thmtools}
-\usepackage{mathtools}
-\usepackage{listings}
-\usepackage[utf8]{inputenc}
-\usepackage[toc]{appendix}
-\usepackage{float}
-\usepackage{xcolor}
+    \usepackage{makecell}
+    \usepackage{amsmath}
+    \usepackage{setspace}
+    \usepackage{amssymb}
+    \usepackage{amsthm}
+    \usepackage{thmtools}
+    \usepackage{mathtools}
+    \usepackage{listings}
+    \usepackage[utf8]{inputenc}
+    \usepackage[]{appendix}
+    \usepackage{float}
+    \usepackage{xcolor}
 
-% Landscape fullpage tables
-\usepackage{pdflscape}
-\usepackage{afterpage}
-\usepackage{geometry}
+    % Landscape fullpage tables
+    \usepackage{pdflscape}
+    \usepackage{afterpage}
+    \usepackage{geometry}
 
-% Nested file structure of thesis
-\usepackage{import}
+    % Nested file structure of thesis
+    \usepackage{import}
 
-% Drawing graphs
-% \usepackage{tikz}
-\usepackage{blindtext}
-\newcommand\void[1]{}
+    % Drawing graphs
+    % \usepackage{tikz}
+    \usepackage{blindtext}
+    \newcommand\void[1]{}
 
-% Plotting data
-\usepackage{pgfplots}
-\usepackage{pgfplotstable}
-\input{plotting/scatter.tex}
-\usetikzlibrary{math}
-\input{plotting/inputs.tex}
-\usepackage{xstring}
+    % Plotting data
+    \usepackage{pgfplots}
+    \usepackage{pgfplotstable}
+    \input{plotting/scatter.tex}
+    \usetikzlibrary{math}
+    \input{plotting/inputs.tex}
+    \usepackage{xstring}
 
-% Clever references
-\usepackage{hyperref}
-\usepackage[nameinlink,noabbrev,capitalize,sort]{cleveref}
+    % Clever references
+    \usepackage{hyperref}
+    \usepackage[nameinlink,noabbrev,capitalize,sort]{cleveref}
 
-\Crefname{appsec}{Appendix}{Appendices}
-\AtBeginEnvironment{appendices}{\crefalias{chapter}{appsec}}
+    \Crefname{appsec}{Appendix}{Appendices}
+    \AtBeginEnvironment{appendices}{\crefalias{chapter}{appsec}}
 
-\newfloat{Encoding}{htbp}{loe}
-%\crefalias{enc}{encoding}
-\newenvironment{code}
-{
-    \setlength{\abovecaptionskip}{0.5em}
-    \let\outerlabel\label
-    \renewcommand{\label}[1]{\outerlabel[encoding]{##1}}
-}{
-    \vspace{0.5em}
-}
-\Crefname{encoding}{Encoding}{Encodings}
-\AtBeginEnvironment{encoding}{\crefalias{table}{encoding}}
+    \newfloat{Encoding}{htbp}{loen}
+    %\crefalias{enc}{encoding}
+    \newenvironment{code}
+    {
+        \setlength{\abovecaptionskip}{0.5em}
+        \let\outerlabel\label
+        \renewcommand{\label}[1]{\outerlabel[encoding]{##1}}
+    }{
+        \vspace{0.5em}
+    }
+    \Crefname{encoding}{Encoding}{Encodings}
+    \AtBeginEnvironment{encoding}{\crefalias{table}{encoding}}
 
-% BNN representation
-\newcommand{\BB}{\mathbb{B}}       % {-1, 1}
-\newcommand{\RR}{\mathbb{R}}       % real numbers
-\newcommand{\QQ}{\mathbb{Q}}       % rational numbers
-\newcommand{\NN}{\mathbb{N}}       % natural numbers
-\newcommand{\ZZ}{\mathbb{Z}}       % whole numbers
-\newcommand{\BNN}{\mathcal{N}^{\BB}}     % binary neural network
-\newcommand{\DNN}{\mathcal{N}}     % binary neural network
-\newcommand{\mat}[1]{\mathbf{#1}}  % matrix
-\newcommand{\sgn}{\mathrm{sgn}}  % signum function
+    % BNN representation
+    \newcommand{\BB}{\mathbb{B}}       % {-1, 1}
+    \newcommand{\RR}{\mathbb{R}}       % real numbers
+    \newcommand{\QQ}{\mathbb{Q}}       % rational numbers
+    \newcommand{\NN}{\mathbb{N}}       % natural numbers
+    \newcommand{\ZZ}{\mathbb{Z}}       % whole numbers
+    \newcommand{\BNN}{\mathcal{N}^{\BB}}     % binary neural network
+    \newcommand{\DNN}{\mathcal{N}}     % binary neural network
+    \newcommand{\mat}[1]{\mathbf{#1}}  % matrix
+    \newcommand{\sgn}{\mathrm{sgn}}  % signum function
 
-% Custom operators
-\newcommand{\floor}[1]{\left\lfloor{} #1 \right\rfloor{}}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator*{\argsort}{arg\,sort}
+    % Custom operators
+    \newcommand{\floor}[1]{\left\lfloor{} #1 \right\rfloor{}}
+    \DeclareMathOperator*{\argmax}{arg\,max}
+    \DeclareMathOperator*{\argmin}{arg\,min}
+    \DeclareMathOperator*{\argsort}{arg\,sort}
 
-% ASP representation
-\newcommand{\asprule}[2]{\ensuremath{#1 \leftarrow{} #2.}}  % head <- body.
-\newcommand{\aspfact}[1]{\ensuremath{#1.}}  % head.
-\newcommand{\aspconstraint}[1]{\ensuremath{\leftarrow{} #1.}}
-\newcommand{\aspnot}{\mathrm{not}\,}          % not p
-\newcommand{\asphead}{\mathrm{head}}          % head(r)
-\newcommand{\aspbody}{\mathrm{body}}          % body(r)
-\newcommand{\aspCn}[1]{\mathrm{Cn}(#1)}              % Cn(\Pi)
+    % ASP representation
+    \newcommand{\asprule}[2]{\ensuremath{#1 \leftarrow{} #2.}}  % head <- body.
+    \newcommand{\aspfact}[1]{\ensuremath{#1.}}  % head.
+    \newcommand{\aspconstraint}[1]{\ensuremath{\leftarrow{} #1.}}
+    \newcommand{\aspnot}{\mathrm{not}\,}          % not p
+    \newcommand{\asphead}{\mathrm{head}}          % head(r)
+    \newcommand{\aspbody}{\mathrm{body}}          % body(r)
+    \newcommand{\aspCn}[1]{\mathrm{Cn}(#1)}              % Cn(\Pi)
 
-% Tables
-\newcolumntype{L}{>{$}l<{$}}  % math column
-\newcolumntype{C}{>{$}c<{$}}  % math column
-\newcolumntype{R}{>{$}r<{$}}  % math column
-\setlength{\tabcolsep}{1em}   % bigger column sep for readability
+    % Tables
+    \newcolumntype{L}{>{$}l<{$}}  % math column
+    \newcolumntype{C}{>{$}c<{$}}  % math column
+    \newcolumntype{R}{>{$}r<{$}}  % math column
+    \setlength{\tabcolsep}{1em}   % bigger column sep for readability
 
-% Listings
-\lstdefinestyle{mystyle}{
-%    backgroundcolor=\color{backcolour},
-%    commentstyle=\color{codegreen},
-%    keywordstyle=\color{magenta},
-%    numberstyle=\tiny\color{codegray},
-%    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,
-    breaklines=true,
-    captionpos=b,
-    keepspaces=true,
-    numbers=left,
-    numbersep=5pt,
-    showspaces=false,
-    showstringspaces=false,
-    showtabs=false,
-    tabsize=2
-}
-\lstset{style=mystyle}
-\newcommand{\lstclingo}[1]{\lstinputlisting[language=prolog]{programs/#1}}
+    % Listings
+    \lstdefinestyle{mystyle}{
+    %    backgroundcolor=\color{backcolour},
+    %    commentstyle=\color{codegreen},
+    %    keywordstyle=\color{magenta},
+    %    numberstyle=\tiny\color{codegray},
+    %    stringstyle=\color{codepurple},
+        basicstyle=\ttfamily\footnotesize,
+        breakatwhitespace=false,
+        breaklines=true,
+        captionpos=b,
+        keepspaces=true,
+        numbers=left,
+        numbersep=5pt,
+        showspaces=false,
+        showstringspaces=false,
+        showtabs=false,
+        tabsize=2
+    }
+    \lstset{style=mystyle}
+    \newcommand{\lstclingo}[1]{\lstinputlisting[language=prolog]{programs/#1}}
 
-\lstset{numbers=left,numberblanklines=false,escapeinside=||}
-\let\origthelstnumber\thelstnumber{}
+    \lstset{numbers=left,numberblanklines=false,escapeinside=||}
+    \let\origthelstnumber\thelstnumber{}
 
-\makeatletter
-\lst@Key{countblanklines}{true}[t]%
-    {\lstKV@SetIf{#1}\lst@ifcountblanklines}
+    \makeatletter
+    \lst@Key{countblanklines}{true}[t]%
+        {\lstKV@SetIf{#1}\lst@ifcountblanklines}
 
-\lst@AddToHook{OnEmptyLine}{%
-    \lst@ifnumberblanklines\else%
-       \lst@ifcountblanklines\else%
+    \lst@AddToHook{OnEmptyLine}{%
+        \lst@ifnumberblanklines\else%
+           \lst@ifcountblanklines\else%
+             \advance\c@lstnumber-\@ne\relax%
+           \fi%
+        \fi}
+
+    \newcommand*\Suppressnumber{%
+      \lst@AddToHook{OnNewLine}{%
+        \let\thelstnumber\relax%
          \advance\c@lstnumber-\@ne\relax%
-       \fi%
-    \fi}
-
-\newcommand*\Suppressnumber{%
-  \lst@AddToHook{OnNewLine}{%
-    \let\thelstnumber\relax%
-     \advance\c@lstnumber-\@ne\relax%
-    }%
-}
-
-\newcommand*\Reactivatenumber{%
-  \lst@AddToHook{OnNewLine}{%
-   \let\thelstnumber\origthelstnumber%
-   \advance\c@lstnumber\@ne\relax}%
-}
-\makeatother
-
-% Writting rules etc
-\newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}  % chktex 9
-\newcommand\atom[2]{\texttt{#1($#2$)}}
-
-
-% Evaluation
-\newcounter{hypothesis}
-\newcommand\hypothesis[1]{%
-    \stepcounter{hypothesis}%
-    \noindent\textbf{Hypothesis \thehypothesis}:\\#1%
+        }%
     }
 
-\newcommand{\landtable}[1]{%
-    \afterpage{%
-        \clearpage%
-        \newgeometry{margin=0in}%
-        \thispagestyle{empty}%
-        \begin{landscape}%
-            \begin{table}%
-                \centering%
-                #1% tabular, captions, label
-            \end{table}%
-        \end{landscape}%
-        \clearpage%
-        \restoregeometry%
+    \newcommand*\Reactivatenumber{%
+      \lst@AddToHook{OnNewLine}{%
+       \let\thelstnumber\origthelstnumber%
+       \advance\c@lstnumber\@ne\relax}%
+    }
+    \makeatother
+
+    % Writting rules etc
+    \newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}  % chktex 9
+    \newcommand\atom[2]{\texttt{#1($#2$)}}
+
+
+    % Evaluation
+    \newcounter{hypothesis}
+    \newcommand\hypothesis[1]{%
+        \stepcounter{hypothesis}%
+        \noindent\textbf{Hypothesis \thehypothesis}:\\#1%
+        }
+
+    \newcommand{\landtable}[1]{%
+        \afterpage{%
+            \clearpage%
+            \newgeometry{margin=0in}%
+            \thispagestyle{empty}%
+            \begin{landscape}%
+                \begin{table}%
+                    \centering%
+                    #1% tabular, captions, label
+                \end{table}%
+            \end{landscape}%
+            \clearpage%
+            \restoregeometry%
+        }%
     }%
-}%
 
-\newcommand{\sectionsep}{%
-    \vspace{1em}\hrule{}\vspace{1em}%
-}
+    \newcommand{\sectionsep}{%
+        \vspace{1em}\hrule{}\vspace{1em}%
+    }
 
 
-% Theorems, definitions, etc.
-\theoremstyle{plain}
-\crefname{theorem}{Theorem}{Theorems}
-\newtheorem{theorem}{Theorem}[section]
-\crefname{lemma}{Lemma}{Lemmas}
-\newtheorem{lemma}[theorem]{Lemma}
+    % Theorems, definitions, etc.
+    \theoremstyle{plain}
+    \crefname{theorem}{Theorem}{Theorems}
+    \newtheorem{theorem}{Theorem}[section]
+    \crefname{lemma}{Lemma}{Lemmas}
+    \newtheorem{lemma}[theorem]{Lemma}
 
 \theoremstyle{definition}
 \crefname{definition}{Definition}{Definitions}
@@ -183,6 +183,9 @@
 \theoremstyle{remark}
 \crefname{remark}{Remark}{Remarks}
 \newtheorem*{remark}{Remark}
+
+\Crefname{proof}{Proof}{Proofs}
+\AtBeginEnvironment{appendix}{\crefalias{lemma}{proof}}
 
 
 % Import of chapters
