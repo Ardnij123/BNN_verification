@@ -25,5 +25,5 @@ cd testing/
 2) Run the evaluator
 
 ```bash
-./evaluator --hamming-distance 2
+./evaluator.py --hamming-distance 2
 ```
