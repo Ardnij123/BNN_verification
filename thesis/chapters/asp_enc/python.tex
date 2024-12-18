@@ -137,6 +137,15 @@ lower position has higher priority.
 \[\vec b' = \floor{\vec b'} + \{\vec b'\}\]
 \[ord = \argsort(-\{\vec b'\})\]
 
-\subsection{Parameters of the Evaluator}\label{sec:python_pars}
+\subsection{Evaluator framework}\label{sec:python_pars}
 
-% TODO
+As a part of implementation, I have created python framework
+a for simple encoding and execution of the verification task.
+The framework resides in directory \texttt{/testing/verificator.py}.
+It allows for specification of a number of different parameters
+on command line.
+
+To get all possible parameters of this framework, see:
+\begin{center}
+    \texttt{./verificator.py --help}
+\end{center}

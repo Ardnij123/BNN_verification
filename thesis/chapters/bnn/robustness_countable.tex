@@ -345,7 +345,7 @@ To quickly compute this sum, an explicit formula will be needed.\pagebreak
 \end{lemma}
 
 \begin{definition}[Input region based on fixed bits]
-    For an input $\vec u\in \BB^{n_1}_{\pm 1}$ and set of indices $I \subseteq [n_1]$, let
+    For an input $\vec u\in \BB^{n_1}_{\pm 1}$ and set of indices $I \subseteq \{1,\ldots,n_1\}$, let
     $R(\vec u, I) := \{\vec x\in \BB^{n_1}_{\pm 1} \mid \forall i\in I.\, x_i = u_i \}$.
 \end{definition}
 
@@ -360,7 +360,7 @@ Examples of such input regions are:
     &(1,1,1,-1), (-1,1,1,-1), (1,-1,1,-1), (-1,-1,1,-1)\}\\
 \end{align*}
 
-\begin{lemma}{Let $\vec u$ be a vector from $\BB^{d}_{\pm 1}$, $I\subseteq [n_1]$.
+\begin{lemma}{Let $\vec u$ be a vector from $\BB^{d}_{\pm 1}$, $I\subseteq \{1,\ldots,n_1\}$.
     Then $||R(\vec u, I)|| = 2^{d-||I||}$}%
     \label{lemma:size_of_fixed}%
     \begin{proof}
