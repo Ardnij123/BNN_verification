@@ -18,12 +18,13 @@ of nogoods~\cite{DBLP:journals/ai/GebserKS12}.
 
 For the inference of answer sets of some logic program,
 Clasp uses backpropagation over a tree of partial solutions.
-Each time the it sees a partial solution that is not an answer set
-of the problem, it derives new constraints on the solution which it
+Each time it sees a partial solution that is not an answer set
+of the program, it derives new constraints on the solution which it
 propagates up the tree of partial solutions. This allows Clasp
-to prune large branches of partial solutions.
+to efficiently prune large branches of partial solutions.
 
 For model (answer sets) counting, Clasp uses a method
 called model enumeration. To determine that a set is an answer set,
-it needs to evaluate the exact set. This means, that the time complexity
-of an enumeration is always dependent on the number of answer sets.
+it needs to evaluate the exact set.
+This means, that the time complexity
+of finding all answer sets is always at least linear with respect to the number of answer sets.
