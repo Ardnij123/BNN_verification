@@ -1,0 +1,39 @@
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+In this thesis, I have provided definition of binarised neural networks
+and shown that even with the batch normalization, which comes from training of these
+networks, they can be encoded into operations only using integers.
+
+Further, I have defined quantitative robustness of arbitral function
+as an integral or sum of weighted evaluation of input over input region.
+Further, I have defined qualitative robustness using the previously defined
+quantitative robustness. For both of these definitions I have shown and proven
+multiple properties, such as bounds of quantitative robustness and independence
+of qualitative robustness on weight function.
+Finally, I have shown definition of input region based on the Hamming distance
+and fixed bits. For both of these regions I have derived a direct way
+of computing their size.
+
+The third chapter focussed on Answer set programming, which is a branch of logic programming
+I have used in the implementation part of this thesis.
+I provide definition of a logic program and its semantics using the reduct of program.
+All of this is illustrated on examples.
+For a demonstration of a solver of answer set programming paradigm,
+I refer to appendix, where I show syntax of Clingo,
+consisting of grounder Gringo and solver Clasp. In this appendix I also point out
+some problems that may lead to large grounded program and high solving time.
+
+In the next chapter I have created an encoding of binarised neural network
+robustness problem
+into a logic program. This encoding consists of a variable part containing
+parameters computed from the binarised neural network and a constant part
+providing the computation over this network.
+To create the variable part, I use Python.
+
+Finally, the last part of this thesis is an evaluation of the encoding.
+The metric of evaluation is computational time. I compare this time between
+different encodings of the constant part. Using the best found encoding,
+I have evaluated robustness of 12 binarised neural networks trained on MNIST dataset
+over input region based on the Hamming distance and on fixed bits.
+My implementation proves to be able to evaluate binarised neural network
+on an input region with size up to $10^7$ in 600\,s on a regular computer.

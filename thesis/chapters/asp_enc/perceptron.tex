@@ -134,6 +134,7 @@ As shown in~\cref{lem:integer_perceptron}, each binarised perceptron can be enco
 using only bias with value from whole numbers. The encoding in Clingo language is
 straightforward.
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 potential(L, N, S+B) :-
     S = #sum{
@@ -142,7 +143,9 @@ potential(L, N, S+B) :-
     bias(L, N, B).
 
 on(L,N) :- potential(L, N, P), P >= 0.
-\end{lstlisting}
+\end{lstlisting}%
+    \nobreak\captionof{Encoding}{Encoding of perceptron using potential}\label{enc:perc_potential}
+\end{code}
 
 This implementation is a direct encoding of a binarised perceptron.
 It follows the formula of perceptron as described in the~\cref{lem:integer_perceptron}.
@@ -150,8 +153,9 @@ The implementation is however weak as it relies on the use of intermediate
 symbol \texttt{potential}. While grounding, this would require to build a literal
 for every possible value of inner potential of each perceptron in the network
 and consequently in a large ground program as shown in the~\cref{exp:gringo_grounding}.
-To fight that, literals of symbol \texttt{on} may be built directly.
+To fight that, literals of symbol \texttt{on} may be built directly.\label{sec:perc_potential_removal}
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(L, N) :-
     -B <= #sum{
@@ -159,6 +163,8 @@ on(L, N) :-
         -W,M : not on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of perceptron}\label{enc:perc_direct}
+\end{code}
 
 % TODO: Proove that this is correct
 
@@ -198,11 +204,14 @@ place similiarly to~\cref{lem:integer_perceptron}.
 With weights and biases adjusted in the way described above, the perceptron can be
 encoded without the use of default negation:
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(L, N) :-
     -B <= #sum{ W,M : on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of perceptron using (0,1)-binarised values}\label{enc:perc_direct_01}
+\end{code}
 
 \subsection{Encoding of an Argmax layer}
 
@@ -211,6 +220,7 @@ be encoded using the vector of weights, biases and the precedence of individual 
 First, literals of predicate symbol \texttt{potential} can be constructed similiarly
 to the perceptron, on these \texttt{max} aggregate can be used.
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 potential(D+1, N, S+B) :-
     S = #sum{
@@ -223,6 +233,8 @@ output(N) :-
         (S, -P, N) : potential(D+1, N, S), outpre(N, P) },
     output_layer(D+1).
 \end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and max aggregate}\label{enc:argmax_max}
+\end{code}
 
 While this may work, in the grounding process it will expand into a large ruleset.
 The ruleset will contain a rule with \texttt{potential} in head for every
@@ -239,6 +251,7 @@ all output position with inner potential less than some other can be forbidden f
 the final output. An \texttt{output} literal can then be introduced into the solution
 using a rule with count aggregate in its head.
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 potential(D+1, N, S+B) :-
     S = #sum{
@@ -258,12 +271,16 @@ potential(D+1, N, S+B) :-
     output_layer(D+1),
     N != M, S = T, P > Q.
 \end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and constraints on output}\label{enc:argmax_potential_pm1}
+\end{code}
 
 Negated literals with predicate symbol \texttt{on} can be eliminated similiarly
-to the elimination in the encoding of perceptron. The precedence must be however
-calculated from the new bias after elimination.%
+to the elimination in the encoding of perceptron (see~\Cref{sec:01-mapping}). The precedence must be however
+calculated from the new bias after elimination.
+(For the implementation see~\Cref{sec:pyt_argmax}.)%
 \label{sec:01-argmax}
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 potential(D+1, N, S+B) :-
     S = #sum{ W,M : on(D, M), weight(D+1, M, N, W) },
@@ -281,10 +298,13 @@ potential(D+1, N, S+B) :-
     output_layer(D+1),
     N != M, S = T, P > Q.
 \end{lstlisting}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and constraints on output with $(0,1)$-binarization}\label{enc:argmax_potential_01}
+\end{code}
 
 Literals with predicate symbol \texttt{potential} can now be also eliminated
 by using \texttt{sum} aggregate directly in the comparison of inner potential values.
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
 
@@ -302,6 +322,8 @@ by using \texttt{sum} aggregate directly in the comparison of inner potential va
     output_layer(D+1),
     N != M, S + B = T + C, P > Q.
 \end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and equality}\label{enc:argmax_variable}
+\end{code}
 
 While grounding, the value of an aggregate may be only compared to an integer value.
 It may not be compared with value of another aggregate directrly. This results in
@@ -317,6 +339,7 @@ representation as sets, additional value must be added to tuples for summation t
 between values of weights for node \texttt{N} and \texttt{M}.
 The same transformation may be done also with the second constraint of the logic program.
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
 
@@ -334,6 +357,8 @@ The same transformation may be done also with the second constraint of the logic
     output_layer(D+1),
     N != M, P > Q.
 \end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and and equality}\label{enc:argmax_direct_eq}
+\end{code}
 
 Finally, as described in~\cref{exp:gringo_grounding}, when an equality symbol is used
 in an aggregate, while grounding it is transformed into two inequalities.
@@ -342,6 +367,7 @@ may be used instead of \texttt{=} in the second constraint.
 If $C-B < S-T$, then the output is not the right one by the first constraint already,
 thus it is equivalent to the previous logic program.
 
+\begin{code}
 \begin{lstlisting}[language=Prolog, numbers=none]
 1 { output(1..N) } 1 :- output_layer(D+1), layer(D+1, N).
 
@@ -359,4 +385,6 @@ thus it is equivalent to the previous logic program.
     output_layer(D+1),
     N != M, P > Q.
 \end{lstlisting}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and inequality}\label{enc:argmax_direct}
+\end{code}
 

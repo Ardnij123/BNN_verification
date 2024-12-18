@@ -1,0 +1,239 @@
+\chapter{Proofs and examples}
+
+\section{Proofs}
+
+\begin{lemma}{The Dirichlet function $D$ is robust on any interval $\langle k, l\rangle$
+    where $k, l$ are rational numbers, $k\neq l$.}\label{proof:dirichlet}
+    \begin{proof}
+        As shown in the Example 3.1.1 of~\cite{HONG200565},
+        the Dirichlet function has Lebesgue integral
+        on interval $[0, 1]$ with a value equal to $0$.
+
+% Commented lines are proving b in Q <=> ab in Q
+%        Lets prove that for every rational number $a\in \QQ\setminus \{0\}$
+        Lets prove that for every rational number $a\in \QQ$
+        and real number $b\in \RR$
+        following statements are equivalent:
+        \begin{enumerate}\setlength{\itemsep}{0pt}
+            \item $b$ is rational
+            \item $a+b$ is rational
+%            \item $a\cdot b$ is rational
+        \end{enumerate}
+
+%        1. $\implies$ 2., 1. $\implies$ 3.:\\
+        1. $\implies$ 2.:\\
+        Since both $a$ and $b$ are rational,
+        by definition they can be written as a fraction of integers
+        \begin{equation*}
+            a = \frac{p}{q}, b = \frac{p'}{q'}
+        \end{equation*}
+%        The sum and product then can be expressed as a fraction of integers,
+        The sum can be expressed as a fraction of integers,
+%        thus are also rational.
+        thus is also rational.
+        \begin{equation*}
+%            a+b = \frac{pq'+p'q}{qq'}, a\cdot b = \frac{pp'}{qq'}
+            a+b = \frac{pq'+p'q}{qq'}
+        \end{equation*}
+
+%        2. $\implies$ 1., 3. $\implies$ 1.:\\
+        2. $\implies$ 1.:\\
+        The $b$ can be written using the rational $a$
+%        and the sum or product of $a$ and $b$.
+        and the sum of $a$ and $b$.
+        \begin{equation*}
+%            b = (a+b) + (-a), b = (a\cdot b)\cdot \frac{1}{a}
+            b = (a+b) + (-a)
+        \end{equation*}
+%        Now since both $-a$, $\frac{1}{a}$ and $(a+b)$ or $(a\cdot b)$ are rational,
+        Now since both $(-a)$ and $(a+b)$ are rational,
+        $b$ was already proven to be rational in the opposite side implication.
+
+%        For $a=0$ also the first and second statements are equivalent trivially.
+
+        Lets show that the integral of Dirichlet function $D$ is equal
+        to $0$ on any interval bounded by rational numbers.
+        The limits of the definite integral can be transformed by removing $k$
+        and adding it to the argument of $D$. As was proven previously,
+        for rational number $k$, $D(x+k) = D(x)$.
+        \begin{equation*}
+            \int_{k}^{l} D(x) dx = \int_{0}^{l-k} D(x+k) dx = \int_{0}^{l-k} D(x) dx
+        \end{equation*}
+        As the dirichlet function is nonnegative, following is true.
+        \begin{equation*}
+            0 \leq \int_0^{l-k} D(x) dx \leq \int_0^{\lceil l-k \rceil} D(x) dx
+        \end{equation*}
+        The right-hand side integral can be split into unit-long parts.
+        \begin{equation*}
+            \int_0^{\lceil l-k\rceil} D(x) dx
+            = \int_0^1 D(x) dx + \int_1^2 D(x) dx + \ldots
+                + \int_{\lceil l-k \rceil-1}^{\lceil l-k \rceil} D(x) dx
+        \end{equation*}
+        Finally, as every unit integral has rational bounds,
+        it can be transformed to integral with 0 as lower bound like already shown.
+        \begin{equation*}
+            \int_u^{u+1} D(x) dx = \int_0^1 D(x+u) dx = \int_0^1 D(x) dx = 0
+        \end{equation*}
+        \begin{equation*}
+            0 \leq \int_{k}^{l} D(x) dx \leq \int_0^{\lceil l-k \rceil} D(x) dx = 0
+        \end{equation*}
+
+        To show the robustness of Dirichlet function, the quantitative robustness
+        with respect to constant weight function $w_1$
+        and identity as the evaluation function can be used.
+
+        \begin{equation*}
+            Q_{w_1, id}(\langle k, l\rangle)
+            = \frac{\int_{k}^{l} 1\cdot D(x) dx}{\int_{k}^{l} 1} = \frac{0}{l-k} = 0
+        \end{equation*}
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}{Incremental building of the answer set of the basic logic program.}%
+    \label{proof:incremental}
+    Let $(\Sigma, \Pi)$ be a basic logic program with at most one literal
+    in the head of every rule.
+    Let
+    \begin{equation*}
+        S_0 = \emptyset,
+    \end{equation*}
+    \begin{equation*}
+        S_{i+1} = S_{i}\cup \{\varphi \mid \{\varphi\} = \asphead(r), \aspbody^+(r) \subseteq S_i\} \text{ for each } i \geq 0.
+    \end{equation*}
+    Denote by $S_\infty$ the union of all $S_i$ for $i\geq 0$.
+    If it holds that:
+    \begin{itemize}
+        \item for every $\Sigma$-atom $\varphi$, $S_\infty$ contains at most one
+            of literals $\varphi, \neg\varphi$, and
+        \item $S_\infty$ is consistent with every constraint of $\Pi$,
+    \end{itemize}
+    then $S_\infty$ is
+    the only answer set of program $(\Sigma, \Pi)$. Else $(\Sigma, \Pi)$ has no answer set.
+
+    For a proof of this lemma, see~\Cref{proof:incremental}.
+
+    \begin{proof}
+        $S_\infty$ does contain only (some of) heads of rules from $\Pi$,
+        each of these being $\Sigma$-literals. If $S_\infty$ does also not contain
+        both $\varphi$ and $\neg\varphi$ for any $\Sigma$-atom $\varphi$,
+        $S_\infty$ is a partial interpretation of $\Sigma$.
+
+        By definition $S_\infty$ contains the literal from the head of each rule,
+        that has its body consistent with the $S_\infty$. For this the $S_\infty$
+        is consistent with every non-constraint rule of the logic program.
+
+        Let $rank: S_\infty \to \NN_0$ be a function that assigns to every literal
+        $\varphi \in S_\infty$ the lowest value $n$ such that $\varphi \in S_n$.
+        Let there be some answer set $A$ of $(\Sigma, \Pi)$ such that
+        $S_\infty\setminus A = \Delta \neq \emptyset$.
+        Let $\alpha$ be a literal from $\Delta$ with the lowest $rank$.
+        By definition, $rank(\alpha) \geq 1$ as $S_0$ is empty.
+        As the literal $\alpha\in S_{rank(\alpha)}$ and $\alpha \not\in S_{rank(\alpha)-1}$,
+        either $\alpha$ is in a head of some fact (thus $rank(\alpha)=1$ and $\alpha$
+        needs to be in $A$ for it to be consistent),
+        or there must be some rule $r\in\Pi$ such that $\aspbody^+(r)$ is not consistent
+        with $S_{rank(\alpha)-2}$ and is consistent with $S_{rank(\alpha)-1}$.
+        (The rule $r$ is what made the literal $\alpha$ in $S_{rank(\alpha)}$.)
+        But $A$ does contain all the literals from $S_{rank(\alpha)-1}$. (Literal $\alpha$
+        has the lowest rank of all literals from $S_\infty$ not included in $A$.)
+        Thus $A$ is not consistent with $r$ and is not an answer set of $(\Sigma, \Pi)$.
+        By contradiction, for every answer set $B$ of $(\Sigma, \Pi)$,
+        $S_\infty \subseteq B$. As the answer set is by definition minimal,
+        the $S_\infty$ is the only possible answer set of $(\Sigma, \Pi)$.
+    \end{proof}
+\end{lemma}
+
+\section{Examples}
+
+\begin{example}\label{exp:grounding}
+    The ground instantiation of the logic program $(\Sigma_1, \Pi_1)$ defined in the
+    \cref{exp:logic_program1} can be found as follows:
+
+    The fact $\aspfact{p(True)}$ does not contain any variable nor function symbol.
+    For this, it is ground. The same holds for the fact $\aspfact{q(5, True)}$
+    and the rule $\asprule{p(False)}{\aspnot p(True)}$
+
+    To ground the rule $\asprule{q(Y, True)}{q(X, (Y < X))}$,
+    this rule should be first substitued for each rule with pair $(X, Y)$ substitued
+    for every element from $\sigma_\NN \times \sigma_\NN$, that is every element
+    from $\NN_0\times \NN_0$. Then in the second parameter of atom in the body,
+    the expression substitued for $(Y < X)$ would be replaced with $True$ or $False$,
+    depending on the substitution for $X$ and $Y$. This would lead to the ground
+    instantiation $gr(\Sigma_1, \Pi_1)$ being infinite.
+
+    To fight this, we can allow only the instantiation of rule $r$ in which
+    only the substitutions of variables in the $\aspbody^+(r)$
+    leading to the already existing atoms are allowed.
+    After the stable model will be defined,
+    it will be easy to see that this constraint does not remove any
+    stable models of program, as every atom in it has to also be
+    in the head of some rule.
+
+    In this example, we already know that the atom $p(5, True)$ does exist.
+    This means we can substitute $X\equiv 5$ and $(Y<X)\equiv True$.
+    Also as $(Y<X)\equiv (Y < 5) \equiv True$, to successfully instantiate
+    the rule, it has to hold that $Y < 5$. There are no other constraints
+    on the rule, thus the rule instantiates into rules:
+
+    \begin{equation*}
+        \begin{matrix}
+            Y=0 & : & \asprule{q(0, True)}{q(5, True)}\\
+            Y=1 & : & \asprule{q(1, True)}{q(5, True)}\\
+            Y=2 & : & \asprule{q(2, True)}{q(5, True)}\\
+            Y=3 & : & \asprule{q(3, True)}{q(5, True)}\\
+            Y=4 & : & \asprule{q(4, True)}{q(5, True)}\\
+        \end{matrix}
+    \end{equation*}
+
+    But now we have introduced new atoms on predicate $q$. We have to also add
+    all instances of the rule, in which these atoms are allowed.
+    As the individual atoms only differ in the first term, the instances are
+    seen easily. The instances added by the new rules also do not introduce
+    new atoms on predicate $q$, the ground instance is thus in this case finite.
+
+    \begin{equation*}
+        \begin{matrix}
+            X=4, Y=0 & : & \asprule{q(0, True)}{q(4, True)}\\
+            X=4, Y=1 & : & \asprule{q(1, True)}{q(4, True)}\\
+            X=4, Y=2 & : & \asprule{q(2, True)}{q(4, True)}\\
+            X=4, Y=3 & : & \asprule{q(3, True)}{q(4, True)}\\
+            X=3, Y=0 & : & \asprule{q(0, True)}{q(3, True)}\\
+            X=3, Y=1 & : & \asprule{q(1, True)}{q(3, True)}\\
+            X=3, Y=2 & : & \asprule{q(2, True)}{q(3, True)}\\
+            X=2, Y=0 & : & \asprule{q(0, True)}{q(2, True)}\\
+            X=2, Y=1 & : & \asprule{q(1, True)}{q(2, True)}\\
+            X=1, Y=0 & : & \asprule{q(0, True)}{q(1, True)}\\
+        \end{matrix}
+    \end{equation*}
+
+    The full ground instantiation $gr((\Sigma_1, \Pi_1))$ is thus the program:
+
+    \begin{equation*}
+        gr((\Sigma_1, \Pi_1)) =
+            \begin{cases}
+                \aspfact{p(True)}\\
+                \aspfact{q(5, True)}\\
+                \asprule{p(False)}{\aspnot p(True)}\\
+                \asprule{q(0, True)}{q(5, True)}\\
+                \asprule{q(1, True)}{q(5, True)}\\
+                \asprule{q(2, True)}{q(5, True)}\\
+                \asprule{q(3, True)}{q(5, True)}\\
+                \asprule{q(4, True)}{q(5, True)}\\
+                \asprule{q(0, True)}{q(4, True)}\\
+                \asprule{q(1, True)}{q(4, True)}\\
+                \asprule{q(2, True)}{q(4, True)}\\
+                \asprule{q(3, True)}{q(4, True)}\\
+                \asprule{q(0, True)}{q(3, True)}\\
+                \asprule{q(1, True)}{q(3, True)}\\
+                \asprule{q(2, True)}{q(3, True)}\\
+                \asprule{q(0, True)}{q(2, True)}\\
+                \asprule{q(1, True)}{q(2, True)}\\
+                \asprule{q(0, True)}{q(1, True)}\\
+            \end{cases}
+    \end{equation*}
+\end{example}
+
+\cref{exp:grounding} well illustrates the need for the logic programs
+to be well written. As was shown in the example, due to a single flawed rule,
+the size of the ground instantiation of the logic program is quadratic
+given the highest number in the first parameter of atoms of the predicate $q$.

@@ -1,0 +1,42 @@
+\chapter{Evaluation}
+
+In this part I discuss the speed of individual encoding components.
+For the best combination of components. I also show the capabilities
+of implemented framework on multiple BNN models and inputs.
+
+\section{Methodology of evaluation}
+
+For the evaluation of my framework, I have used inputs from MNIST dataset~\cite{mnist2017},
+the same as were used for the evaluation of BNNQuanalyst~\cite{10.1145/3563212}.
+In the next chapter I will be reffering to instances of inputs corresponding to
+numbers 0 to 9 as I0 to I9.
+% TODO: pictures
+
+Models for evaluation have been taken from~\cite{10.1145/3563212}.
+The architectures of different models is written in \Cref{table:model_architecture}.
+Values in the column \textit{Architecture} correspond to layers sizes. First is
+size of the input vector, then follow inner layers and last is size of the output.
+Training of BNN models is not part of this thesis and thus is not discussed here.
+
+\begin{table}[H]
+\begin{tabular}{l c | l c}  % chktex 44
+    \toprule{}%
+    Model & Architecture  & Model & Architecture       \\ \midrule
+    M1    & 100:100:10    & M7    & 100:50:20:10       \\
+    M2    & 100:50:10     & M8    & 16:25:20:10        \\
+    M3    & 400:100:10    & M9    & 36:15:10:10        \\
+    M4    & 64:10:10      & M10   & 16:64:32:20:10     \\
+    M5    & 784:100:10    & M11   & 25:25:25:20:10     \\
+    M6    & 100:100:50:10 & M12   & 784:50:50:50:50:10 \\ \bottomrule
+\end{tabular}
+\caption{Architectures of models}%
+    \label{table:model_architecture}
+\end{table}
+
+Unless otherwise specified, the framework was evaluated on Dell G3 3579.
+For full specifications of both the machine and the system, see~\Cref{app:specs}.
+
+%\section{Evaluation of different solvers}
+%I have evaluated BNN models 
+% TODO: if time will suffice
+

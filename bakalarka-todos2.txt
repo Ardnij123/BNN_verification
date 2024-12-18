@@ -10,8 +10,8 @@ Medium priority:
     DNN inner potential není "weighted sum", ale spíš "linear model"
     Split ASP encoding of BNN --- robustness
     Zkontrolovat zdroje
-    Přesunout LoD a Thesis assignment před začátek číslování
 
 Low priority:
     Zformátovat List of definitions, aby každý řádek nebyl "Definition (...)"
+    Přesunout LoD a Thesis assignment před začátek číslování
     Vytvořit k BP package do Dockeru

@@ -1,0 +1,44 @@
+\subsection{Evaluation of fixed bits encoding}
+
+In the implementation part of this thesis, I have introduced 3 possible encodings
+of input region based on fixed bits, \Cref{enc:fixed_bits,enc:fixed_input,enc:fixed_direct}.
+I have meassured computation time of verification task using these encodings
+on models M4, M5 and M7 on input regions $R(\text{I0}, \mbox{\{F+1},\ldots,n\})$
+and $R(\text{I0}, \{F+1,\ldots,n\})$
+where $n$ is the input length of used model, for $F\in \{0, 8, 16, 20\}$.
+Results are in~\Cref{tab:eval_input}.
+
+\begin{table}
+    \Crefname{encoding}{Enc.}{}
+    \begin{center}
+        \makebox[\textwidth][c]{
+\begin{tabular}{ l l | r r | r r | r r }  % chktex 44
+    \toprule{}%
+    & & \multicolumn{2}{c |}{M4} & \multicolumn{2}{c |}{M5} & \multicolumn{2}{c}{M7}\\
+    & & I0 & I7 & I0 & I7 & I0 & I7 \\ \midrule
+    $F=0$ & \Cref{enc:fixed_bits}   &   0.010 &   0.010 &   0.628 &   0.626 &   0.080 &   0.077 \\
+          & \Cref{enc:fixed_input}  &   0.010 &   0.010 &   0.605 &   0.607 &   0.093 &   0.075 \\
+          & \Cref{enc:fixed_direct} &   0.008 &   0.008 &   0.487 &   0.483 &   0.042 &   0.042 \\ \midrule
+    $F=8$ & \Cref{enc:fixed_bits}   &   0.013 &   0.013 &   0.637 &   0.637 &   0.114 &   0.101 \\
+          & \Cref{enc:fixed_input}  &   0.012 &   0.012 &   0.609 &   0.610 &   0.098 &   0.096 \\
+          & \Cref{enc:fixed_direct} &   0.010 &   0.011 &   0.495 &   0.488 &   0.065 &   0.079 \\ \midrule
+    $F=16$& \Cref{enc:fixed_bits}   &   0.172 &   0.243 &   0.658 &   0.713 &   1.519 &   1.624 \\
+          & \Cref{enc:fixed_input}  &   0.146 &   0.208 &   0.617 &   0.636 &   1.241 &   1.466 \\
+          & \Cref{enc:fixed_direct} &   0.137 &   0.204 &   0.503 &   0.520 &   1.157 &   1.366 \\ \midrule
+    $F=20$& \Cref{enc:fixed_bits}   &   2.845 &   4.575 &   0.701 &   1.310 &  24.801 &  27.936 \\
+          & \Cref{enc:fixed_input}  &   2.807 &   3.818 &   0.635 &   0.867 &  18.880 &  23.989 \\
+          & \Cref{enc:fixed_direct} &   2.772 &   3.505 &   0.520 &   0.740 &  18.500 &  24.245 \\ \bottomrule
+\end{tabular}}
+    \end{center}
+    \caption[Computation time for differnt implementations of input region based on fixed bits.]{%
+    Computation time for models M1, M2 and M7 on $R(\text{I0}, \{F,\ldots,n\})$ and $R(\text{I7}, \{F,\ldots,n\})$
+    where $n$ is size of input of model and $F\in\{0, 8, 16, 20\}$, for different implementations of input region
+    based on fixed bits.
+    Values in the table were obtained using methodology described in~\Cref{sec:consistency}
+    (avg.\ of 3 best of 4).
+    }\label{tab:eval_input}%
+\end{table}
+
+By a moderate margin, \Cref{enc:fixed_direct} seems to be the fastest,
+especially in cases with a large input vector (M5). In cases of the size of
+input vector being small (M4), the margins are smaller.

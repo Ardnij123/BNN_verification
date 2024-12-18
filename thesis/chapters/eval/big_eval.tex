@@ -1,0 +1,161 @@
+\section{Evaluation of performance of the implemented framework}
+
+In the last section, I have compared the performance of my framework
+over different encodings of layers and constraints on the input.
+In this section I proceed to evaluate 12 models of BNN classificators
+trained on the MNIST dataset.
+
+For the evaluation I have used following parameters:
+\begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item Perceptron encoding: \Cref{enc:perc_direct_01}
+    \item Output layer encoding: \Cref{enc:argmax_direct}
+    \item Hamming encoding: \Cref{enc:fixed_direct}
+    \item Fixed bit encoding: last $n-k$ bits fixed
+    \item Base input instance: Instance 0
+    \item Time limit: 600\,s
+    \item Parallel threads: 8
+\end{itemize}
+
+\newcommand\modelsArch{%
+    1_blk_100_100_10/M1,%
+    1_blk_100_50_10/M2,%
+    1_blk_400_100_10/M3,%
+    1_blk_64_10_10/M4,%
+    1_blk_784_100_10/M5,%
+    2_blk_100_100_50_10/M6,%
+    2_blk_100_50_20_10/M7,%
+    2_blk_16_25_20_10/M8,%
+    2_blk_36_15_10_10/M9,%
+    3_blk_16_64_32_20_10/M10,%
+    3_blk_25_25_25_20_10/M11,%
+    4_blk_784_50_50_50_50_10/M12,%
+}
+
+\newcommand\fixedLen{0_/0,4_/4,8_/8,12/12,16/16,20/20,24/24}
+
+\makeatletter
+\newcommand{\strequal}[2]{\pdf@strcmp{#1}{#2}==0}
+\makeatother
+
+\subsection{Over hamming distance}
+
+Using my framework, I have evaluated robustness of all models over input region
+based on the hamming distance of up to 4. The results of this evaluation
+are shown in~\Cref{fig:eval_hamming_big}, values of the individual measurement
+and of the computed robustness for these models are also in~\Cref{tab:eval_big_hamming}.
+From the~\Cref{fig:eval_hamming_big} it seems that the framework has time complexity
+close to linear to the size of the input region. Due to the limitations of Clingo
+given by the inference algorithm based on enumeration of solutions,
+the time complexity can not be lower than linear to the number of solutions
+(the number of inputs with differing outputs).
+
+\begin{figure}[p]%
+    \begin{tikzpicture}[scale=1.2]
+        \begin{loglogaxis}[
+                legend entries={M1,M2,M3,M4,M5,M6,M7,M8,M9,M10,M11,M12},
+                legend pos=outer north east,
+                cycle multi list={
+                    color list\nextlist
+                    mark=*
+                },
+                axis equal,
+            ]
+            \foreach \modelArch/\modelNum in \modelsArch{
+                \addplot+[y filter/.expression={\strequal{\thisrow{model}}{models/mnist_bnn_\modelArch/} ? ln(y) : nan}] table [x=Models, y=Time] {hamming_big_add.csv};
+            }
+        \end{loglogaxis}
+    \end{tikzpicture}
+    \hfill
+    \begin{tikzpicture}[scale=1.2]
+        \begin{loglogaxis}[
+                legend entries={M1,M2,M3,M4,M5,M6,M7,M8,M9,M10,M11,M12},
+                legend pos=outer north east,
+                cycle multi list={
+                    color list\nextlist
+                    mark=*
+                },
+                axis equal,
+            ]
+            \foreach \modelArch/\modelNum in \modelsArch{
+                \addplot+[
+                    x filter/.expression={ln(hamming(\thisrow{input-size}, x))},
+                    y filter/.expression={\strequal{\thisrow{model}}{models/mnist_bnn_\modelArch/} ? ln(y) : nan}
+                ] table [x=hamming-distance, y=Time, meta=color] {hamming_big_add.csv};
+            }
+        \end{loglogaxis}
+    \end{tikzpicture}
+    \caption[Computation time of verification of all models based on different hamming distance]{%
+    Computation time for verification of all models on $HD(\text{I0}, d)$ for $d\in \{0, 1, 2, 3, 4\}$.
+    Values in the figure were obtained using methodology described in~\Cref{sec:consistency}
+    (avg.\ of 3 best of 4). Evaluations that did not finish before timeout are not shown
+    in this figure. Timeout was set to 600\,s.\\
+    The upper figure shows dependency of computation time on the number of found models
+    (inputs with output different from that of base input),
+    the bottom figure shows dependency of computation time on the size of input region.
+    In case of 
+    Data for these figures are in~\Cref{tab:eval_big_hamming}.
+    }\label{fig:eval_hamming_big}%
+\end{figure}
+
+\subsection{Over fixed bits}
+
+Using my framework, I have evaluated robustness of all models over input regions
+based on fixed bits with up to 24 free bits. The results of this evaluation
+are shown in~\Cref{fig:eval_fixed_big}, values of the individual measurement
+and of the computed robustness for these models are also in~\Cref{tab:eval_big_fixed}.
+The time complexity seems to be similiar to the one of evaluation using
+input region based on hamming distance.
+The data does not suggest evaluation over any type of input region being significantly faster
+than the other.
+
+\begin{figure}[p]%
+    \begin{tikzpicture}[scale=1.2]
+        \begin{loglogaxis}[
+                legend entries={M1,M2,M3,M4,M5,M6,M7,M8,M9,M10,M11,M12},
+                legend pos=outer north east,
+                cycle multi list={
+                    color list\nextlist
+                    mark=*
+                },
+                axis equal,
+            ]
+            \foreach \modelArch/\modelNum in \modelsArch{
+                \addplot+[y filter/.expression={\strequal{\thisrow{model}}{models/mnist_bnn_\modelArch/} ? ln(y) : nan}] table [x=Models, y=Time, color=color] {fixed_big_add.csv};
+            }
+        \end{loglogaxis}
+    \end{tikzpicture}
+    \hfill
+    \begin{tikzpicture}[scale=1.2]
+        \begin{loglogaxis}[
+                legend entries={M1,M2,M3,M4,M5,M6,M7,M8,M9,M10,M11,M12},
+                legend pos=outer north east,
+                cycle multi list={
+                    color list\nextlist
+                    mark=*
+                },
+                axis equal,
+            ]
+            \foreach \modelArch/\modelNum in \modelsArch{
+                    \addplot+[
+                        x filter/.expression={ln(fixedbits(x))},
+                        y filter/.expression={\strequal{\thisrow{model}}{models/mnist_bnn_\modelArch/} ? ln(y) : nan}
+                    ] table [
+                        x=free-bits,
+                        y=Time,
+                    ] {fixed_big_add.csv};
+            }
+        \end{loglogaxis}
+    \end{tikzpicture}
+    \caption[Computation time of verification of all models based on fixed bits]{%
+    Computation time for verification of all models on $R(\text{I0}, \{F+1,\ldots,n\})$
+    where $n$ is size of input of model and $F \in \{0,4,8,12,16,20,24\}$.
+    Values in the figure were obtained using methodology described in~\Cref{sec:consistency}
+    (avg.\ of 3 best of 4). Evaluations that did not finish before timeout are not shown
+    in this figure. Timeout was set to 600\,s.\\
+    The upper figure shows dependency of computation time on the number of found models
+    (inputs with output different from that of base input),
+    the bottom figure shows dependency of computation time on the size of input region.
+    Data for these figures are in~\Cref{tab:eval_big_fixed}.
+    }\label{fig:eval_fixed_big}%
+\end{figure}

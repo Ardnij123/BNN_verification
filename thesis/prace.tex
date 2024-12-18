@@ -29,8 +29,7 @@
         paradigm in this task. It implements a quantitative verificator for binarized neural
         net\-wo\-rks, a~special case of deep neural networks, using this paradigm.
         It also demonstrates the use of this verificator on a network
-        trained on the MNIST dataset. The verificator proves to be especially
-        good when evaluating highly robust networks.
+        trained on the MNIST dataset.
     },
 	advisor={RNDr. Samuel Pastva, PhD.},
 	thanks={
@@ -40,10 +39,6 @@
         to all my teachers, who had patience with me and helped me grow,
         and finally to my advisor, who has provided me with this assignment
         and was my support when writing this thesis.\vspace{1.5em}
-
-        \noindent
-        Computational resources were provided by the e-INFRA CZ project (ID:90254),
-        supported by the Ministry of Education, Youth and Sports of the Czech Republic.
     }, % TODO
     bib=bibliography.bib,
 }
@@ -62,9 +57,7 @@
 % Assignment of the thesis
 \importchapter{assignment}
 
-\chapter{Introduction}
-
-% TODO
+\importchapter{introduction}
 
 % Binarised neural network
 \importchapter{bnn}
@@ -76,16 +69,14 @@
 
 \importchapter{asp_enc}
 
-\chapter{Evaluation}
+\importchapter{eval}
 
-\chapter{Conclusion}
+\importchapter{conclusion}
 
-\chapter*{Appendices}
-\addcontentsline{toc}{chapter}{Appendices}
+\begin{appendices}
 
-\section*{Code of BNN verificator}
-The full code of the verificator implemented in this thesis together with
-the examples can be found either in the Thesis archive in the IS MU
-or in the Github repository \href{https://github.com/Ardnij123/BNN_verification}{https://github.com/Ardnij123/BNN\_verification}
+\importchapter{appendices}
+
+\end{appendices}
 
 \end{document}
