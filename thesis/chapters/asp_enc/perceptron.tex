@@ -144,7 +144,7 @@ potential(L, N, S+B) :-
 
 on(L,N) :- potential(L, N, P), P >= 0.
 \end{lstlisting}%
-    \caption{Encoding of perceptron using potential}\label{enc:perc_potential}
+    \nobreak\captionof{Encoding}{Encoding of perceptron using potential}\label{enc:perc_potential}
 \end{code}
 
 This implementation is a direct encoding of a binarised perceptron.
@@ -163,7 +163,7 @@ on(L, N) :-
         -W,M : not on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
-    \caption{Direct encoding of perceptron}\label{enc:perc_direct}
+    \nobreak\captionof{Encoding}{Direct encoding of perceptron}\label{enc:perc_direct}
 \end{code}
 
 % TODO: Proove that this is correct
@@ -210,7 +210,7 @@ on(L, N) :-
     -B <= #sum{ W,M : on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
-    \caption{Direct encoding of perceptron using (0,1)-binarised values}\label{enc:perc_direct_01}
+    \nobreak\captionof{Encoding}{Direct encoding of perceptron using (0,1)-binarised values}\label{enc:perc_direct_01}
 \end{code}
 
 \subsection{Encoding of an Argmax layer}
@@ -233,7 +233,7 @@ output(N) :-
         (S, -P, N) : potential(D+1, N, S), outpre(N, P) },
     output_layer(D+1).
 \end{lstlisting}
-    \caption{Encoding of argmax layer using potential and max aggregate}\label{enc:argmax_max}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and max aggregate}\label{enc:argmax_max}
 \end{code}
 
 While this may work, in the grounding process it will expand into a large ruleset.
@@ -271,7 +271,7 @@ potential(D+1, N, S+B) :-
     output_layer(D+1),
     N != M, S = T, P > Q.
 \end{lstlisting}
-    \caption{Encoding of argmax layer using potential and constraints on output}\label{enc:argmax_potential_pm1}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and constraints on output}\label{enc:argmax_potential_pm1}
 \end{code}
 
 Negated literals with predicate symbol \texttt{on} can be eliminated similiarly
@@ -298,7 +298,7 @@ potential(D+1, N, S+B) :-
     output_layer(D+1),
     N != M, S = T, P > Q.
 \end{lstlisting}
-    \caption{Encoding of argmax layer using potential and constraints on output with $(0,1)$-binarization}\label{enc:argmax_potential_01}
+    \nobreak\captionof{Encoding}{Encoding of argmax layer using potential and constraints on output with $(0,1)$-binarization}\label{enc:argmax_potential_01}
 \end{code}
 
 Literals with predicate symbol \texttt{potential} can now be also eliminated
@@ -322,7 +322,7 @@ by using \texttt{sum} aggregate directly in the comparison of inner potential va
     output_layer(D+1),
     N != M, S + B = T + C, P > Q.
 \end{lstlisting}
-    \caption{Direct encoding of argmax layer using constraints on output and equality}\label{enc:argmax_variable}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and equality}\label{enc:argmax_variable}
 \end{code}
 
 While grounding, the value of an aggregate may be only compared to an integer value.
@@ -357,7 +357,7 @@ The same transformation may be done also with the second constraint of the logic
     output_layer(D+1),
     N != M, P > Q.
 \end{lstlisting}
-    \caption{Direct encoding of argmax layer using constraints on output and and equality}\label{enc:argmax_direct_eq}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and and equality}\label{enc:argmax_direct_eq}
 \end{code}
 
 Finally, as described in~\cref{exp:gringo_grounding}, when an equality symbol is used
@@ -385,6 +385,6 @@ thus it is equivalent to the previous logic program.
     output_layer(D+1),
     N != M, P > Q.
 \end{lstlisting}
-    \caption{Direct encoding of argmax layer using constraints on output and inequality}\label{enc:argmax_direct}
+    \nobreak\captionof{Encoding}{Direct encoding of argmax layer using constraints on output and inequality}\label{enc:argmax_direct}
 \end{code}
 

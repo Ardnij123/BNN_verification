@@ -19,7 +19,7 @@ differing from the base input to be an answer set.
            N : not on(0, N),     input(N) } > R,
     hammdist(R).
 \end{lstlisting}
-    \caption{Encoding of input region based on Hamming distance}\label{enc:hamming}
+    \nobreak\captionof{Encoding}{Encoding of input region based on Hamming distance}\label{enc:hamming}
 \end{code}
 
 \subsubsection{Input region based on the fixed bits}
@@ -34,7 +34,7 @@ and real input position not having 1 and vice versa.
 :-     on(0, N), not input(N), inpfix(N).
 :- not on(0, N),     input(N), inpfix(N).
 \end{lstlisting}
-    \caption{Encoding of input region based on fixed bits using constraints on input}\label{enc:fixed_bits}
+    \nobreak\captionof{Encoding}{Encoding of input region based on fixed bits using constraints on input}\label{enc:fixed_bits}
 \end{code}
 
 The second constraint can be substitued for a rule with \texttt{on(0,N)} % chktex 36
@@ -46,7 +46,7 @@ in its head and not in its body.
 :- on(0, N), not input(N), inpfix(N).
 on(0, N) :- input(N), inpfix(N).
 \end{lstlisting}
-    \caption{Encoding of input region based on fixed bits using rule and constraint}\label{enc:fixed_input}
+    \nobreak\captionof{Encoding}{Encoding of input region based on fixed bits using rule and constraint}\label{enc:fixed_input}
 \end{code}
 
 Finally, instead of allowing for any input to have either value in the start,
@@ -58,5 +58,5 @@ that are not fixed. This may allow for further optimizations in the grounding pr
 on(0, N) :- input(N), inpfix(N).
 { on(0, K) } :- not inpfix(K), layer(0, N), K = 1..N.
 \end{lstlisting}
-    \caption{Encoding of input region based on fixed bits using rule for fixed bits and choice for unfixed bits}\label{enc:fixed_direct}
+    \nobreak\captionof{Encoding}{Encoding of input region based on fixed bits using rule for fixed bits and choice for unfixed bits}\label{enc:fixed_direct}
 \end{code}

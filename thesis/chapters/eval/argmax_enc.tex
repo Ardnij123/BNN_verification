@@ -37,7 +37,8 @@ $d=3$ & \Cref{enc:argmax_max}           &     --- &     --- & 199.465 & 133.432 
       & \Cref{enc:argmax_direct}        &  70.076 &  55.665 &  34.035 &  25.567 &  43.001 &  40.295 \\\bottomrule
 \end{tabular}}
     \end{center}
-    \caption{Computation time for models M1, M2 and M7 on $HD(\text{I0}, d)$ and $HD(\text{I7}, d)$
+    \caption[Computation time for differnt implementations of argmax layer and input region based on hamming distance]{%
+    Computation time for models M1, M2 and M7 on $HD(\text{I0}, d)$ and $HD(\text{I7}, d)$
     for $d\in \{0, 1, 2, 3\}$ and different implementations of argmax layer.\\
     Values in the table were obtained using methodology described in~\Cref{sec:consistency}
     (avg.\ of 3 best of 4). Symbols --- in the table mean that less than 3 of 4 evaluations finished
@@ -117,7 +118,8 @@ $F=16$& \Cref{enc:argmax_max}           &  29.282 &  30.253 &   5.244 &   6.693 
       & \Cref{enc:argmax_direct}        &   1.321 &   1.560 &   0.477 &   0.714 &   1.533 &   1.633 \\\bottomrule
 \end{tabular}}
     \end{center}
-    \caption{Computation time for models M1, M2 and M7 on $R(\text{I0}, \{F,\ldots,100\})$ and $HD(\text{I7}, \{F,\ldots,100\})$
+    \caption[Computation time for differnt implementations of argmax layer and input region based on fixed bits]{%
+    Computation time for models M1, M2 and M7 on $R(\text{I0}, \{F,\ldots,100\})$ and $R(\text{I7}, \{F,\ldots,100\})$
     for $F\in \{0, 8, 16\}$ and different implementations of perceptron.
     Values in the table were obtained using methodology described in~\Cref{sec:consistency}
     (avg.\ of 3 best of 4).

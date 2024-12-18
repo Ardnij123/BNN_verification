@@ -54,7 +54,8 @@ for $d\in\{0,1,2,3\}$ on models M1, M2 and M7. Results are in%
      & \Cref{enc:perc_direct_01}      & 54.734 & 47.627 & 34.122 & 22.653 & 55.003 & 45.514 \\ \bottomrule
 \end{tabular}}
     \end{center}
-    \caption{Computation time for models M1, M2 and M7 on $HD(\text{I0}, d)$ and $HD(\text{I7}, d)$
+    \caption[Computation time for differnt implementations of perceptron and input region based on hamming distance]{%
+    Computation time for models M1, M2 and M7 on $HD(\text{I0}, d)$ and $HD(\text{I7}, d)$
     for $d\in \{0, 1, 2, 3\}$ and different implementations of perceptron.\\
     Values in the table were obtained using methodology described in~\Cref{sec:consistency}
     (avg.\ of 3 best of 4). Symbols --- in the table mean that less than 3 of 4 evaluations finished
@@ -88,24 +89,26 @@ Results are in~\Cref{tab:eval_perc_fixed_bits}.
     & & \multicolumn{2}{c |}{M1} & \multicolumn{2}{c |}{M2} & \multicolumn{2}{c}{M7}\\
     & & I0 & I7 & I0 & I7 & I0 & I7 \\ \midrule
     $F=0$ & \Cref{enc:perc_potential} &   8.765 &   7.366 &   3.723 &   3.239 &     --- & 123.503 \\
-          & \Cref{enc:perc_direct}    &   0.117 &   0.116 &   0.060 &   0.059 &       ? &   0.065 \\
+          & \Cref{enc:perc_direct}    &   0.117 &   0.116 &   0.060 &   0.059 & SegFault&   0.065 \\
           & \Cref{enc:perc_direct_01} &   0.105 &   0.104 &   0.054 &   0.053 &   0.059 &   0.058 \\ \midrule
     $F=8$ & \Cref{enc:perc_potential} &  33.032 &  25.277 &   9.153 &   7.932 &     --- &     --- \\
-          & \Cref{enc:perc_direct}    &   0.150 &   0.136 &   0.070 &   0.073 &       ? &       ? \\
+          & \Cref{enc:perc_direct}    &   0.150 &   0.136 &   0.070 &   0.073 & SegFault& SegFault\\
           & \Cref{enc:perc_direct_01} &   0.120 &   0.119 &   0.063 &   0.069 &   0.093 &   0.098 \\ \midrule
     $F=16$& \Cref{enc:perc_potential} &     --- &     --- & 256.537 &     --- &     --- &     --- \\
-          & \Cref{enc:perc_direct}    &   1.910 &   1.594 &   0.762 &   0.853 &   1.850 &       ? \\
+          & \Cref{enc:perc_direct}    &   1.910 &   1.594 &   0.762 &   0.853 &   1.850 & SegFault\\
           & \Cref{enc:perc_direct_01} &   1.318 &   1.661 &   0.482 &   0.775 &   1.534 &   1.654 \\ \midrule
     $F=22$& \Cref{enc:perc_potential} &     --- &     --- &     --- &     --- &     --- &     --- \\
           & \Cref{enc:perc_direct}    & 152.552 &     --- &  63.089 &  65.880 & 124.291 & 126.506 \\
           & \Cref{enc:perc_direct_01} & 102.996 &     --- &  50.311 &  71.003 & 101.660 & 111.104 \\ \bottomrule
 \end{tabular}}
     \end{center}
-    \caption{Computation time for models M1, M2 and M7 on $R(\text{I0}, \{F,\ldots,100\})$ and $HD(\text{I7}, \{F,\ldots,100\})$
+    \caption[Computation time for differnt implementations of perceptron and input region based on fixed bits]{%
+    Computation time for models M1, M2 and M7 on $R(\text{I0}, \{F,\ldots,100\})$ and $HD(\text{I7}, \{F,\ldots,100\})$
     for $F\in \{0, 8, 16, 22\}$ and different implementations of perceptron.\\
     Values in the table were obtained using methodology described in~\Cref{sec:consistency}
     (avg.\ of 3 best of 4). Symbols --- in the table mean that less than 3 of 4 evaluations finished
-    before timeout. Timeout was set to 300\,s.
+    before timeout. Timeout was set to 300\,s. Evaluations with ``SegFault'' in table ended with segmentation fault.
+    This error was caused by solver Clasp.
     }\label{tab:eval_perc_fixed_bits}%
 \end{table}
 
