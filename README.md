@@ -1,6 +1,6 @@
 This repository contains implementation of verification
 of binarised neural network using ASP tool Clingo.
-The implementation can be found in /testing/clingo-based/evaluator.py
+The implementation can be found in /testing/evaluator.py
 
 For the explanation of this implementation, see /thesis/prace.pdf
 
