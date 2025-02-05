@@ -604,4 +604,64 @@ TESTS = {
         'bnn_encoding/argmax/output_variable_01.lp',
         ]),
     ],
+
+'negation/on-hamming': [
+    ('-t', ['8']*4),
+    ('--hamming-distance', ['3', '2', '1', '0']),
+    ('-T', ['300']),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_100_100_10/',
+        'models/mnist_bnn_1_blk_100_50_10/',
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--perceptron', [
+        'bnn_encoding/perceptron/direct_cn.lp',
+        ]),
+    ('--fixed-bits-encoding', [
+        'bnn_encoding/input_region/fixed_direct_cn.lp',
+        ]),
+    ('--hamming-encoding', [
+        'bnn_encoding/input_region/hamming_cn.lp',
+        ]),
+    ('--argmax', [
+        'bnn_encoding/argmax/output_direct_cn.lp'
+        ]),
+    ],
+
+'negation/on-fixbits': [
+    ('-t', ['8']*4),
+    ('--fixed-bits', [
+        'fixed_bits/fixed_24_100.txt',
+        'fixed_bits/fixed_20_100.txt',
+        'fixed_bits/fixed_16_100.txt',
+        'fixed_bits/fixed_12_100.txt',
+        'fixed_bits/fixed_8_100.txt',
+        'fixed_bits/fixed_4_100.txt',
+        'fixed_bits/fixed_0_100.txt',
+        ]),
+    ('-T', ['300']),
+    ('--input-base', [
+        'inputs/instance_0_100.txt',
+        ]),
+    ('--model', [
+        'models/mnist_bnn_1_blk_100_100_10/',
+        'models/mnist_bnn_1_blk_100_50_10/',
+        'models/mnist_bnn_2_blk_100_50_20_10/',
+        ]),
+    ('--perceptron', [
+        'bnn_encoding/perceptron/direct_cn.lp',
+        ]),
+    ('--fixed-bits-encoding', [
+        'bnn_encoding/input_region/fixed_direct_cn.lp',
+        ]),
+    ('--hamming-encoding', [
+        'bnn_encoding/input_region/hamming_cn.lp',
+        ]),
+    ('--argmax', [
+        'bnn_encoding/argmax/output_direct_cn.lp'
+        ]),
+    ],
 }
