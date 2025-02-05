@@ -378,6 +378,12 @@
     4_blk_784_50_50_50_50_10/M12,%
 }
 
+\newcommand\modelsSmall{%
+    1_blk_100_100_10/M1,%
+    1_blk_100_50_10/M2,%
+    2_blk_100_50_20_10/M7,%
+}
+
 \newcommand\fixedLen{0_/0,4_/4,8_/8,12/12,16/16,20/20,24/24}
 
 \makeatletter
@@ -468,23 +474,46 @@
 
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(L, N) :-
-    -B <= #sum{
-         W,M :     on(L-1, M), weight(L, M, N, W);
-        -W,M : not on(L-1, M), weight(L, M, N, W) },
+    -B <= #sum{ W,M : on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
         \hrule
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(L, N) :-
-    -B <= #sum{
-         W,M :  on(L-1, M), weight(L, M, N, W);
-        -W,M : -on(L-1, M), weight(L, M, N, W) },
+    -B <= #sum{ W,M :  on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 -on(L, N) :-
-    -B > #sum{
-         W,M :  on(L-1, M), weight(L, M, N, W);
-        -W,M : -on(L-1, M), weight(L, M, N, W) },
+    -B <= #sum{ W,M :  on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
     \end{frame}
+
+\begin{frame}{Hammingova vzdálenost $r=0,1,2,3,4$}
+\begin{figure}[p]%
+    \begin{tikzpicture}[scale=1]
+        \begin{loglogaxis}[
+                legend entries={M1$\neg$, M1, M2$\neg$, M2, M3$\neg$, M3},
+                legend pos=outer north east,
+                cycle multi list={
+                    color list\nextlist
+                    mark=*
+                },
+                axis equal,
+                xlabel={velikost oblasti vstupů},
+                ylabel={čas [s]},
+            ]
+            \foreach \modelArch/\modelNum in \modelsSmall{
+                \addplot+[
+                    x filter/.expression={ln(hamming(100, x))},
+                    y filter/.expression={\strequal{\thisrow{model}}{models/mnist_bnn_\modelArch/} ? ln(y) : nan}
+                ] table [x=hamming-distance, y=Time, meta=color] {negation_hamming.csv};
+                \addplot+[
+                    x filter/.expression={ln(hamming(100, x))},
+                    y filter/.expression={\strequal{\thisrow{model}}{models/mnist_bnn_\modelArch/} ? ln(y) : nan}
+                ] table [x=hamming-distance, y=Time, meta=color] {hamming_big_add.csv};
+            }
+        \end{loglogaxis}
+    \end{tikzpicture}
+\end{figure}
+\end{frame}
 \end{document}

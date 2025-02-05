@@ -2,21 +2,15 @@
 
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(L, N) :-
-    -B <= #sum{
-         W,M :     on(L-1, M), weight(L, M, N, W);
-        -W,M : not on(L-1, M), weight(L, M, N, W) },
+    -B <= #sum{ W,M : on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
         \hrule
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(L, N) :-
-    -B <= #sum{
-         W,M :  on(L-1, M), weight(L, M, N, W);
-        -W,M : -on(L-1, M), weight(L, M, N, W) },
+    -B <= #sum{ W,M :  on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 -on(L, N) :-
-    -B > #sum{
-         W,M :  on(L-1, M), weight(L, M, N, W);
-        -W,M : -on(L-1, M), weight(L, M, N, W) },
+    -B <= #sum{ W,M :  on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
