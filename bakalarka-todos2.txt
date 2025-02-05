@@ -5,13 +5,10 @@ High priority:
     Dopsat 4.3.3 Parameters of the Evaluator
 
 Medium priority:
-    Přidělat příklad na konci `chapters/bnn/bnn_def.tex`
     Upravit citace aby si TeX nestěžoval
-    DNN inner potential není "weighted sum", ale spíš "linear model"
     Split ASP encoding of BNN --- robustness
     Zkontrolovat zdroje
 
 Low priority:
-    Zformátovat List of definitions, aby každý řádek nebyl "Definition (...)"
     Přesunout LoD a Thesis assignment před začátek číslování
     Vytvořit k BP package do Dockeru

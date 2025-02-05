@@ -10,6 +10,7 @@
 \usepackage[]{appendix}
 \usepackage{float}
 \usepackage{xcolor}
+\usepackage{wrapfig}
 
 % Landscape fullpage tables
 \usepackage{pdflscape}
@@ -135,7 +136,7 @@
 \makeatother
 
 % Writting rules etc
-\newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}  % chktex 9
+%\newcommand\fact[2]{\texttt{#1(}#2\texttt{).}\\}  % chktex 9
 \newcommand\atom[2]{\texttt{#1($#2$)}}
 
 
@@ -170,15 +171,15 @@
 % Theorems, definitions, etc.
 \theoremstyle{plain}
 \crefname{theorem}{Theorem}{Theorems}
-\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{theorem}{Theorem}[section]
 \crefname{lemma}{Lemma}{Lemmas}
-\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{lemma}[theorem]{Lemma}
 
 \theoremstyle{definition}
 \crefname{definition}{Definition}{Definitions}
-\newtheorem{definition}{Definition}[section]
+%\newtheorem{definition}{Definition}[section]
 \crefname{example}{Example}{Examples}
-\newtheorem{example}{Example}[section]
+%\newtheorem{example}{Example}[section]
 
 \theoremstyle{remark}
 \crefname{remark}{Remark}{Remarks}
@@ -218,7 +219,14 @@
 }
 \newcommand{\percnode}[3][]{
     \foreach \l/\p in {#2}{
-        \node[perc] (p{#2}) at (lastNode) { $\xi_{\p}^{\l}$ \nodepart{two} $\sigma_{\p}^{\l}$ };
+        \node[perc] (p{#2}) at (lastNode) { $\xi_{\p}^{\l}$ \nodepart{two} $H$ };
+    }
+    \node (lastNode) at ($(p{#2}.south east) + (0,-1)$) {};
+    \foreach \x/\w in {#3}{\draw[#1] (\x.east) -- (p{#2}.west) node[near start,above] {$\w$};}
+}
+\newcommand{\amnode}[3][]{
+    \foreach \l/\p in {#2}{
+        \node[perc] (p{#2}) at (lastNode) { $\xi_{\p}^{\l}$ \nodepart{two} $am$ };
     }
     \node (lastNode) at ($(p{#2}.south east) + (0,-1)$) {};
     \foreach \x/\w in {#3}{\draw[#1] (\x.east) -- (p{#2}.west) node[near start,above] {$\w$};}

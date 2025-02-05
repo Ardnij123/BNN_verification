@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="70mm"
+   height="70mm"
+   viewBox="0 0 70 70"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.1 (9b9bdc1480, 2023-11-25, custom)"
+   sodipodi:docname="analysis-dark.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.69179535"
+     inkscape:cx="190.08512"
+     inkscape:cy="251.51947"
+     inkscape:window-width="1366"
+     inkscape:window-height="699"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="false" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:1.02043;stroke-dasharray:none;stroke-opacity:1"
+       id="path1"
+       cx="-49.147236"
+       cy="-20.852764"
+       transform="scale(-1)"
+       r="20.34255" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.04264;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1.5817667,62.133391 32.067672,31.676011"
+       id="path3" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.04264;stroke-dasharray:none;stroke-opacity:1"
+       d="M 7.837596,68.38922 38.323501,37.93184"
+       id="path4" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.03446;stroke-dasharray:none;stroke-opacity:1"
+       id="path5"
+       transform="matrix(0.69005931,0.72375282,-0.72508745,0.68865681,0,0)"
+       sodipodi:type="arc"
+       sodipodi:cx="50.557899"
+       sodipodi:cy="41.307072"
+       sodipodi:rx="4.4174728"
+       sodipodi:ry="4.4178991"
+       sodipodi:start="0"
+       sodipodi:end="3.0951295"
+       sodipodi:open="true"
+       sodipodi:arc-type="arc"
+       d="m 54.975372,41.307072 a 4.4174728,4.4178991 0 0 1 -4.314857,4.416707 4.4174728,4.4178991 0 0 1 -4.515321,-4.211512" />
+  </g>
+</svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+

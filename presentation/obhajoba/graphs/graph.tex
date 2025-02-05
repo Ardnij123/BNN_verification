@@ -1,0 +1,79 @@
+\begin{tikzpicture}
+\begin{loglogaxis}[
+    xlabel={Velikost oblasti [\#]},
+    ylabel={Čas výpočtu [s]},
+    legend pos=outer north east,
+    legend style={draw=none, fill=none},
+    ymajorgrids=true,
+    grid style=dashed,
+]
+
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {
+		(1, 0.078) (101, 0.177) (5051, 0.775) (166751,19.316)
+    };
+
+\addplot[
+    color=cyan,
+    mark=square,
+    ]
+    coordinates {
+		(1, 0.494) (401, 2.316) (80201, 156.865)
+    };
+
+\addplot[
+    color=green,
+    mark=square,
+    ]
+    coordinates {
+		(1, 0.103) (101, 0.295) (5051, 1.471) (166751, 31.686)
+    };
+
+\addplot[
+    color=yellow,
+    mark=square,
+    ]
+    coordinates {
+		(1, 0.056) (26, 0.141) (326, 0.188) (2626, 0.398) (15276, 0.818)
+    };
+
+\addplot[
+    color=red,
+    mark=triangle,
+    ]
+    coordinates {
+		(1, 0.076) (256, 0.099) (65566, 0.779) (16777216, 130.907)
+    };
+
+\addplot[
+    color=cyan,
+    mark=triangle,
+    ]
+    coordinates {
+		(1, 0.443) (256, 0.455) (65566, 0.493) (16777216, 1.688)
+    };
+
+\addplot[
+    color=green,
+    mark=triangle,
+    ]
+    coordinates {
+		(1, 0.099) (256, 0.167) (65566, 1.327) (16777216, 282.620)
+    };
+
+\addplot[
+    color=yellow,
+    mark=triangle,
+    ]
+    coordinates {
+		(1, 0.058) (256, 0.113) (65566, 2.229)
+    };
+
+\legend{M2 hamm dist, M3 hamm dist, M7 hamm dist, M11 hamm dist,
+		M2 free bits, M3 free bits, M7 free bits, M11 free bits}
+
+\end{loglogaxis}
+\end{tikzpicture}

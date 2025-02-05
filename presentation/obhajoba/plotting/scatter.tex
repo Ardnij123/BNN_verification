@@ -1,0 +1,52 @@
+\pgfplotsset{filter discard warning=false}
+
+% \scatterPlot{x values}{y values}{file}
+\newcommand{\scatterPlot}[4][]{%
+    \addplot+[only marks, mark=x, #1] table [#2, #3] {#4};
+}
+
+% \linRegression{x values}{y values}{file}
+\newcommand{\linRegression}[4][]{%
+    \addplot+[no markers, red, dashed, axis on top, #1] table [#2, y={create col/linear regression={#3}}] {#4};
+}
+
+% \histogram{values}{file}
+\newcommand{\histogram}[3][]{
+    \addplot+[no markers, hist={bins=40}, fill=blue!20, draw=blue, #1] table [#2] {#3};
+}
+
+\pgfmathdeclarefunction{ghelper}{2}{%
+\pgfmathparse{((1+1/#2)^#1)/(1+#1/#2)}%
+}
+\pgfmathdeclarefunction{gamma}{1}{%
+\pgfmathparse{1/#1*ghelper(#1,1)*ghelper(#1,2)*ghelper(#1,3)*ghelper(#1,4)*ghelper(#1,5)*ghelper(#1,6)*ghelper(#1,7)*ghelper(#1,8)*ghelper(#1,9)*ghelper(#1,10)}%
+}
+\pgfmathdeclarefunction{gammaPDF}{2}{%
+\pgfmathparse{1/(#2^#1*gamma(#1))*x^(#1-1)*exp(-x/#2)}%
+}
+
+\newcommand{\gammaDistribution}[3]{
+\addplot[
+    red, dashed,
+    mark=none,
+    samples=20,
+    smooth,
+    domain=1:10,
+] {gammaPDF(#1,#2)*#3};
+}
+
+\newcommand{\scatterSplit}[4]{
+    \scatterPlot[y filter/.expression={#1 ? y : nan}]{#2}{#3}{#4}
+    \scatterPlot[black, y filter/.expression={#1 ? nan : y}]{#2}{#3}{#4}
+}
+
+\newcommand{\plotDrawLine}[3][]{
+    \draw [red, dashed, line width=1.5pt, #1] (#2) -- (#3);
+}
+
+\newcommand{\drawHLine}[2][]{
+    \plotDrawLine[#1]{axis cs:\pgfkeysvalueof{/pgfplots/xmin},#2}{axis cs:\pgfkeysvalueof{/pgfplots/xmax},#2};
+}
+\newcommand{\drawVLine}[2][]{
+    \plotDrawLine[#1]{axis cs:#2,\pgfkeysvalueof{/pgfplots/ymin}}{axis cs:#2,\pgfkeysvalueof{/pgfplots/ymax}};
+}

@@ -320,14 +320,14 @@ $r$ positions. Examples of such input regions are:
 \end{align*}
 
 As stated at the beginning of this section, in the implementation part,
-I will only use constant weight function $w(i) = 1$. For this specific
+I will only use constant weight function $w_1(i) = 1$. For this specific
 weight function and the expression in the divisor of quantitative robustness
 holds that:
-\[\sum_{i\in I} w(i) = \sum_{i\in I} 1 = ||I||\]
+\[\sum_{i\in I} w_1(i) = \sum_{i\in I} 1 = ||I||\]
 To quickly compute this sum, an explicit formula will be needed.\pagebreak
 
-\begin{lemma}{Let $\vec u$ be a vector from $\BB^{d}_{\pm 1}$.
-    Then $||R(\vec u, r)|| = \sum_{i=0}^{\min(r, d)} {d\choose i}$}%
+\begin{lemma}{Let $\vec u$ be a vector from $\BB^{n_1}_{\pm 1}$.
+    Then $||R(\vec u, r)|| = \sum_{i=0}^{\min(r, n_1)} {n_1\choose i}$}%
     \label{lemma:size_of_hamming}%
     \begin{proof}
         $R(\vec u, r)$ is union of sets
@@ -337,10 +337,10 @@ To quickly compute this sum, an explicit formula will be needed.\pagebreak
         These sets are disjoint as elements of each have different number
         of positions changed. The size of each of these sets is equal to
         \begin{equation*}
-            ||\{\vec x \mid HD(\vec x, \vec u) = i\}|| = {d\choose i}
+            ||\{\vec x \mid HD(\vec x, \vec u) = i\}|| = {n_1\choose i}
         \end{equation*}
-        because they consist of $d$ positions, out of which $i$ are choosen to be altered.
-        Finally, as for $i$ larger than $d$, ${d\choose i}=0$, the statement holds.
+        because they consist of $n_1$ positions, out of which $i$ are choosen to be altered.
+        Finally, as for $i$ larger than $n_1$, ${n_1\choose i}=0$, the statement holds.
     \end{proof}
 \end{lemma}
 
@@ -360,7 +360,7 @@ Examples of such input regions are:
     &(1,1,1,-1), (-1,1,1,-1), (1,-1,1,-1), (-1,-1,1,-1)\}\\
 \end{align*}
 
-\begin{lemma}{Let $\vec u$ be a vector from $\BB^{d}_{\pm 1}$, $I\subseteq \{1,\ldots,n_1\}$.
+\begin{lemma}{Let $\vec u$ be a vector from $\BB^{n_1}_{\pm 1}$, $I\subseteq \{1,\ldots,n_1\}$.
     Then $||R(\vec u, I)|| = 2^{d-||I||}$}%
     \label{lemma:size_of_fixed}%
     \begin{proof}

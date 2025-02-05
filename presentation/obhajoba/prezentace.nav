@@ -1,0 +1,71 @@
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
+\headcommand {\beamer@framepages {2}{2}}
+\headcommand {\beamer@sectionpages {1}{2}}
+\headcommand {\beamer@subsectionpages {1}{2}}
+\headcommand {\sectionentry {1}{Binarizovaná neuronová síť}{3}{Binarizovaná neuronová síť}{0}}
+\headcommand {\slideentry {1}{0}{1}{3/3}{}{0}}
+\headcommand {\beamer@framepages {3}{3}}
+\headcommand {\slideentry {1}{0}{2}{4/5}{}{0}}
+\headcommand {\beamer@framepages {4}{5}}
+\headcommand {\beamer@subsectionpages {3}{5}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{6}{Robustnost binarizované neuronové sítě}}
+\headcommand {\slideentry {1}{1}{1}{6/6}{Robustnost binarizované neuronové sítě}{0}}
+\headcommand {\beamer@framepages {6}{6}}
+\headcommand {\slideentry {1}{1}{2}{7/7}{Robustnost binarizované neuronové sítě}{0}}
+\headcommand {\beamer@framepages {7}{7}}
+\headcommand {\beamer@sectionpages {3}{7}}
+\headcommand {\beamer@subsectionpages {6}{7}}
+\headcommand {\sectionentry {2}{Answer set programming}{8}{Answer set programming}{0}}
+\headcommand {\slideentry {2}{0}{1}{8/8}{}{0}}
+\headcommand {\beamer@framepages {8}{8}}
+\headcommand {\slideentry {2}{0}{2}{9/9}{}{0}}
+\headcommand {\beamer@framepages {9}{9}}
+\headcommand {\beamer@subsectionpages {8}{9}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{10}{Clingo framework}}
+\headcommand {\slideentry {2}{1}{1}{10/10}{Clingo framework}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\beamer@sectionpages {8}{10}}
+\headcommand {\beamer@subsectionpages {10}{10}}
+\headcommand {\sectionentry {3}{Přepis BNN do jazyka Clingo}{11}{Přepis BNN do jazyka Clingo}{0}}
+\headcommand {\slideentry {3}{0}{1}{11/11}{}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\beamer@subsectionpages {11}{11}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{12}{Transformace binarizované neuronové sítě pro Clingo}}
+\headcommand {\slideentry {3}{1}{1}{12/12}{Transformace binarizované neuronové sítě pro Clingo}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\beamer@subsectionpages {12}{12}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{13}{Kódování v jazyce Clingo}}
+\headcommand {\slideentry {3}{2}{1}{13/15}{Kódování v jazyce Clingo}{0}}
+\headcommand {\beamer@framepages {13}{15}}
+\headcommand {\beamer@sectionpages {11}{15}}
+\headcommand {\beamer@subsectionpages {13}{15}}
+\headcommand {\sectionentry {4}{Výsledky}{16}{Výsledky}{0}}
+\headcommand {\slideentry {4}{0}{1}{16/16}{}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\beamer@subsectionpages {16}{16}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{17}{Metodika ohodnocení}}
+\headcommand {\slideentry {4}{1}{1}{17/17}{Metodika ohodnocení}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\slideentry {4}{1}{2}{18/18}{Metodika ohodnocení}{0}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\beamer@subsectionpages {17}{18}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{19}{Naměřené časy ohodnocení}}
+\headcommand {\slideentry {4}{2}{1}{19/19}{Naměřené časy ohodnocení}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\slideentry {4}{2}{2}{20/20}{Naměřené časy ohodnocení}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\slideentry {4}{2}{3}{21/21}{Naměřené časy ohodnocení}{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\slideentry {4}{2}{4}{22/22}{Naměřené časy ohodnocení}{0}}
+\headcommand {\beamer@framepages {22}{22}}
+\headcommand {\slideentry {4}{2}{5}{23/23}{Naměřené časy ohodnocení}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\slideentry {4}{2}{6}{24/24}{Naměřené časy ohodnocení}{0}}
+\headcommand {\beamer@framepages {24}{24}}
+\headcommand {\beamer@partpages {1}{24}}
+\headcommand {\beamer@subsectionpages {19}{24}}
+\headcommand {\beamer@sectionpages {16}{24}}
+\headcommand {\beamer@documentpages {24}}
+\headcommand {\gdef \inserttotalframenumber {20}}
