@@ -1,0 +1,924 @@
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 14014481
+Calls        : 1
+Time         : 212.983s (Solving: 212.88s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1494.246s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 10257361
+Calls        : 1
+Time         : 93.734s (Solving: 93.68s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 656.326s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 10375400
+Calls        : 1
+Time         : 269.240s (Solving: 269.19s 1st Model: 0.01s Unsat: 0.00s)
+CPU Time     : 1886.581s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 914189
+Calls        : 1
+Time         : 11.475s (Solving: 11.38s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 79.670s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 739350
+Calls        : 1
+Time         : 5.161s (Solving: 5.11s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 35.793s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 677233
+Calls        : 1
+Time         : 15.236s (Solving: 15.18s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 120.203s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 46515
+Calls        : 1
+Time         : 0.801s (Solving: 0.71s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 5.010s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 27092
+Calls        : 1
+Time         : 0.251s (Solving: 0.20s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.662s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 41947
+Calls        : 1
+Time         : 0.868s (Solving: 0.82s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 6.559s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 3245
+Calls        : 1
+Time         : 0.137s (Solving: 0.05s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.418s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1616
+Calls        : 1
+Time         : 0.068s (Solving: 0.02s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.173s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 2851
+Calls        : 1
+Time         : 0.108s (Solving: 0.06s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.495s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 165
+Calls        : 1
+Time         : 0.090s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.111s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 103
+Calls        : 1
+Time         : 0.048s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.058s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 76
+Calls        : 1
+Time         : 0.056s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.098s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 3
+Calls        : 1
+Time         : 0.085s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.087s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.042s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.044s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.048s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.051s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.077s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.077s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.039s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.039s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.044s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.044s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 14014481
+Calls        : 1
+Time         : 212.805s (Solving: 212.70s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1638.130s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 10257361
+Calls        : 1
+Time         : 93.637s (Solving: 93.59s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 654.086s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 12281629
+Calls        : 1
+Time         : 277.806s (Solving: 277.75s 1st Model: 0.01s Unsat: 0.00s)
+CPU Time     : 1941.986s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 914189
+Calls        : 1
+Time         : 10.910s (Solving: 10.81s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 86.375s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 739350
+Calls        : 1
+Time         : 5.129s (Solving: 5.08s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 40.605s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 695514
+Calls        : 1
+Time         : 15.344s (Solving: 15.29s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 121.993s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 46515
+Calls        : 1
+Time         : 0.768s (Solving: 0.67s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 5.446s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 27092
+Calls        : 1
+Time         : 0.254s (Solving: 0.21s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.592s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 38918
+Calls        : 1
+Time         : 0.828s (Solving: 0.78s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 5.874s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 3245
+Calls        : 1
+Time         : 0.136s (Solving: 0.05s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.408s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1616
+Calls        : 1
+Time         : 0.070s (Solving: 0.02s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.161s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 2847
+Calls        : 1
+Time         : 0.123s (Solving: 0.07s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.483s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 165
+Calls        : 1
+Time         : 0.089s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.109s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 103
+Calls        : 1
+Time         : 0.048s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.058s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 76
+Calls        : 1
+Time         : 0.056s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.096s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 3
+Calls        : 1
+Time         : 0.097s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.100s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.042s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.044s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.048s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.050s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.078s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.078s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.039s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.039s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.044s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.044s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 14014481
+Calls        : 1
+Time         : 208.638s (Solving: 208.54s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1659.776s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 10257361
+Calls        : 1
+Time         : 91.521s (Solving: 91.47s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 720.062s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 12274549
+Calls        : 1
+Time         : 261.142s (Solving: 261.09s 1st Model: 0.01s Unsat: 0.00s)
+CPU Time     : 2083.556s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 914189
+Calls        : 1
+Time         : 11.078s (Solving: 10.98s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 85.693s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 739350
+Calls        : 1
+Time         : 5.071s (Solving: 5.02s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 40.125s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 678530
+Calls        : 1
+Time         : 14.516s (Solving: 14.46s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 101.056s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 46515
+Calls        : 1
+Time         : 0.785s (Solving: 0.69s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 4.899s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 27092
+Calls        : 1
+Time         : 0.251s (Solving: 0.20s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.647s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 41951
+Calls        : 1
+Time         : 0.854s (Solving: 0.80s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 6.387s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 3245
+Calls        : 1
+Time         : 0.137s (Solving: 0.05s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.380s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1616
+Calls        : 1
+Time         : 0.067s (Solving: 0.02s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.160s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 2851
+Calls        : 1
+Time         : 0.116s (Solving: 0.07s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.543s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 165
+Calls        : 1
+Time         : 0.090s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.109s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 103
+Calls        : 1
+Time         : 0.048s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.058s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 76
+Calls        : 1
+Time         : 0.056s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.091s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 3
+Calls        : 1
+Time         : 0.084s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.087s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.042s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.043s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.048s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.051s
+Threads      : 8        (Winner: 2)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.078s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.078s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.039s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.039s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.044s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.044s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 14014481
+Calls        : 1
+Time         : 209.123s (Solving: 209.02s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1633.774s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 10257361
+Calls        : 1
+Time         : 92.902s (Solving: 92.85s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 696.169s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_24_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 11809773
+Calls        : 1
+Time         : 264.580s (Solving: 264.53s 1st Model: 0.01s Unsat: 0.00s)
+CPU Time     : 2100.751s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 914189
+Calls        : 1
+Time         : 10.906s (Solving: 10.81s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 86.382s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 739350
+Calls        : 1
+Time         : 5.095s (Solving: 5.04s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 38.586s
+Threads      : 8        (Winner: 5)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_20_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 607087
+Calls        : 1
+Time         : 14.704s (Solving: 14.65s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 107.934s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 46515
+Calls        : 1
+Time         : 0.761s (Solving: 0.66s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 5.385s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 27092
+Calls        : 1
+Time         : 0.255s (Solving: 0.21s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 1.602s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_16_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 41943
+Calls        : 1
+Time         : 0.868s (Solving: 0.82s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 6.153s
+Threads      : 8        (Winner: 1)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 3245
+Calls        : 1
+Time         : 0.133s (Solving: 0.04s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.408s
+Threads      : 8        (Winner: 4)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 1616
+Calls        : 1
+Time         : 0.068s (Solving: 0.02s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.172s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_12_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 2851
+Calls        : 1
+Time         : 0.113s (Solving: 0.06s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.505s
+Threads      : 8        (Winner: 3)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 165
+Calls        : 1
+Time         : 0.090s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.110s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 103
+Calls        : 1
+Time         : 0.048s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.058s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_8_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 76
+Calls        : 1
+Time         : 0.056s (Solving: 0.01s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.091s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+SATISFIABLE
+
+Models       : 3
+Calls        : 1
+Time         : 0.086s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.089s
+Threads      : 8        (Winner: 6)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.042s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.043s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_4_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.048s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.050s
+Threads      : 8        (Winner: 7)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_100_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.077s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.077s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_1_blk_100_50_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.039s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.039s
+Threads      : 8        (Winner: 0)
+Parameters : -t 8 --fixed-bits fixed_bits/fixed_0_100.txt -T 300 --input-base inputs/instance_0_100.txt --model models/mnist_bnn_2_blk_100_50_20_10/ --perceptron bnn_encoding/perceptron/direct_cn.lp --fixed-bits-encoding bnn_encoding/input_region/fixed_direct_cn.lp --hamming-encoding bnn_encoding/input_region/hamming_cn.lp --argmax bnn_encoding/argmax/output_direct_cn.lp
+clingo version 5.7.1
+Reading from outputs/problem.lp
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.044s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.044s
+Threads      : 8        (Winner: 0)
