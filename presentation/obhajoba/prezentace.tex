@@ -175,10 +175,10 @@
             \item Oblast vstupů
                 \itonly{1-}{podle Hammingovy vzdálenosti $r$}
                 \[R(\vec x, r) = \{\vec u \mid HD(\vec x, \vec u) \leq r\}\]
-                \[\|R(\vec x, r)\| = \sum_{i=0}^{r} {n_0\choose i}\]
+                %\[\|R(\vec x, r)\| = \sum_{i=0}^{r} {n_0\choose i}\]
                 \itonly{1-}{podle pevně zvolených pozic $F \subseteq \{1, \ldots, n_0\}$}
                 \[R(\vec x, F) = \{\vec u \mid \forall i\in F.\, x_i = u_i\}\]
-                \[\|R(\vec x, F)\| = 2^{n_0-\|F\|}\]
+                %\[\|R(\vec x, F)\| = 2^{n_0-\|F\|}\]
         \end{itemize}
     \end{frame}
 
@@ -243,18 +243,20 @@
             \item Oblast vstupů
                 \itonly{1}{Hamingova vzdálenost
 
-                \texttt{%
-                    \{on(0, 1..N)\} :- layer(0, N).\\
-                    :- \#count \{ N : not input(N), on(0, N);\\
-           \phantom{aaaaaaaaaaaa}N : input(N), not on(0, N) \} > H,\\
-           \phantom{aaaa}hamdist(H).
-                }}
+%                \texttt{%
+%                    \{on(0, 1..N)\} :- layer(0, N).\\
+%                    :- \#count \{ N : not input(N), on(0, N);\\
+%           \phantom{aaaaaaaaaaaa}N : input(N), not on(0, N) \} > H,\\
+%           \phantom{aaaa}hamdist(H).
+%                }
+                }
                 \itonly{1}{Fixní hodnoty pozic
 
-                \texttt{%
-                    on(0, N) :- input(N), inpfix(N).\\
-                    \{on(0, K)\} :- not inpfix(K), layer(0, N), K=1..N.
-                }}
+%                \texttt{%
+%                    on(0, N) :- input(N), inpfix(N).\\
+%                    \{on(0, K)\} :- not inpfix(K), layer(0, N), K=1..N.
+%                }
+                }
             \item Vnitřní vrstvy
                 \itonly{2}{Bez ukládání mezivýsledků $\xi(\vec x)$}
 
@@ -264,10 +266,8 @@
                         bias(L, N, B), not output\_layer(L).}
                     }
             \item Výstupní vrstva
+                \itonly{3}{Funkce argmax}
                 \itonly{3}{Zneplatnění modelů s očekávaným výstupem}
-                \only<3>{
-                    \texttt{:- output(3).}
-                }
         \end{itemize}
     \end{frame}
 
@@ -470,8 +470,8 @@
         \includegraphics[width=\textwidth]{resources/zarba.png}
     \end{frame}
 
-    \begin{frame}[fragile]{Klasická negace pro kódování robustnosti\\Symbol \texttt{on}}
-
+    \begin{frame}[fragile]{Klasická negace pro kódování robustnosti}
+        Perceptron
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(L, N) :-
     -B <= #sum{ W,M : on(L-1, M), weight(L, M, N, W) },
@@ -480,15 +480,46 @@ on(L, N) :-
         \hrule
 \begin{lstlisting}[language=Prolog, numbers=none]
 on(L, N) :-
-    -B <= #sum{ W,M :  on(L-1, M), weight(L, M, N, W) },
+    -B <= #sum{ W,M : on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 -on(L, N) :-
-    -B <= #sum{ W,M :  on(L-1, M), weight(L, M, N, W) },
+    -B >  #sum{ W,M : on(L-1, M), weight(L, M, N, W) },
     bias(L, N, B).
 \end{lstlisting}
     \end{frame}
 
-\begin{frame}{Hammingova vzdálenost $r=0,1,2,3,4$}
+    \begin{frame}[fragile]{Klasická negace pro kódování robustnosti}
+        Oblast vstupů --- fixní pozice
+\begin{lstlisting}[language=Prolog, numbers=none]
+on(0, N) :- input(N), inpfix(N).
+{ on(0, K) } :- not inpfix(K), layer(0, N), K=1..N.
+\end{lstlisting}
+        \hrule
+\begin{lstlisting}[language=Prolog, numbers=none]
+ on(0, N) :- input(N), inpfix(N).
+-on(0, N) :- not input(N), inpfix(N).
+1 { on(0, K); -on(0, K) } 1 :- not inpfix(K), layer(0, N), K=1..N.
+\end{lstlisting}
+    \end{frame}
+
+    \begin{frame}[fragile]{Klasická negace pro kódování robustnosti}
+        Oblast vstupů --- hammingova vzdálenost
+\begin{lstlisting}[language=Prolog, numbers=none]
+{ on(0, K) } :- layer(0, N), K=1..N.
+:- #count{ N :     on(0, N), not input(N);
+           N : not on(0, N),     input(N) } > R,
+    hammdist(R).
+\end{lstlisting}
+        \hrule
+\begin{lstlisting}[language=Prolog, numbers=none]
+1 { on(0, K); -on(0, K) } 1 :- layer(0, N), K=1..N.
+:- #count{ N :  on(0, N), not input(N);
+           N : -on(0, N),     input(N) } > R,
+    hammdist(R).
+\end{lstlisting}
+    \end{frame}
+
+\begin{frame}{Hammingova vzdálenost}
 \begin{figure}[p]%
     \begin{tikzpicture}[scale=1]
         \begin{loglogaxis}[
@@ -516,4 +547,47 @@ on(L, N) :-
     \end{tikzpicture}
 \end{figure}
 \end{frame}
+
+\begin{frame}{Fixní hodnoty pozic}
+\begin{figure}[p]%
+    \begin{tikzpicture}[scale=1]
+        \begin{loglogaxis}[
+                legend entries={M1$\neg$, M1, M2$\neg$, M2, M3$\neg$, M3},
+                legend pos=outer north east,
+                cycle multi list={
+                    color list\nextlist
+                    mark=*
+                },
+                axis equal,
+                xlabel={velikost oblasti vstupů},
+                ylabel={čas [s]},
+            ]
+            \foreach \modelArch/\modelNum in \modelsSmall{
+                    \addplot+[
+                        x filter/.expression={ln(fixedbits(x))},
+                        y filter/.expression={\strequal{\thisrow{model}}{models/mnist_bnn_\modelArch/} ? ln(y) : nan}
+                    ] table [
+                        x=free-bits,
+                        y=Time,
+                    ] {negation_fixed.csv};
+                    \addplot+[
+                        x filter/.expression={ln(fixedbits(x))},
+                        y filter/.expression={\strequal{\thisrow{model}}{models/mnist_bnn_\modelArch/} ? ln(y) : nan}
+                    ] table [
+                        x=free-bits,
+                        y=Time,
+                    ] {fixed_big_add.csv};
+            }
+        \end{loglogaxis}
+    \end{tikzpicture}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Další možnosti rozšíření}
+    \begin{itemize}
+        \item Zlepšení kódování
+        \item Celočíselný vektor vah $\vec w$
+    \end{itemize}
+\end{frame}
+
 \end{document}
